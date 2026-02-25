@@ -1,0 +1,54 @@
+# Lovable garbage
+lovable/
+lovable.*
+*Lovable*
+lovable-*
+
+# Node modules
+node_modules/
+npm-debug.log
+yarn-error.log
+yarn-debug.log
+.pnpm-debug.log
+
+# Build & dist
+dist/
+build/
+.out/
+.next/
+.nuxt/
+.astro/
+
+# Environment
+.env
+.env.local
+.env.production
+
+# IDE & OS
+.DS_Store
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Logs
+logs
+*.log
+
+# Temp
+tmp/
+temp/
+.cache/
+.parcel-cache/
+
+# Vite/React specific
+.vite/
+
+# Unneeded files
+projects/
+README.md
+SITEMAP.md
+WEBSITE-STRUCTURE.md

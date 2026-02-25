@@ -1,0 +1,123 @@
+#root {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+/* ── Inquiry Button ── */
+.inquiry-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(7.44px);
+  color: #000;
+  border-radius: 29.76px;
+  font-family: Inter, sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  padding: 0.55rem 0.65rem 0.55rem 1.2rem;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  transition: background-color 0.3s;
+  line-height: 1;
+}
+
+.inquiry-btn:hover {
+  background: rgba(0, 0, 0, 0.12);
+}
+
+.inquiry-btn__icon {
+  flex-shrink: 0;
+  width: 25px;
+  height: 25px;
+  position: relative;
+  color: #fff;
+  background-color: #000;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  transition: color 0.3s;
+}
+
+.inquiry-btn__svg {
+  transition:
+    transform 0.3s ease-in-out,
+    opacity 0.15s ease-in-out;
+}
+
+.inquiry-btn__svg--copy {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) translateX(-200%);
+  opacity: 0;
+}
+
+.inquiry-btn:hover .inquiry-btn__svg:first-child {
+  transform: translateX(200%);
+  opacity: 0;
+}
+
+.inquiry-btn:hover .inquiry-btn__svg--copy {
+  transition:
+    transform 0.3s ease-in-out 0.1s,
+    opacity 0.15s ease-in-out 0.1s;
+  transform: translate(-50%, -50%) translateX(0);
+  opacity: 1;
+}
+
+/* Dark mode */
+.dark .inquiry-btn {
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+}
+
+.dark .inquiry-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.dark .inquiry-btn__icon {
+  color: #000;
+  background-color: #fff;
+}

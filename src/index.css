@@ -1,0 +1,206 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+/* ─── Design Tokens ───────────────────────────────────── */
+@layer base {
+  :root {
+    /* Brand palette — light mode */
+    --background: 10 5% 93%;       /* #F0EEEE */
+    --foreground: 0 0% 6%;         /* #0F0F0F */
+
+    --card: 0 0% 6%;               /* dark cards on light bg */
+    --card-foreground: 10 5% 93%;
+
+    --popover: 10 5% 93%;
+    --popover-foreground: 0 0% 6%;
+
+    --primary: 0 0% 6%;            /* #0F0F0F */
+    --primary-foreground: 10 5% 93%;
+
+    --secondary: 10 5% 88%;
+    --secondary-foreground: 0 0% 6%;
+
+    --muted: 10 5% 85%;
+    --muted-foreground: 0 0% 40%;
+
+    --accent: 10 5% 85%;
+    --accent-foreground: 0 0% 6%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 10 5% 93%;
+
+    --border: 0 0% 20%;
+    --input: 0 0% 20%;
+    --ring: 0 0% 6%;
+
+    --radius: 1rem;
+
+    /* Sidebar (unused but required) */
+    --sidebar-background: 10 5% 93%;
+    --sidebar-foreground: 0 0% 6%;
+    --sidebar-primary: 0 0% 6%;
+    --sidebar-primary-foreground: 10 5% 93%;
+    --sidebar-accent: 10 5% 88%;
+    --sidebar-accent-foreground: 0 0% 6%;
+    --sidebar-border: 0 0% 20%;
+    --sidebar-ring: 0 0% 6%;
+
+    /* Typography scale */
+    --font-section-title-size: 64px;
+    --font-section-title-tracking: -5.3px;
+    --font-section-title-lh: 1;
+
+    --font-bold-title-size: 48.98px;
+    --font-bold-title-lh: 53.31px;
+    --font-bold-title-tracking: 0.72px;
+
+    --font-body-size: 22.39px;
+    --font-body-lh: 39.4px;
+
+    --font-nav-size: 15.49px;
+    --font-nav-lh: 19.82px;
+  }
+
+  .dark {
+    --background: 0 0% 6%;        /* #0F0F0F */
+    --foreground: 10 5% 93%;      /* #F0EEEE */
+
+    --card: 0 0% 10%;
+    --card-foreground: 10 5% 93%;
+
+    --popover: 0 0% 10%;
+    --popover-foreground: 10 5% 93%;
+
+    --primary: 10 5% 93%;
+    --primary-foreground: 0 0% 6%;
+
+    --secondary: 0 0% 12%;
+    --secondary-foreground: 10 5% 93%;
+
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 60%;
+
+    --accent: 0 0% 15%;
+    --accent-foreground: 10 5% 93%;
+
+    --destructive: 0 62% 30%;
+    --destructive-foreground: 10 5% 93%;
+
+    --border: 0 0% 80%;
+    --input: 0 0% 20%;
+    --ring: 10 5% 93%;
+
+    --sidebar-background: 0 0% 6%;
+    --sidebar-foreground: 10 5% 93%;
+    --sidebar-primary: 10 5% 93%;
+    --sidebar-primary-foreground: 0 0% 6%;
+    --sidebar-accent: 0 0% 12%;
+    --sidebar-accent-foreground: 10 5% 93%;
+    --sidebar-border: 0 0% 20%;
+    --sidebar-ring: 10 5% 93%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--muted-foreground) / 0.25) transparent;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Inter', sans-serif;
+  }
+  /* Webkit scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--muted-foreground) / 0.2);
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--muted-foreground) / 0.4);
+  }
+}
+
+/* ─── Custom typography utilities ─────────────────────── */
+@layer utilities {
+  .font-helvetica-light {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 300;
+  }
+  .font-helvetica-black {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 900;
+  }
+  .font-inter {
+    font-family: 'Inter', sans-serif;
+  }
+
+  .text-section-title {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 300;
+    font-size: var(--font-section-title-size);
+    line-height: var(--font-section-title-lh);
+    letter-spacing: var(--font-section-title-tracking);
+  }
+
+  .text-bold-title {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 900;
+    font-size: var(--font-bold-title-size);
+    line-height: var(--font-bold-title-lh);
+    letter-spacing: var(--font-bold-title-tracking);
+  }
+
+  .text-body-spec {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: var(--font-body-size);
+    line-height: var(--font-body-lh);
+  }
+
+  .text-nav {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: var(--font-nav-size);
+    line-height: var(--font-nav-lh);
+  }
+}
+
+/* ─── FAQ card theming ─────────────────────────────────── */
+.faq-card {
+  background: #FFFFFF;
+}
+.dark .faq-card {
+  background: hsl(0 0% 12%);
+}
+
+/* ─── FAQ Start Inquiry button theming ─────────────────── */
+.faq-start-inquiry {
+  color: #FFFFFF;
+  background: linear-gradient(227deg, #323232 0%, #141414 100%);
+  box-shadow: -27px 21px 13px rgba(0,0,0,0.04), -16px 12px 12px rgba(0,0,0,0.13), -7px 5px 8px rgba(0,0,0,0.23), -1px 1px 5px rgba(0,0,0,0.26);
+}
+.dark .faq-start-inquiry {
+  color: #0F0F0F;
+  background: linear-gradient(180deg, #FFFFFF 0%, #D6D6D6 100%);
+  box-shadow: none;
+}
+
+/* ─── CTA banner card dark mode visibility ────────────── */
+.cta-banner-card {
+  /* nothing extra in light mode */
+}
+.dark .cta-banner-card {
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12), 0 8px 32px rgba(0, 0, 0, 0.4);
+}
