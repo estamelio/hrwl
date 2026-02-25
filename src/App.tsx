@@ -45,7 +45,7 @@ const App = () => (
       <TooltipProvider>
         <Toaster />
         <Sonner />
-        <BrowserRouter>
+        <BrowserRouter basename="/HRWL">
           <AnimatedRoutes />
         </BrowserRouter>
       </TooltipProvider>
