@@ -18,9 +18,9 @@ const NAV_LINKS = [
 const NAV_STYLE = {
   fontFamily: "Inter",
   fontWeight: 400,
-  fontSize: "15.49px",
-  lineHeight: "19.82px",
-  letterSpacing: "0%",
+  fontSize: "16.5px",
+  lineHeight: "21px",
+  letterSpacing: "-0.01em",
   textDecoration: "none",
 };
 
@@ -54,60 +54,62 @@ export default function Navbar() {
 
   return (
     <>
-      <header className="sticky top-0 z-50 w-full bg-background/80 backdrop-blur-xl">
-        <nav className="mx-auto flex max-w-[1400px] items-center justify-between px-5 py-4 md:px-8">
+      <header className="fixed top-0 left-0 right-0 z-50 w-full bg-background/80 backdrop-blur-xl border-b border-border/10">
+        <nav className="flex w-full items-center justify-between px-6 py-6 md:px-10 lg:px-12">
           {/* ── Left: page links (desktop only) ── */}
-          <ul className="hidden items-center gap-7 md:flex">
-            {NAV_LINKS.map(({ label, to }, i) => (
-              <motion.li
-                key={to}
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, delay: i * 0.1 }}
-              >
-                <Link
-                  to={to}
-                  onClick={handleNavClick(to)}
-                  style={{
-                    ...NAV_STYLE,
-                    opacity: pathname === to ? 1 : 0.5,
-                    color: "hsl(var(--foreground))",
-                  }}
-                  className="transition-opacity hover:opacity-100 relative group"
+          <div className="flex-1">
+            <ul className="hidden items-center gap-7 md:flex">
+              {NAV_LINKS.map(({ label, to }, i) => (
+                <motion.li
+                  key={to}
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3, delay: i * 0.1 }}
                 >
-                  {label}
-                  {pathname === to && (
-                    <motion.div
-                      layoutId="nav-underline"
-                      className="absolute -bottom-1 left-0 right-0 h-[1.5px] bg-foreground"
-                      transition={{ type: "spring", bounce: 0.25, duration: 0.5 }}
-                    />
-                  )}
-                </Link>
-              </motion.li>
-            ))}
-          </ul>
+                  <Link
+                    to={to}
+                    onClick={handleNavClick(to)}
+                    style={{
+                      ...NAV_STYLE,
+                      opacity: pathname === to ? 1 : 0.5,
+                      color: "hsl(var(--foreground))",
+                    }}
+                    className="transition-opacity hover:opacity-100 relative group"
+                  >
+                    {label}
+                    {pathname === to && (
+                      <motion.div
+                        layoutId="nav-underline"
+                        className="absolute -bottom-1 left-0 right-0 h-[1.5px] bg-foreground"
+                        transition={{ type: "spring", bounce: 0.25, duration: 0.5 }}
+                      />
+                    )}
+                  </Link>
+                </motion.li>
+              ))}
+            </ul>
 
-          {/* ── Left: hamburger (mobile only) ── */}
-          <button
-            className="flex flex-col items-center justify-center gap-1.5 md:hidden"
-            onClick={() => setMenuOpen(!menuOpen)}
-            aria-label="Toggle menu"
-            style={{ width: 28, height: 28 }}
-          >
-            <span
-              className="block h-[1.5px] w-6 origin-center rounded-full bg-foreground transition-all duration-300"
-              style={{ transform: menuOpen ? "translateY(5px) rotate(45deg)" : "none" }}
-            />
-            <span
-              className="block h-[1.5px] w-6 rounded-full bg-foreground transition-all duration-300"
-              style={{ opacity: menuOpen ? 0 : 1 }}
-            />
-            <span
-              className="block h-[1.5px] w-6 origin-center rounded-full bg-foreground transition-all duration-300"
-              style={{ transform: menuOpen ? "translateY(-5px) rotate(-45deg)" : "none" }}
-            />
-          </button>
+            {/* ── Left: hamburger (mobile only) ── */}
+            <button
+              className="flex flex-col items-center justify-center gap-1.5 md:hidden"
+              onClick={() => setMenuOpen(!menuOpen)}
+              aria-label="Toggle menu"
+              style={{ width: 28, height: 28 }}
+            >
+              <span
+                className="block h-[1.5px] w-6 origin-center rounded-full bg-foreground transition-all duration-300"
+                style={{ transform: menuOpen ? "translateY(5px) rotate(45deg)" : "none" }}
+              />
+              <span
+                className="block h-[1.5px] w-6 rounded-full bg-foreground transition-all duration-300"
+                style={{ opacity: menuOpen ? 0 : 1 }}
+              />
+              <span
+                className="block h-[1.5px] w-6 origin-center rounded-full bg-foreground transition-all duration-300"
+                style={{ transform: menuOpen ? "translateY(-5px) rotate(-45deg)" : "none" }}
+              />
+            </button>
+          </div>
 
           {/* ── Center: logo ── */}
           <Link
@@ -117,7 +119,7 @@ export default function Navbar() {
             style={{
               fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
               fontWeight: 900,
-              fontSize: "18px",
+              fontSize: "20px",
               letterSpacing: "1.5px",
             }}
           >
@@ -125,43 +127,45 @@ export default function Navbar() {
           </Link>
 
           {/* ── Right: Shop + toggle + Inquiries (desktop) ── */}
-          <div className="hidden items-center gap-4 md:flex">
-            <a
-              href="#"
-              style={{ ...NAV_STYLE, opacity: 0.5, color: "hsl(var(--foreground))" }}
-              className="transition-opacity hover:opacity-100"
-            >
-              Shop
-            </a>
-            <ThemeToggle />
-            <Link to="/inquiries" onClick={handleNavClick("/inquiries")} className="inquiry-btn">
-              Inquiries
-              <span className="inquiry-btn__icon">
-                <svg viewBox="0 0 14 15" fill="none" width="10" className="inquiry-btn__svg">
-                  <path
-                    d="M1 7.5h11M8 3l4.5 4.5L8 12"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-                <svg viewBox="0 0 14 15" fill="none" width="10" className="inquiry-btn__svg inquiry-btn__svg--copy">
-                  <path
-                    d="M1 7.5h11M8 3l4.5 4.5L8 12"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </span>
-            </Link>
-          </div>
+          <div className="flex flex-1 justify-end items-center gap-4">
+            <div className="hidden items-center gap-6 md:flex">
+              <a
+                href="#"
+                style={{ ...NAV_STYLE, opacity: 0.5, color: "hsl(var(--foreground))" }}
+                className="transition-opacity hover:opacity-100"
+              >
+                Shop
+              </a>
+              <ThemeToggle />
+              <Link to="/inquiries" onClick={handleNavClick("/inquiries")} className="inquiry-btn">
+                Inquiries
+                <span className="inquiry-btn__icon">
+                  <svg viewBox="0 0 14 15" fill="none" width="10" className="inquiry-btn__svg">
+                    <path
+                      d="M1 7.5h11M8 3l4.5 4.5L8 12"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                  <svg viewBox="0 0 14 15" fill="none" width="10" className="inquiry-btn__svg inquiry-btn__svg--copy">
+                    <path
+                      d="M1 7.5h11M8 3l4.5 4.5L8 12"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </span>
+              </Link>
+            </div>
 
-          {/* ── Right: toggle only on mobile ── */}
-          <div className="flex items-center gap-3 md:hidden">
-            <ThemeToggle />
+            {/* ── Right: toggle only on mobile ── */}
+            <div className="flex items-center gap-3 md:hidden">
+              <ThemeToggle />
+            </div>
           </div>
         </nav>
       </header>

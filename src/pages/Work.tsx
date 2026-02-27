@@ -8,36 +8,7 @@ import CTABanner from "@/components/CTABanner";
 import WorkCard from "@/components/WorkCard";
 import { ScrollReveal } from "@/components/ScrollReveal";
 
-const PROJECTS = [
-  {
-    title: "Hrwl - Visual Identity + Brand Film + OC Animations",
-    description: "Personal brand build: identity, cinematic film and original character animations.",
-    href: "/work/hrwl-visual-identity",
-  },
-  {
-    title: "Noxisros - Visual Identity + Commercial",
-    description: "A complete identity and modular motion system for a creative collective.",
-    href: "/work/personal-branding",
-  },
-  {
-    title: "The One You Keep - Brand film",
-    description: "A personal cinematic poem about memory and connection.",
-    href: "/work/the-one-you-keep",
-  },
-  {
-    title: "Coinbase - Commercial",
-    description: "A commercial highlighting speed and clarity of crypto.",
-    href: "/work/coinbase-commercial",
-  },
-  {
-    title: "Google — Short Case Study Film",
-    description: "A narrative short film that makes technical content approachable.",
-  },
-  {
-    title: "",
-    description: "",
-  },
-];
+import { CASES } from "@/data/cases";
 
 export default function Work() {
   return (
@@ -45,15 +16,15 @@ export default function Work() {
       <Navbar />
 
       {/* Page title */}
-      <section className="mx-auto max-w-[1400px] px-8 pt-16 pb-10">
+      <section className="mx-auto max-w-[1600px] px-6 pt-20 pb-8">
         <ScrollReveal width="fit-content">
           <h1
             style={{
               fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
               fontWeight: 900,
-              fontSize: "clamp(42px, 5vw, 58.96px)",
-              lineHeight: "64px",
-              letterSpacing: "0.87px",
+              fontSize: "clamp(32px, 4vw, 42px)",
+              lineHeight: "1.1",
+              letterSpacing: "0.2px",
               color: "hsl(var(--foreground))",
             }}
           >
@@ -63,14 +34,15 @@ export default function Work() {
       </section>
 
       {/* Project grid */}
-      <section className="mx-auto max-w-[1400px] px-8 pb-20">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-          {PROJECTS.map((project, i) => (
-            <ScrollReveal key={project.title || `placeholder-${i}`} delay={i * 0.1}>
+      <section className="mx-auto max-w-[1600px] px-6 pb-20">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:gap-6">
+          {CASES.map((project, i) => (
+            <ScrollReveal key={project.id} delay={i * 0.1}>
               <WorkCard
                 title={project.title}
-                description={project.description}
-                href={(project as any).href}
+                description={project.overview}
+                href={`/work/${project.id}`}
+                comingSoon={project.comingSoon}
               />
             </ScrollReveal>
           ))}

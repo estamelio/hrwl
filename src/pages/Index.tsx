@@ -1,7 +1,6 @@
 /**
  * Home Page — /
- * Sections: Hero card, Headline block, Selected Work grid, FAQ, CTA Banner, Footer
- * File: src/pages/Index.tsx
+ * Sections: Hero (100vh), Headline block, Selected Work grid, What I Do, FAQ, CTA Banner, Footer
  */
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -11,6 +10,28 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import heroThumb from "@/assets/hero-thumb.png";
+import WorkCard from "@/components/WorkCard";
+import { CASES } from "@/data/cases";
+import { ArrowRight } from "lucide-react";
+import { useState } from "react";
+
+const WHAT_I_DO = [
+  {
+    num: "01",
+    title: "Brand Films",
+    description: "Cinematic stories that transform how audiences perceive your brand.",
+  },
+  {
+    num: "02",
+    title: "Commercials",
+    description: "Strategic ads that sell without feeling like selling.",
+  },
+  {
+    num: "03",
+    title: "Motion Design",
+    description: "Product demos, explainers, and UI animations that clarify.",
+  },
+];
 
 const FAQ_ITEMS = [
   {
@@ -51,22 +72,22 @@ const FAQ_LEFT = FAQ_ITEMS.slice(0, 4);
 const FAQ_RIGHT = FAQ_ITEMS.slice(4);
 
 export default function Index() {
-  return (
-    <div className="min-h-screen bg-background text-foreground">
-      <Navbar />
-      <div className="overflow-x-hidden">
+  const [openFaq, setOpenFaq] = useState<string>("");
 
-        <div className="min-h-screen flex flex-col justify-center">
-          {/* ══════════════════════════════════════════════
-          HERO CARD — Demo reel with glow effects
-      ══════════════════════════════════════════════ */}
-          <section className="w-full px-6 pt-8 pb-0 md:px-10 flex justify-center">
+  return (
+    <div className="min-h-screen bg-background text-foreground font-inter">
+      <Navbar />
+
+      <main className="overflow-x-hidden">
+        {/* Full Viewport Hero Section */}
+        <div className="min-h-[105vh] flex flex-col items-center justify-center pt-28">
+          <section className="w-full px-6 flex flex-col items-center">
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-              className="relative flex justify-center"
-              style={{ maxWidth: "750px", width: "100%" }}
+              className="relative flex justify-center mb-16"
+              style={{ maxWidth: "850px", width: "100%" }}
             >
               {/* Blue glow */}
               <div
@@ -76,32 +97,17 @@ export default function Index() {
                   height: "80%",
                   bottom: "-20%",
                   left: "-10%",
-                  background: "#004BE5",
-                  filter: "blur(72px)",
-                  opacity: 0.15,
-                  borderRadius: "50%",
-                }}
-              />
-              {/* White glow */}
-              <div
-                className="absolute pointer-events-none"
-                style={{
-                  width: "100%",
-                  height: "60%",
-                  bottom: "-10%",
-                  left: "0",
-                  background: "#FFFFFF",
-                  filter: "blur(62px)",
-                  opacity: 0.08,
+                  background: "#004BE4",
+                  filter: "blur(80px)",
+                  opacity: 0.12,
                   borderRadius: "50%",
                 }}
               />
               <div
-                className="relative overflow-hidden rounded-[18px] w-full"
+                className="relative overflow-hidden rounded-[24px] w-full shadow-2xl"
                 style={{
-                  backgroundColor: "#131211",
+                  backgroundColor: "#0F0F0F",
                   aspectRatio: "16/9",
-                  boxShadow: "-10px 8px 30px 0px rgba(0, 0, 0, 0.15)",
                 }}
               >
                 <img
@@ -109,435 +115,134 @@ export default function Index() {
                   alt="Demo reel"
                   className="absolute inset-0 h-full w-full object-cover"
                 />
-                {/* Dark overlay */}
-                <div className="absolute inset-0" style={{ background: "rgba(0,0,0,0.12)", borderRadius: "18px" }} />
-                {/* Video CTA pill */}
-                <div className="absolute left-6 top-6 flex items-center gap-2">
-                  <div
-                    className="flex items-center gap-2 rounded-full px-3 py-1.5"
-                    style={{ background: "rgba(255,255,255,0.2)", backdropFilter: "blur(3px)" }}
-                  >
-                    <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-                      <path d="M2 1L8 5L2 9V1Z" fill="#E7E5E4" />
-                    </svg>
-                    <span style={{ width: "1px", height: "10px", background: "rgba(255,255,255,0.4)" }} />
-                    <span
-                      style={{
-                        fontFamily: "Inter",
-                        fontWeight: 500,
-                        fontSize: "10px",
-                        letterSpacing: "0.2px",
-                        color: "#FFFFFF",
-                      }}
-                    >
-                      VIDEO
-                    </span>
+                <div className="absolute inset-0 bg-black/10" />
+
+                <div className="absolute left-8 top-8">
+                  <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/10">
+                    <div className="w-2 h-2 rounded-full bg-[#E7E5E4] animate-pulse" />
+                    <span className="text-[10px] font-bold tracking-[0.2em] text-white uppercase">Video Reel</span>
                   </div>
                 </div>
-                {/* Bottom left — Demo-reel label */}
-                <div className="absolute bottom-8 left-8 flex items-center justify-between w-[calc(100%-64px)]">
-                  <span
-                    style={{
-                      fontFamily: "Inter",
-                      fontWeight: 500,
-                      fontSize: "23px",
-                      lineHeight: "18px",
-                      letterSpacing: "-0.49px",
-                      color: "#FFFFFF",
-                    }}
-                  >
-                    Demo-reel
-                  </span>
-                  {/* Expand button */}
-                  <div
-                    className="flex items-center justify-center rounded-full"
-                    style={{
-                      width: "37px",
-                      height: "31px",
-                      background: "rgba(255,255,255,0.2)",
-                      opacity: 0.5,
-                      backdropFilter: "blur(3px)",
-                    }}
-                  >
-                    <svg
-                      width="18"
-                      height="18"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="#E7E5E4"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      style={{ opacity: 0.67 }}
-                    >
-                      <polyline points="15 3 21 3 21 9" />
-                      <polyline points="9 21 3 21 3 15" />
-                      <line x1="21" y1="3" x2="14" y2="10" />
-                      <line x1="3" y1="21" x2="10" y2="14" />
-                    </svg>
-                  </div>
-                </div >
-              </div >
-            </motion.div>
-          </section >
 
-          {/* ══════════════════════════════════════════════
-          HEADLINE BLOCK — Figma specs
-      ══════════════════════════════════════════════ */}
-          <ScrollReveal delay={0.4}>
-            <section className="flex flex-col items-center px-6 pt-10 pb-10 text-center md:px-10">
-              <h1
-                className="mb-6"
-                style={{
-                  fontFamily: "'Helvetica Now Text', 'Helvetica Neue', Helvetica, Arial, sans-serif",
-                  fontWeight: 900,
-                  fontSize: "clamp(24px, 3vw, 42px)",
-                  lineHeight: "1.15",
-                  letterSpacing: "0.72px",
-                  color: "hsl(var(--foreground))",
-                  maxWidth: "1240px",
-                }}
-              >
-                Cinematic Brand Films
-                <br />
-                That make your product impossible to ignore
-              </h1>
-              <p
-                className="mb-2"
-                style={{
-                  fontFamily: "Inter",
-                  fontWeight: 500,
-                  fontSize: "clamp(14px, 1.3vw, 19px)",
-                  lineHeight: "clamp(22px, 2.5vw, 34px)",
-                  color: "hsl(var(--muted-foreground))",
-                  maxWidth: "920px",
-                }}
-              >
-                Freelance Motion Designer • Brand films &amp; commercials
-              </p>
-              <p
-                className="mb-10"
-                style={{
-                  fontFamily: "Inter",
-                  fontWeight: 500,
-                  fontSize: "clamp(14px, 1.3vw, 19px)",
-                  lineHeight: "clamp(22px, 2.5vw, 34px)",
-                  color: "hsl(var(--muted-foreground))",
-                }}
-              >
-                Complex, Boring →{" "}
-                <strong style={{ fontWeight: 600, color: "hsl(var(--foreground))" }}>Clear, Cinematic and High ROI.</strong>
-              </p>
-              <div className="flex flex-wrap items-center justify-center gap-4">
-                <Link
-                  to="/work"
-                  className="inline-flex items-center justify-center rounded-full transition-colors hover:bg-foreground/5"
+                <div className="absolute bottom-10 left-10 right-10 flex items-center justify-between">
+                  <h3 className="text-2xl md:text-3xl font-bold text-white tracking-tight">Showreel 2024</h3>
+                  <div className="w-12 h-12 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center transition-transform hover:scale-110">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" /></svg>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
+            <ScrollReveal delay={0.4}>
+              <div className="text-center">
+                <h1
+                  className="mb-8"
+                  style={{
+                    fontFamily: "'Helvetica Now Text', 'Helvetica Neue', Helvetica, Arial, sans-serif",
+                    fontWeight: 900,
+                    fontSize: "clamp(24px, 3vw, 42px)",
+                    lineHeight: "1.15",
+                    letterSpacing: "0.72px",
+                    color: "hsl(var(--foreground))",
+                    maxWidth: "1240px",
+                    margin: "0 auto 24px auto"
+                  }}
+                >
+                  Cinematic Brand Films
+                  <br />
+                  That make your product impossible to ignore
+                </h1>
+                <p
+                  className="mb-12 max-w-2xl mx-auto font-medium"
                   style={{
                     fontFamily: "Inter",
                     fontWeight: 500,
-                    color: "hsl(var(--foreground))",
-                    fontSize: "clamp(13px, 1vw, 14px)",
-                    letterSpacing: "-0.51px",
-                    padding: "12px 24px",
-                    background: "rgba(255,255,255,0.12)",
-                    border: "1px solid rgba(19,18,17,0.08)",
-                    backdropFilter: "blur(2px)",
-                  }}
-                >
-                  Start your Inquiry
-                </Link>
-                <Link
-                  to="/work"
-                  className="inline-flex items-center gap-1 rounded-full transition-opacity hover:opacity-90 relative"
-                  style={{
-                    fontFamily: "Inter",
-                    fontWeight: 600,
-                    fontSize: "clamp(13px, 1vw, 14px)",
-                    letterSpacing: "-0.37px",
-                    color: "#FFFFFF",
-                    padding: "12px 24px",
-                    background: "linear-gradient(222deg, #323232 0%, #141414 100%)",
-                    boxShadow:
-                      "-19px 15px 9px rgba(0,0,0,0.04), -11px 8px 8px rgba(0,0,0,0.13), -5px 4px 5px rgba(0,0,0,0.23), -1px 1px 4px rgba(0,0,0,0.26)",
-                  }}
-                >
-                  <span
-                    className="absolute inset-[1px] rounded-full pointer-events-none"
-                    style={{ border: "1px solid rgba(255,255,255,0.2)" }}
-                  />
-                  See Case Studies →
-                </Link>
-              </div>
-            </section>
-          </ScrollReveal>
-        </div>
-
-        {/* ── Divider ── */}
-        <ScrollReveal>
-          <div className="mx-auto max-w-[1520px] px-8">
-            <hr style={{ border: "none", borderTop: "4px solid #929292" }} />
-          </div>
-        </ScrollReveal>
-
-        {/* ══════════════════════════════════════════════
-          SELECTED WORK — asymmetric layout
-      ══════════════════════════════════════════════ */}
-        <section className="mx-auto max-w-[1520px] px-8 pt-10 pb-16">
-          <ScrollReveal width="fit-content">
-            <h2
-              className="mb-14 text-left"
-              style={{
-                fontFamily: "Inter, sans-serif",
-                fontWeight: 800,
-                fontSize: "clamp(32px, 5vw, 68px)",
-                lineHeight: "1",
-                letterSpacing: "-3.5px",
-                color: "hsl(var(--foreground))",
-              }}
-            >
-              Selected Work
-            </h2>
-          </ScrollReveal>
-
-          {/* ── DESKTOP asymmetric layout ── */}
-          <div className="hidden md:block">
-            {/* Row 1 */}
-            <div
-              className="relative mb-20"
-              style={{ display: "grid", gridTemplateColumns: "1.65fr 1fr", gap: "64px", alignItems: "start" }}
-            >
-              <ScrollReveal delay={0.1}>
-                <Link to="/work/the-one-you-keep" className="flex flex-col gap-6 no-underline group" onClick={() => window.scrollTo({ top: 0 })}>
-                  <div
-                    className="w-full overflow-hidden rounded-2xl transition-transform duration-500 group-hover:scale-[1.01]"
-                    style={{
-                      aspectRatio: "3/2.1",
-                      backgroundColor: "hsl(var(--foreground) / 0.08)",
-                      boxShadow: "0px 40px 100px -20px rgba(0,0,0,0.35)",
-                    }}
-                  >
-                    <img
-                      src="/placeholder.svg"
-                      alt="The One You Keep"
-                      className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                      style={{ opacity: 0.6 }}
-                    />
-                  </div>
-                  <div className="flex flex-col gap-2">
-                    <h3
-                      style={{
-                        fontFamily: "Inter",
-                        fontWeight: 800,
-                        fontSize: "clamp(24px, 2.5vw, 42px)",
-                        lineHeight: "1.1",
-                        letterSpacing: "-1.8px",
-                        color: "hsl(var(--foreground))",
-                      }}
-                    >
-                      The One You Keep — Brand film
-                    </h3>
-                    <p
-                      style={{
-                        fontFamily: "Inter",
-                        fontWeight: 400,
-                        fontSize: "clamp(16px, 1.5vw, 24px)",
-                        lineHeight: "1.3",
-                        letterSpacing: "-0.5px",
-                        color: "hsl(var(--foreground) / 0.5)",
-                      }}
-                    >
-                      A personal cinematic poem about memory and connection.
-                    </p>
-                  </div>
-                </Link>
-              </ScrollReveal>
-
-              {/* Right — HRWL Visual Identity (smaller, offset down) */}
-              <ScrollReveal delay={0.3}>
-                <Link
-                  to="/work/hrwl-visual-identity"
-                  className="flex flex-col gap-6 no-underline group"
-                  style={{ marginTop: "140px" }}
-                  onClick={() => window.scrollTo({ top: 0 })}
-                >
-                  <div
-                    className="w-full overflow-hidden rounded-2xl transition-transform duration-500 group-hover:scale-[1.01]"
-                    style={{
-                      aspectRatio: "1/1",
-                      backgroundColor: "hsl(var(--foreground) / 0.08)",
-                      boxShadow: "0px 30px 80px -15px rgba(0,0,0,0.3)",
-                    }}
-                  >
-                    <img
-                      src="/placeholder.svg"
-                      alt="HRWL Visual Identity"
-                      className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                      style={{ opacity: 0.6 }}
-                    />
-                  </div>
-                  <div className="flex flex-col gap-2">
-                    <h3
-                      style={{
-                        fontFamily: "Inter",
-                        fontWeight: 800,
-                        fontSize: "clamp(20px, 2vw, 32px)",
-                        lineHeight: "1.1",
-                        letterSpacing: "-1.2px",
-                        color: "hsl(var(--foreground))",
-                        maxWidth: "80%"
-                      }}
-                    >
-                      Hrwl - Visual Identity + Brand Film + OC Animations
-                    </h3>
-                    <p
-                      style={{
-                        fontFamily: "Inter",
-                        fontWeight: 400,
-                        fontSize: "clamp(14px, 1.2vw, 18px)",
-                        lineHeight: "1.3",
-                        letterSpacing: "-0.2px",
-                        color: "hsl(var(--foreground) / 0.5)",
-                      }}
-                    >
-                      Personal brand build: identity, cinematic film and original character animations.
-                    </p>
-                  </div>
-                </Link>
-              </ScrollReveal>
-            </div>
-
-            {/* Row 2 — Google Case Study (centered ~67%) */}
-            <div className="flex justify-center mt-12 pb-10">
-              <ScrollReveal delay={0.2}>
-                <Link
-                  to="/work/coinbase-commercial"
-                  className="flex flex-col gap-6 no-underline group"
-                  style={{ width: "68%" }}
-                  onClick={() => window.scrollTo({ top: 0 })}
-                >
-                  <div
-                    className="w-full overflow-hidden rounded-2xl transition-transform duration-500 group-hover:scale-[1.005]"
-                    style={{
-                      aspectRatio: "16/9",
-                      backgroundColor: "hsl(var(--foreground) / 0.08)",
-                      boxShadow: "0px 50px 120px -30px rgba(0,0,0,0.4)",
-                    }}
-                  >
-                    <img
-                      src="/placeholder.svg"
-                      alt="Google Short Case Study Film"
-                      className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                      style={{ opacity: 0.6 }}
-                    />
-                  </div>
-                  <div className="flex flex-col gap-2">
-                    <h3
-                      style={{
-                        fontFamily: "Inter",
-                        fontWeight: 800,
-                        fontSize: "clamp(24px, 2.5vw, 42px)",
-                        lineHeight: "1.1",
-                        letterSpacing: "-1.8px",
-                        color: "hsl(var(--foreground))",
-                      }}
-                    >
-                      Google — Short Case Study Film
-                    </h3>
-                    <p
-                      style={{
-                        fontFamily: "Inter",
-                        fontWeight: 400,
-                        fontSize: "clamp(16px, 1.5vw, 24px)",
-                        lineHeight: "1.3",
-                        letterSpacing: "-0.5px",
-                        color: "hsl(var(--foreground) / 0.5)",
-                      }}
-                    >
-                      A narrative short film that makes technical content approachable
-                    </p>
-                  </div>
-                </Link>
-              </ScrollReveal>
-            </div>
-          </div>
-
-          {/* ── MOBILE: stacked ── */}
-          <div className="flex flex-col gap-12 md:hidden">
-            {[
-              {
-                title: "The One You Keep — Brand film",
-                description: "A personal cinematic poem about memory and connection.",
-                ratio: "3/2.3",
-                to: "/work/the-one-you-keep",
-              },
-              {
-                title: "Hrwl - Visual Identity + Brand Film + OC Animations",
-                description: "Personal brand build: identity, cinematic film and original character animations.",
-                ratio: "16/10",
-                to: "/work/hrwl-visual-identity",
-              },
-              {
-                title: "Google — Short Case Study Film",
-                description: "A narrative short film that makes technical content approachable",
-                ratio: "16/9",
-                to: "/work/coinbase-commercial",
-              },
-            ].map((item) => (
-              <Link key={item.title} to={item.to} className="flex flex-col gap-3 no-underline" onClick={() => window.scrollTo({ top: 0 })}>
-                <div
-                  className="w-full overflow-hidden rounded-2xl"
-                  style={{
-                    aspectRatio: item.ratio,
-                    backgroundColor: "hsl(var(--foreground) / 0.08)",
-                    boxShadow: "0 8px 30px rgba(0,0,0,0.12)",
-                  }}
-                >
-                  <img
-                    src="/placeholder.svg"
-                    alt={item.title}
-                    className="h-full w-full object-cover"
-                    style={{ opacity: 0.4 }}
-                  />
-                </div>
-                <h3
-                  style={{
-                    fontFamily: "Inter",
-                    fontWeight: 700,
-                    fontSize: "18px",
-                    lineHeight: "1.25",
-                    color: "hsl(var(--foreground))",
-                  }}
-                >
-                  {item.title}
-                </h3>
-                <p
-                  style={{
-                    fontFamily: "Inter",
-                    fontWeight: 400,
-                    fontSize: "14px",
-                    lineHeight: "1.6",
+                    fontSize: "clamp(14px, 1.3vw, 19px)",
+                    lineHeight: "clamp(22px, 2.5vw, 34px)",
                     color: "hsl(var(--muted-foreground))",
                   }}
                 >
-                  {item.description}
+                  Freelance Motion Designer & Creative Director crafting high-ROI visual stories for ambitious brands.
                 </p>
+
+                <div className="flex flex-wrap items-center justify-center gap-5">
+                  <Link to="/inquiries" className="px-10 py-4 rounded-full bg-foreground text-background font-bold text-sm shadow-xl transition-all hover:scale-[1.03] active:scale-[0.98]">
+                    Start Inquiry
+                  </Link>
+                  <Link to="/work" className="px-10 py-4 rounded-full bg-muted/30 border border-border/50 text-foreground font-bold text-sm backdrop-blur-sm transition-all hover:bg-muted/50">
+                    See Case Studies
+                  </Link>
+                </div>
+              </div>
+            </ScrollReveal>
+          </section>
+        </div>
+
+        {/* Selected Work Grid */}
+        <section className="px-8 md:px-12 lg:px-20 py-32 max-w-[1600px] mx-auto border-t border-border/30">
+          <ScrollReveal>
+            <div className="flex items-end justify-between mb-20">
+              <h2
+                className="text-left"
+                style={{
+                  fontFamily: "Inter, sans-serif",
+                  fontWeight: 800,
+                  fontSize: "clamp(32px, 5vw, 68px)",
+                  lineHeight: "1",
+                  letterSpacing: "-3.5px",
+                  color: "hsl(var(--foreground))",
+                }}
+              >
+                Selected Work
+              </h2>
+              <Link to="/work" className="hidden md:flex items-center gap-2 text-sm font-bold opacity-40 hover:opacity-100 transition-all uppercase tracking-widest">
+                All Projects <ArrowRight className="w-4 h-4" />
               </Link>
+            </div>
+          </ScrollReveal>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {CASES.slice(0, 4).map((project, i) => (
+              <ScrollReveal key={project.id} delay={i * 0.1}>
+                <WorkCard
+                  title={project.title}
+                  description={project.overview}
+                  href={`/work/${project.id}`}
+                  comingSoon={project.comingSoon}
+                />
+              </ScrollReveal>
             ))}
           </div>
         </section>
 
-        {/* ── Divider ── */}
-        <div className="mx-auto max-w-[1520px] px-8">
-          <hr style={{ border: "none", borderTop: "4px solid #929292" }} />
-        </div>
+        {/* What I Do */}
+        <section className="px-8 md:px-12 lg:px-20 py-32 bg-muted/5">
+          <div className="max-w-[1400px] mx-auto">
+            <ScrollReveal>
+              <h2 className="text-3xl md:text-5xl font-bold mb-16 font-helvetica tracking-tight max-w-2xl leading-tight">
+                Creative solutions for <br />
+                <span className="text-muted-foreground">real business problems.</span>
+              </h2>
+            </ScrollReveal>
 
-        {/* ══════════════════════════════════════════════
-          FAQ SECTION — Figma specs
-      ══════════════════════════════════════════════ */}
-        <ScrollReveal>
-          <section id="faq" className="mx-auto max-w-[1400px] px-8 py-20">
-            {/* ... contents ... */}
-            <div className="mb-14 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+            <div className="grid md:grid-cols-3 gap-6">
+              {WHAT_I_DO.map((item, i) => (
+                <ScrollReveal key={i} delay={i * 0.1}>
+                  <div className="p-12 rounded-[32px] bg-white dark:bg-[#0E0E0E] border border-border/50 shadow-subtle hover:border-foreground/10 transition-all group min-h-[320px] flex flex-col justify-center">
+                    <span className="text-xs font-mono text-muted-foreground mb-8 block opacity-40 group-hover:opacity-100 transition-opacity">{item.num}</span>
+                    <h3 className="text-2xl font-bold mb-4">{item.title}</h3>
+                    <p className="text-muted-foreground text-base leading-relaxed">{item.description}</p>
+                  </div>
+                </ScrollReveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* FAQ Section */}
+        <section id="faq" className="px-8 md:px-12 lg:px-20 py-32 max-w-[1600px] mx-auto">
+          <ScrollReveal>
+            <div className="mb-20 flex flex-col md:flex-row md:items-end justify-between gap-10">
               <div>
                 <h2
                   style={{
@@ -568,108 +273,79 @@ export default function Index() {
                 </h2>
               </div>
               <div className="flex-shrink-0">
-                <Link
-                  to="/inquiries"
-                  className="faq-start-inquiry inline-flex items-center rounded-full transition-opacity hover:opacity-90"
-                  style={{
-                    fontFamily: "Inter",
-                    fontWeight: 500,
-                    fontSize: "clamp(13px, 1.1vw, 16px)",
-                    letterSpacing: "-0.52px",
-                    padding: "14px 28px",
-                    borderRadius: "2496px",
-                    position: "relative" as const,
-                  }}
-                >
+                <Link to="/inquiries" className="faq-start-inquiry inline-flex">
                   Start Inquiry
                 </Link>
               </div>
             </div>
 
-            <div className="grid grid-cols-1 gap-x-6 gap-y-5 md:grid-cols-2">
-              <div className="flex flex-col gap-5">
-                {FAQ_LEFT.map((item, i) => (
-                  <Accordion key={i} type="single" collapsible>
-                    <AccordionItem
-                      value={`left-${i}`}
-                      className="rounded-[31px] border-none px-8 faq-card"
-                      style={{ borderBottom: "none" }}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-6 items-start">
+              <div className="flex flex-col gap-6">
+                {FAQ_LEFT.map((item, i) => {
+                  const itemValue = `left-${i}`;
+                  return (
+                    <Accordion
+                      key={i}
+                      type="single"
+                      collapsible
+                      value={openFaq === itemValue ? itemValue : ""}
+                      onValueChange={(val) => setOpenFaq(val || "")}
+                      className="w-full"
                     >
-                      <AccordionTrigger
-                        className="text-left hover:no-underline py-[28px]"
-                        style={{
-                          fontFamily: "Inter",
-                          fontWeight: 500,
-                          fontSize: "clamp(14px, 1.3vw, 19.98px)",
-                          lineHeight: "30.69px",
-                          letterSpacing: "-0.82px",
-                          color: "hsl(var(--foreground))",
-                        }}
+                      <AccordionItem
+                        value={itemValue}
+                        className="faq-card border-none rounded-[32px] overflow-hidden px-8"
                       >
-                        {item.q}
-                      </AccordionTrigger>
-                      <AccordionContent
-                        style={{
-                          fontFamily: "Inter",
-                          fontWeight: 400,
-                          fontSize: "clamp(13px, 1vw, 16px)",
-                          lineHeight: "1.7",
-                          color: "hsl(var(--foreground))",
-                          paddingBottom: "28px",
-                        }}
-                      >
-                        {item.a}
-                      </AccordionContent>
-                    </AccordionItem>
-                  </Accordion>
-                ))}
+                        <AccordionTrigger className="text-left hover:no-underline py-8 text-lg font-bold tracking-tight">
+                          {item.q}
+                        </AccordionTrigger>
+                        <AccordionContent className="text-base text-muted-foreground leading-relaxed pb-8">
+                          <div className="faq-answer-bounce">
+                            {item.a}
+                          </div>
+                        </AccordionContent>
+                      </AccordionItem>
+                    </Accordion>
+                  );
+                })}
               </div>
 
-              <div className="flex flex-col gap-5">
-                {FAQ_RIGHT.map((item, i) => (
-                  <Accordion key={i} type="single" collapsible>
-                    <AccordionItem
-                      value={`right-${i}`}
-                      className="rounded-[31px] border-none px-8 faq-card"
-                      style={{ borderBottom: "none" }}
+              <div className="flex flex-col gap-6">
+                {FAQ_RIGHT.map((item, i) => {
+                  const itemValue = `right-${i}`;
+                  return (
+                    <Accordion
+                      key={i}
+                      type="single"
+                      collapsible
+                      value={openFaq === itemValue ? itemValue : ""}
+                      onValueChange={(val) => setOpenFaq(val || "")}
+                      className="w-full"
                     >
-                      <AccordionTrigger
-                        className="text-left hover:no-underline py-[28px]"
-                        style={{
-                          fontFamily: "Inter",
-                          fontWeight: 500,
-                          fontSize: "clamp(14px, 1.3vw, 19.98px)",
-                          lineHeight: "30.69px",
-                          letterSpacing: "-0.82px",
-                          color: "hsl(var(--foreground))",
-                        }}
+                      <AccordionItem
+                        value={itemValue}
+                        className="faq-card border-none rounded-[32px] overflow-hidden px-8"
                       >
-                        {item.q}
-                      </AccordionTrigger>
-                      <AccordionContent
-                        style={{
-                          fontFamily: "Inter",
-                          fontWeight: 400,
-                          fontSize: "clamp(13px, 1vw, 16px)",
-                          lineHeight: "1.7",
-                          color: "hsl(var(--foreground))",
-                          paddingBottom: "28px",
-                        }}
-                      >
-                        {item.a}
-                      </AccordionContent>
-                    </AccordionItem>
-                  </Accordion>
-                ))}
+                        <AccordionTrigger className="text-left hover:no-underline py-8 text-lg font-bold tracking-tight">
+                          {item.q}
+                        </AccordionTrigger>
+                        <AccordionContent className="text-base text-muted-foreground leading-relaxed pb-8">
+                          <div className="faq-answer-bounce">
+                            {item.a}
+                          </div>
+                        </AccordionContent>
+                      </AccordionItem>
+                    </Accordion>
+                  );
+                })}
               </div>
             </div>
-          </section>
-        </ScrollReveal>
+          </ScrollReveal>
+        </section>
 
-        {/* CTA BANNER */}
         <CTABanner />
 
-      </div>
+      </main>
       <Footer catchphrase="Hire different" />
     </div>
   );

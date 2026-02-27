@@ -1,228 +1,119 @@
 import { Link } from "react-router-dom";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-
-const SOCIAL_ICONS = [
-  {
-    label: "Instagram",
-    href: "#",
-    icon: (
-      <svg
-        width="20"
-        height="20"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
-        <circle cx="12" cy="12" r="4" />
-        <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none" />
-      </svg>
-    ),
-  },
-  {
-    label: "Twitter / X",
-    href: "#",
-    icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.739l7.73-8.835L1.254 2.25H8.08l4.259 5.632 5.905-5.632zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-      </svg>
-    ),
-  },
-  {
-    label: "Email",
-    href: "mailto:djamel@hrwl.co",
-    icon: (
-      <svg
-        width="20"
-        height="20"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <rect x="2" y="4" width="20" height="16" rx="2" />
-        <path d="M2 7l10 7 10-7" />
-      </svg>
-    ),
-  },
-  {
-    label: "LinkedIn",
-    href: "#",
-    icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z" />
-        <circle cx="4" cy="4" r="2" />
-      </svg>
-    ),
-  },
-  {
-    label: "TikTok",
-    href: "#",
-    icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.76a4.84 4.84 0 0 1-1.01-.07z" />
-      </svg>
-    ),
-  },
-];
+import hrwlLogo from "@/assets/hrwl-logo-white.png";
+import { Instagram, Linkedin, Youtube, Music2, ArrowUpRight } from "lucide-react";
 
 interface FooterProps {
   catchphrase?: string;
-  variant?: "black" | "white";
 }
 
-export default function Footer({
-  catchphrase = "Hire Different",
-  variant = "black"
-}: FooterProps) {
-  const isWhite = variant === "white";
-  const bgColor = isWhite ? "#FFFFFF" : "#000000";
-  const textColor = isWhite ? "#000000" : "#FFFFFF";
-  const mutedColor = isWhite ? "rgba(0,0,0,0.5)" : "rgba(255,255,255,0.4)";
-  const borderColor = isWhite ? "rgba(0,0,0,0.08)" : "rgba(255,255,255,0.08)";
-  const watermarkColor = isWhite ? "rgba(0,0,0,0.03)" : "rgba(255,255,255,0.04)";
+const Footer = ({ catchphrase = "Let's create something worth watching." }: FooterProps) => {
+  const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="relative w-full overflow-hidden" style={{ backgroundColor: bgColor }}>
-      <div className="mx-auto max-w-[1240px] px-6 py-12 md:px-10 md:py-16">
-
-        {/* Main Content Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-16">
-
-          {/* Col 1: Catchphrase + Socials */}
-          <div className="flex flex-col gap-6">
-            <h3
-              style={{
-                fontFamily: "Inter, sans-serif",
-                fontWeight: 700,
-                fontSize: "28px",
-                lineHeight: "1.2",
-                letterSpacing: "-0.84px",
-                color: textColor,
-              }}
-            >
+    <footer className="bg-foreground text-background">
+      <div className="max-w-[1400px] mx-auto px-6 lg:px-12 py-20 lg:py-24">
+        {/* Top Section */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 mb-16 lg:mb-20">
+          {/* Brand Section */}
+          <div className="lg:col-span-5">
+            <img src={hrwlLogo} alt="HRWL" className="h-6 w-auto mb-8" />
+            <h3 className="text-2xl md:text-3xl font-semibold mb-4 max-w-md leading-tight">
               {catchphrase}
             </h3>
-            <div className="flex items-center gap-4">
-              {SOCIAL_ICONS.map(({ label, href, icon }) => (
+            <p className="text-background/50 leading-relaxed max-w-md mb-8">
+              Freelance Motion Designer specializing in brand films and commercials for ambitious brands.
+            </p>
+
+            {/* Social Icons */}
+            <div className="flex gap-3">
+              {[
+                { icon: Youtube, href: "https://youtube.com/@hrwl", label: "YouTube" },
+                { icon: Instagram, href: "https://instagram.com/hrwl", label: "Instagram" },
+                { icon: Linkedin, href: "https://linkedin.com/in/hrwl", label: "LinkedIn" },
+                { icon: Music2, href: "https://tiktok.com/@hrwl", label: "TikTok" },
+              ].map((social) => (
                 <a
-                  key={label}
-                  href={href}
-                  aria-label={label}
-                  className="transition-opacity hover:opacity-100"
-                  style={{ color: textColor, opacity: 0.6 }}
+                  key={social.label}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-11 h-11 rounded-full bg-background/5 flex items-center justify-center hover:bg-background/10 transition-colors"
+                  aria-label={social.label}
                 >
-                  {icon}
+                  <social.icon className="w-4 h-4" />
                 </a>
               ))}
             </div>
           </div>
 
-          {/* Hidden on mobile: Link Columns */}
-          <div className="hidden md:flex flex-col gap-6">
-            <span style={{ fontFamily: "Inter", fontWeight: 700, fontSize: "14px", color: textColor }}>
-              Explore
-            </span>
-            <ul className="flex flex-col gap-4">
-              {[
-                { label: "Work", to: "/work" },
-                { label: "About", to: "/about" },
-                { label: "Inquiries", to: "/inquiries" },
-              ].map((item) => (
-                <li key={item.label}>
+          {/* Navigation Links */}
+          <div className="lg:col-span-7 grid grid-cols-2 md:grid-cols-3 gap-8 lg:gap-12">
+            <div>
+              <h4 className="font-semibold mb-5 text-sm uppercase tracking-wider text-background/40">Explore</h4>
+              <nav className="flex flex-col gap-3">
+                {[
+                  { name: "Home", path: "/" },
+                  { name: "Work", path: "/work" },
+                  { name: "About", path: "/about" },
+                  { name: "Blog", path: "/blog" }
+                ].map((item) => (
                   <Link
-                    to={item.to}
-                    className="transition-opacity hover:opacity-100"
-                    style={{ fontFamily: "Inter", fontSize: "14px", color: mutedColor }}
+                    key={item.name}
+                    to={item.path}
+                    className="text-background/60 hover:text-background transition-colors text-sm"
                   >
-                    {item.label}
+                    {item.name}
                   </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+                ))}
+              </nav>
+            </div>
 
-          <div className="hidden md:flex flex-col gap-6">
-            <span style={{ fontFamily: "Inter", fontWeight: 700, fontSize: "14px", color: textColor }}>
-              Services
-            </span>
-            <ul className="flex flex-col gap-4">
-              {["Brand Films", "Commercials", "Motion Design", "Visual Identity"].map((label) => (
-                <li key={label}>
-                  <span style={{ fontFamily: "Inter", fontSize: "14px", color: mutedColor }}>
-                    {label}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </div>
+            <div>
+              <h4 className="font-semibold mb-5 text-sm uppercase tracking-wider text-background/40">Services</h4>
+              <nav className="flex flex-col gap-3">
+                {["Brand Films", "Commercials", "Motion Design", "Creative Direction"].map((item) => (
+                  <span key={item} className="text-background/60 text-sm">{item}</span>
+                ))}
+              </nav>
+            </div>
 
-          <div className="hidden md:flex flex-col gap-6">
-            <span style={{ fontFamily: "Inter", fontWeight: 700, fontSize: "14px", color: textColor }}>
-              Contact
-            </span>
-            <ul className="flex flex-col gap-4">
-              <li>
-                <a
-                  href="mailto:djamel@hrwl.co"
-                  className="transition-opacity hover:opacity-100"
-                  style={{ fontFamily: "Inter", fontSize: "14px", color: mutedColor }}
-                >
-                  djamel@hrwl.co
+            <div>
+              <h4 className="font-semibold mb-5 text-sm uppercase tracking-wider text-background/40">Connect</h4>
+              <nav className="flex flex-col gap-3">
+                <Link to="/inquiries" className="text-background/60 hover:text-background transition-colors text-sm flex items-center gap-1 group">
+                  Start Inquiry
+                  <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                </Link>
+                <a href="mailto:hello@hrwl.co" className="text-background/60 hover:text-background transition-colors text-sm">
+                  hello@hrwl.co
                 </a>
-              </li>
-              <li>
-                <span style={{ fontFamily: "Inter", fontSize: "14px", color: mutedColor }}>
-                  Algeria / Remote
-                </span>
-              </li>
-            </ul>
+                <a href="#" className="text-background/60 hover:text-background transition-colors text-sm">
+                  Shop
+                </a>
+              </nav>
+            </div>
           </div>
         </div>
 
-
         {/* Bottom Bar */}
-        <div
-          className="mt-12 md:mt-16 border-t pt-8 flex flex-col md:flex-row items-center justify-between gap-6"
-          style={{ borderColor: borderColor }}
-        >
-          <span style={{ fontFamily: "Inter", fontSize: "11px", color: mutedColor }}>
-            © 2026 HRWL LTD. All rights reserved.
-          </span>
-
-          {/* Dev Link with Tooltip */}
-          <div className="flex-1 flex justify-center">
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <a
-                    href="https://salahmed-ctrlz.github.io/salaheddine-medkour-portfolio/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="font-inter text-[11px] transition-opacity hover:opacity-100"
-                    style={{ color: mutedColor, textDecoration: "none" }}
-                  >
-                    Dev.
-                  </a>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>Hello👋🏼, I'm the Developer!</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          </div>
-
-          <div className="flex gap-6">
-            <a href="#" style={{ fontFamily: "Inter", fontSize: "11px", color: mutedColor }}>Terms</a>
-            <a href="#" style={{ fontFamily: "Inter", fontSize: "11px", color: mutedColor }}>Privacy</a>
+        <div className="pt-8 border-t border-background/10">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+            <div className="text-background/40 text-sm">
+              © {currentYear} HRWL LTD. All rights reserved.
+            </div>
+            <div className="flex gap-8 text-sm">
+              <Link to="/terms" className="text-background/40 hover:text-background/60 transition-colors">
+                Terms
+              </Link>
+              <Link to="/privacy" className="text-background/40 hover:text-background/60 transition-colors">
+                Privacy
+              </Link>
+            </div>
           </div>
         </div>
       </div>
     </footer>
   );
-}
+};
+
+export default Footer;

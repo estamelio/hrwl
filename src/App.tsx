@@ -11,10 +11,7 @@ import Work from "./pages/Work";
 import About from "./pages/About";
 import Blog from "./pages/Blog";
 import NotFound from "./pages/NotFound";
-import TheOneYouKeep from "./pages/case-studies/TheOneYouKeep";
-import HrwlVisualIdentity from "./pages/case-studies/HrwlVisualIdentity";
-import CoinbaseCommercial from "./pages/case-studies/CoinbaseCommercial";
-import PersonalBranding from "./pages/case-studies/PersonalBranding";
+import CaseStudy from "./pages/CaseStudy";
 import Inquiries from "./pages/Inquiries";
 
 const queryClient = new QueryClient();
@@ -26,10 +23,7 @@ const AnimatedRoutes = () => {
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<PageTransition><Index /></PageTransition>} />
         <Route path="/work" element={<PageTransition><Work /></PageTransition>} />
-        <Route path="/work/the-one-you-keep" element={<PageTransition><TheOneYouKeep /></PageTransition>} />
-        <Route path="/work/hrwl-visual-identity" element={<PageTransition><HrwlVisualIdentity /></PageTransition>} />
-        <Route path="/work/coinbase-commercial" element={<PageTransition><CoinbaseCommercial /></PageTransition>} />
-        <Route path="/work/personal-branding" element={<PageTransition><PersonalBranding /></PageTransition>} />
+        <Route path="/work/:id" element={<PageTransition><CaseStudy /></PageTransition>} />
         <Route path="/about" element={<PageTransition><About /></PageTransition>} />
         <Route path="/blog" element={<PageTransition><Blog /></PageTransition>} />
         <Route path="/inquiries" element={<PageTransition><Inquiries /></PageTransition>} />
