@@ -2,7 +2,6 @@
  * Home Page — /
  * Sections: Hero (100vh), Headline block, Selected Work grid, What I Do, FAQ, CTA Banner, Footer
  */
-import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CTABanner from "@/components/CTABanner";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
@@ -12,7 +11,7 @@ import { ScrollReveal } from "@/components/ScrollReveal";
 import heroThumb from "@/assets/hero-thumb.png";
 import WorkCard from "@/components/WorkCard";
 import { CASES } from "@/data/cases";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { useState } from "react";
 
 const WHAT_I_DO = [
@@ -76,8 +75,6 @@ export default function Index() {
 
   return (
     <div className="min-h-screen bg-background text-foreground font-inter">
-      <Navbar />
-
       <main className="overflow-x-hidden">
         {/* Full Viewport Hero Section */}
         <div className="min-h-[105vh] flex flex-col items-center justify-center pt-28">
@@ -179,37 +176,75 @@ export default function Index() {
         </div>
 
         {/* Selected Work Grid */}
-        <section className="px-8 md:px-12 lg:px-20 py-32 max-w-[1600px] mx-auto border-t border-border/30">
+        <section className="px-8 md:px-12 lg:px-20 py-32 max-w-[1700px] mx-auto border-t border-border/30">
           <ScrollReveal>
-            <div className="flex items-end justify-between mb-20">
-              <h2
-                className="text-left"
-                style={{
-                  fontFamily: "Inter, sans-serif",
-                  fontWeight: 800,
-                  fontSize: "clamp(32px, 5vw, 68px)",
-                  lineHeight: "1",
-                  letterSpacing: "-3.5px",
-                  color: "hsl(var(--foreground))",
-                }}
-              >
-                Selected Work
-              </h2>
-              <Link to="/work" className="hidden md:flex items-center gap-2 text-sm font-bold opacity-40 hover:opacity-100 transition-all uppercase tracking-widest">
-                All Projects <ArrowRight className="w-4 h-4" />
-              </Link>
+            <div className="flex flex-col mb-16">
+              <span className="text-[10px] font-bold tracking-[0.2em] text-muted-foreground uppercase mb-3 px-1">Recent Work</span>
+              <div className="flex items-end justify-between">
+                <h2
+                  className="text-left"
+                  style={{
+                    fontFamily: "Inter, sans-serif",
+                    fontWeight: 800,
+                    fontSize: "clamp(32px, 5vw, 68px)",
+                    lineHeight: "1",
+                    letterSpacing: "-3.5px",
+                    color: "hsl(var(--foreground))",
+                  }}
+                >
+                  Selected Projects
+                </h2>
+                <Link to="/work" className="flex items-center gap-1.5 text-xs font-bold opacity-60 hover:opacity-100 transition-all uppercase tracking-widest mt-auto mb-2">
+                  View All <ArrowRight className="w-3.5 h-3.5 rotate-[-45deg]" />
+                </Link>
+              </div>
             </div>
           </ScrollReveal>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {CASES.slice(0, 4).map((project, i) => (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 lg:gap-14">
+            {CASES.slice(0, 3).map((project, i) => (
               <ScrollReveal key={project.id} delay={i * 0.1}>
-                <WorkCard
-                  title={project.title}
-                  description={project.overview}
-                  href={`/work/${project.id}`}
-                  comingSoon={project.comingSoon}
-                />
+                <Link to={project.comingSoon ? "#" : `/work/${project.id}`} className="group block relative">
+                  <div className="relative aspect-[4/3] overflow-hidden rounded-[20px] bg-muted/20 mb-6 transition-all duration-500 group-hover:scale-[0.98]">
+                    <img
+                      src={project.comingSoon ? "" : "/placeholder.svg"} 
+                      alt={project.title}
+                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
+                    
+                    {/* Hover Arrow Circle */}
+                    {!project.comingSoon && (
+                      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <div className="w-12 h-12 rounded-full bg-foreground text-background flex items-center justify-center shadow-xl transform scale-75 group-hover:scale-100 transition-transform duration-300">
+                          <ArrowUpRight className="w-5 h-5" />
+                        </div>
+                      </div>
+                    )}
+
+                    <div className="absolute inset-0 flex items-center justify-center opacity-5 group-hover:opacity-0 transition-opacity group-hover:duration-300 pointer-events-none">
+                      <span className="text-8xl font-black text-foreground">0{i + 1}</span>
+                    </div>
+                    
+                    {project.comingSoon && (
+                      <div className="absolute inset-0 bg-background/40 backdrop-blur-[2px] flex items-center justify-center">
+                        <span className="px-5 py-2 rounded-full bg-foreground text-background text-[10px] font-black tracking-widest uppercase">
+                          COMING SOON
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                  <div className="flex flex-col">
+                    <div className="flex items-baseline justify-between mb-1">
+                      <h3 className="text-xl font-bold tracking-tight text-foreground group-hover:text-muted-foreground transition-colors truncate">
+                        {project.title.split(" — ")[0]}
+                      </h3>
+                      <span className="text-[11px] font-mono text-muted-foreground/40">{project.year}</span>
+                    </div>
+                    <p className="text-xs font-medium text-muted-foreground/60 uppercase tracking-wider">
+                      {project.production || "Brand System"}
+                    </p>
+                  </div>
+                </Link>
               </ScrollReveal>
             ))}
           </div>
@@ -217,21 +252,34 @@ export default function Index() {
 
         {/* What I Do */}
         <section className="px-8 md:px-12 lg:px-20 py-32 bg-muted/5">
-          <div className="max-w-[1400px] mx-auto">
+          <div className="max-w-[1500px] mx-auto">
             <ScrollReveal>
-              <h2 className="text-3xl md:text-5xl font-bold mb-16 font-helvetica tracking-tight max-w-2xl leading-tight">
-                Creative solutions for <br />
-                <span className="text-muted-foreground">real business problems.</span>
-              </h2>
+              <div className="flex flex-col items-center text-center mb-24">
+                <span className="text-[10px] font-bold tracking-[0.2em] text-muted-foreground uppercase mb-4">What I Do</span>
+                <h2
+                  style={{
+                    fontFamily: "Inter, sans-serif",
+                    fontWeight: 800,
+                    fontSize: "clamp(32px, 5vw, 68px)",
+                    lineHeight: "1.05",
+                    letterSpacing: "-3.5px",
+                    color: "hsl(var(--foreground))",
+                    maxWidth: "900px",
+                  }}
+                >
+                  Creative solutions for <br />
+                  <span className="text-muted-foreground">business problems.</span>
+                </h2>
+              </div>
             </ScrollReveal>
 
-            <div className="grid md:grid-cols-3 gap-6">
+            <div className="grid md:grid-cols-3 gap-8">
               {WHAT_I_DO.map((item, i) => (
                 <ScrollReveal key={i} delay={i * 0.1}>
-                  <div className="p-12 rounded-[32px] bg-white dark:bg-[#0E0E0E] border border-border/50 shadow-subtle hover:border-foreground/10 transition-all group min-h-[320px] flex flex-col justify-center">
-                    <span className="text-xs font-mono text-muted-foreground mb-8 block opacity-40 group-hover:opacity-100 transition-opacity">{item.num}</span>
-                    <h3 className="text-2xl font-bold mb-4">{item.title}</h3>
-                    <p className="text-muted-foreground text-base leading-relaxed">{item.description}</p>
+                  <div className="p-10 rounded-[32px] bg-white dark:bg-[#0E0E0E] border border-border/40 shadow-subtle hover:border-foreground/20 transition-all group min-h-[280px] flex flex-col">
+                    <span className="text-2xl font-mono font-bold text-muted-foreground/30 mb-10 block group-hover:text-foreground/50 transition-colors uppercase">{item.num}</span>
+                    <h3 className="text-2xl font-bold mb-5 tracking-tight">{item.title}</h3>
+                    <p className="text-muted-foreground/70 text-base leading-relaxed font-medium">{item.description}</p>
                   </div>
                 </ScrollReveal>
               ))}

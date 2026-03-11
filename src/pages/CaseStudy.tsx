@@ -16,7 +16,6 @@ const CaseStudy = () => {
     if (!caseData) {
         return (
             <div className="min-h-screen pt-32 px-6 flex items-center justify-center">
-                <Navbar />
                 <div className="text-center">
                     <h1 className="text-4xl font-bold mb-4">Case not found</h1>
                     <Link to="/work">
@@ -31,7 +30,6 @@ const CaseStudy = () => {
     if (caseData.comingSoon) {
         return (
             <div className="min-h-screen bg-background">
-                <Navbar />
                 <div className="pt-32 pb-24 px-6 min-h-screen flex items-center">
                     <div className="max-w-[600px] mx-auto text-center">
                         <span className="inline-block px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-muted-foreground border border-border rounded-full mb-6">
@@ -60,7 +58,6 @@ const CaseStudy = () => {
     if (caseData.id === "theoneyoukeep") {
         return (
             <>
-                <Navbar />
                 <TheOneYouKeepCaseStudy caseData={caseData} nextCase={nextCase} />
             </>
         );
@@ -69,7 +66,6 @@ const CaseStudy = () => {
     if (caseData.id === "hrwl") {
         return (
             <>
-                <Navbar />
                 <HRWLVisualIdentityCaseStudy caseData={caseData} nextCase={nextCase} />
             </>
         );
@@ -78,8 +74,6 @@ const CaseStudy = () => {
     // Template for other cases (including Google)
     return (
         <div className="min-h-screen bg-background">
-            <Navbar />
-
             {/* Hero Section */}
             <section className="pt-24 pb-8 px-8 md:px-12 lg:px-20 max-w-[1400px] mx-auto w-full">
                 {/* Back button top-left */}

@@ -16,7 +16,7 @@ const WorkCard = ({ title, description, href, image, comingSoon }: WorkCardProps
     >
       <div className="relative overflow-hidden rounded-[18px] bg-card shadow-subtle border border-border/40 flex flex-col h-full bg-white dark:bg-[#111111]">
         {/* Thumbnail Area */}
-        <div className="aspect-[16/8] overflow-hidden relative">
+        <div className="aspect-[21/9] overflow-hidden relative">
           <img
             src={image || "/placeholder.svg"}
             alt={title}

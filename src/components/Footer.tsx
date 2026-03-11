@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 import hrwlLogo from "@/assets/hrwl-logo-white.png";
+import hrwlLogoBlack from "@/assets/Hrwl-Logo-black.svg";
+import { useTheme } from "next-themes";
 import { Instagram, Linkedin, Youtube, Music2, ArrowUpRight } from "lucide-react";
 
 interface FooterProps {
@@ -8,6 +10,7 @@ interface FooterProps {
 
 const Footer = ({ catchphrase = "Let's create something worth watching." }: FooterProps) => {
   const currentYear = new Date().getFullYear();
+  const { theme } = useTheme();
 
   return (
     <footer className="bg-foreground text-background">
@@ -16,7 +19,11 @@ const Footer = ({ catchphrase = "Let's create something worth watching." }: Foot
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 mb-16 lg:mb-20">
           {/* Brand Section */}
           <div className="lg:col-span-5">
-            <img src={hrwlLogo} alt="HRWL" className="h-6 w-auto mb-8" />
+            <img 
+              src={theme === "dark" ? hrwlLogoBlack : hrwlLogo} 
+              alt="HRWL" 
+              className="h-8 w-auto mb-8" 
+            />
             <h3 className="text-2xl md:text-3xl font-semibold mb-4 max-w-md leading-tight">
               {catchphrase}
             </h3>

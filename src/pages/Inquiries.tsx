@@ -8,8 +8,6 @@ import Footer from "@/components/Footer";
 export default function Inquiries() {
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col">
-      <Navbar />
-
       {/* Main content */}
       <main className="flex-1 flex flex-col items-center px-6 md:px-12">
         {/* Title */}

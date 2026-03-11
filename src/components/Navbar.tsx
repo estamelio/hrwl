@@ -7,6 +7,7 @@ import { useState, useEffect, useCallback } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import ThemeToggle from "./ThemeToggle";
+import hrwlLogoBlack from "@/assets/Hrwl-Logo-black.svg";
 
 const NAV_LINKS = [
   { label: "Home", to: "/" },
@@ -17,9 +18,9 @@ const NAV_LINKS = [
 
 const NAV_STYLE = {
   fontFamily: "Inter",
-  fontWeight: 400,
-  fontSize: "16.5px",
-  lineHeight: "21px",
+  fontWeight: 500,
+  fontSize: "17.5px",
+  lineHeight: "22px",
   letterSpacing: "-0.01em",
   textDecoration: "none",
 };
@@ -28,6 +29,15 @@ export default function Navbar() {
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const handleNavClick = useCallback((to: string) => (e: React.MouseEvent) => {
     e.preventDefault();
@@ -54,8 +64,12 @@ export default function Navbar() {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 w-full bg-background/80 backdrop-blur-xl border-b border-border/10">
-        <nav className="flex w-full items-center justify-between px-6 py-6 md:px-10 lg:px-12">
+      <header 
+        className={`fixed top-0 left-0 right-0 z-50 w-full bg-background/80 backdrop-blur-xl transition-all duration-300 ${
+          scrolled ? "border-b border-border/30 py-1" : "border-b border-transparent py-2.5"
+        }`}
+      >
+        <nav className="flex w-full items-center justify-between px-6 py-4 md:px-10 lg:px-12">
           {/* ── Left: page links (desktop only) ── */}
           <div className="flex-1">
             <ul className="hidden items-center gap-7 md:flex">
@@ -71,10 +85,12 @@ export default function Navbar() {
                     onClick={handleNavClick(to)}
                     style={{
                       ...NAV_STYLE,
-                      opacity: pathname === to ? 1 : 0.5,
+                      opacity: pathname === to ? 1 : 0.4,
                       color: "hsl(var(--foreground))",
                     }}
-                    className="transition-opacity hover:opacity-100 relative group"
+                    className={`transition-all duration-300 relative group hover:opacity-100 ${
+                      pathname === to ? "brightness-125" : ""
+                    }`}
                   >
                     {label}
                     {pathname === to && (
@@ -84,6 +100,7 @@ export default function Navbar() {
                         transition={{ type: "spring", bounce: 0.25, duration: 0.5 }}
                       />
                     )}
+                    <div className="absolute -bottom-1 left-0 right-0 h-[1.5px] bg-foreground scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300" />
                   </Link>
                 </motion.li>
               ))}
@@ -115,15 +132,13 @@ export default function Navbar() {
           <Link
             to="/"
             onClick={handleNavClick("/")}
-            className="absolute left-1/2 -translate-x-1/2 select-none text-foreground no-underline"
-            style={{
-              fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
-              fontWeight: 900,
-              fontSize: "20px",
-              letterSpacing: "1.5px",
-            }}
+            className="absolute left-1/2 -translate-x-1/2 select-none"
           >
-            HRWL®
+            <img 
+              src={hrwlLogoBlack} 
+              alt="HRWL" 
+              className="h-6 md:h-7 w-auto dark:invert transition-all duration-300 hover:scale-105"
+            />
           </Link>
 
           {/* ── Right: Shop + toggle + Inquiries (desktop) ── */}

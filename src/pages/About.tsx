@@ -9,11 +9,10 @@ import {
   Tv,
   BookOpen
 } from "lucide-react";
-import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CTABanner from "@/components/CTABanner";
 import VoiceNotePlayer from "@/components/VoiceNotePlayer";
-import djamelPhoto from "@/assets/hero-thumb.png";
+import djamelPhoto from "@/assets/about-hrwl.png";
 
 const evolution = [
   { year: "2021", phase: "AMV Editor", description: "Started editing Anime Music Videos — learning timing, pacing, and storytelling through music." },
@@ -40,14 +39,12 @@ const personalInterests = [
 const About = () => {
   return (
     <div className="min-h-screen bg-background flex flex-col font-inter">
-      <Navbar />
-
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="pt-36 pb-12 px-6">
-          <div className="max-w-[800px] mx-auto">
+        <section className="pt-40 pb-14 px-6">
+          <div className="max-w-[1100px] mx-auto">
             {/* Photo */}
-            <div className="w-20 h-20 md:w-24 md:h-24 rounded-xl overflow-hidden mb-6 animate-fade-up">
+            <div className="w-20 h-20 md:w-24 md:h-24 rounded-2xl overflow-hidden mb-6 animate-fade-up">
               <img
                 src={djamelPhoto}
                 alt="Djamel Haroual"
@@ -56,30 +53,30 @@ const About = () => {
             </div>
 
             {/* Intro */}
-            <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-4 leading-[1.15] animate-fade-up" style={{ animationDelay: "100ms" }}>
+            <h1 className="text-4xl md:text-6xl font-black tracking-tighter mb-6 leading-[1.1] animate-fade-up" style={{ animationDelay: "100ms" }}>
               Hi, I'm Djamel.{" "}
-              <span className="text-muted-foreground">Freelance motion designer at HRWL Studios.</span>
+              <span className="text-muted-foreground font-bold">Freelance motion designer at HRWL Studios.</span>
             </h1>
 
-            <p className="text-base md:text-lg text-muted-foreground leading-relaxed max-w-2xl mb-12 animate-fade-up" style={{ animationDelay: "150ms" }}>
+            <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-3xl mb-14 animate-fade-up" style={{ animationDelay: "150ms" }}>
               I craft cinematic brand films and commercials for brands that value creative solutions to business problems. From complex ideas to clear, memorable stories.
             </p>
 
             {/* Voice Note & Status */}
             <div className="space-y-8 mb-12 animate-fade-up" style={{ animationDelay: "200ms" }}>
               <VoiceNotePlayer />
-              <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-muted border border-border w-fit">
-                <MapPin className="w-3.5 h-3.5 text-muted-foreground" />
-                <span className="text-xs font-medium">Algeria · Available Worldwide</span>
+              <div className="flex items-center gap-2.5 px-5 py-2.5 rounded-full bg-muted border border-border w-fit">
+                <MapPin className="w-4 h-4 text-muted-foreground" />
+                <span className="text-base font-bold tracking-wide">Algeria · Available Worldwide</span>
               </div>
             </div>
           </div>
         </section>
 
         {/* Evolution Timeline */}
-        <section className="px-6 py-12 bg-surface/30">
-          <div className="max-w-[800px] mx-auto">
-            <h2 className="text-xl font-bold mb-6">The Journey</h2>
+        <section className="px-6 py-24 bg-surface/30">
+          <div className="max-w-[1100px] mx-auto">
+            <h2 className="text-4xl font-bold mb-12">The Journey</h2>
 
             <div className="space-y-0">
               {evolution.map((phase, i) => (
@@ -91,8 +88,8 @@ const About = () => {
                     <span className="text-xs font-mono text-muted-foreground">{phase.year}</span>
                   </div>
                   <div className="col-span-10 md:col-span-11">
-                    <h3 className="font-semibold text-base mb-0.5">{phase.phase}</h3>
-                    <p className="text-muted-foreground text-sm">{phase.description}</p>
+                    <h3 className="font-semibold text-2xl mb-1">{phase.phase}</h3>
+                    <p className="text-muted-foreground text-xl">{phase.description}</p>
                   </div>
                 </div>
               ))}
@@ -101,10 +98,10 @@ const About = () => {
         </section>
 
         {/* What I Do Today */}
-        <section className="px-6 py-12">
-          <div className="max-w-[800px] mx-auto">
-            <h2 className="text-xl font-bold mb-3">What I Do Today</h2>
-            <p className="text-base text-muted-foreground mb-8 max-w-xl">
+        <section className="px-6 py-24">
+          <div className="max-w-[1100px] mx-auto">
+            <h2 className="text-4xl font-bold mb-6">What I Do Today</h2>
+            <p className="text-xl md:text-2xl text-muted-foreground mb-12 max-w-2xl">
               Cinematic brand films, commercials, and storytelling-led motion work. I collaborate with sound designers when projects demand it.
             </p>
 
@@ -115,8 +112,8 @@ const About = () => {
                   className="p-4 bg-surface/50 rounded-lg border border-border"
                 >
                   <span className="text-xs font-mono text-muted-foreground mb-2 block">0{i + 1}</span>
-                  <h3 className="font-semibold text-base mb-1">{item.title}</h3>
-                  <p className="text-muted-foreground text-sm">{item.description}</p>
+                  <h3 className="font-semibold text-2xl mb-2">{item.title}</h3>
+                  <p className="text-muted-foreground text-lg">{item.description}</p>
                 </div>
               ))}
             </div>
@@ -124,19 +121,19 @@ const About = () => {
         </section>
 
         {/* Personal Side */}
-        <section className="px-6 py-12 bg-surface/20">
-          <div className="max-w-[800px] mx-auto">
-            <h2 className="text-xl font-bold mb-6">Beyond the Work</h2>
+        <section className="px-6 py-24 bg-surface/20">
+          <div className="max-w-[1100px] mx-auto">
+            <h2 className="text-4xl font-bold mb-12">Beyond the Work</h2>
 
             <div className="flex flex-wrap gap-2">
               {personalInterests.map((interest, i) => (
                 <div
                   key={i}
-                  className="inline-flex items-center gap-2 px-3 py-2 bg-background rounded-full border border-border"
+                  className="inline-flex items-center gap-2 px-4 py-3 bg-background rounded-full border border-border"
                 >
-                  <interest.icon className="w-3.5 h-3.5 text-muted-foreground" />
-                  <span className="font-medium text-xs">{interest.title}</span>
-                  <span className="text-xs text-muted-foreground">· {interest.note}</span>
+                  <interest.icon className="w-4 h-4 text-muted-foreground" />
+                  <span className="font-semibold text-base">{interest.title}</span>
+                  <span className="text-base text-muted-foreground">· {interest.note}</span>
                 </div>
               ))}
             </div>

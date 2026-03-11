@@ -2,7 +2,6 @@
  * Work Page — /work
  * Matching Figma: "Work" title + 2-col card grid + CTA + Footer
  */
-import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CTABanner from "@/components/CTABanner";
 import WorkCard from "@/components/WorkCard";
@@ -13,10 +12,9 @@ import { CASES } from "@/data/cases";
 export default function Work() {
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <Navbar />
 
       {/* Page title */}
-      <section className="mx-auto max-w-[1600px] px-6 pt-20 pb-8">
+      <section className="mx-auto max-w-[1600px] px-6 pt-32 pb-8">
         <ScrollReveal width="fit-content">
           <h1
             style={{

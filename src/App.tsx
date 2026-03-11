@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { ThemeProvider } from "next-themes";
 import { AnimatePresence } from "framer-motion";
 import PageTransition from "./components/PageTransition";
+import Navbar from "./components/Navbar";
 import Index from "./pages/Index";
 import Work from "./pages/Work";
 import About from "./pages/About";
@@ -40,6 +41,7 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter basename="/HRWL">
+          <Navbar />
           <AnimatedRoutes />
         </BrowserRouter>
       </TooltipProvider>

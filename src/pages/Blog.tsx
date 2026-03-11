@@ -2,15 +2,12 @@
  * Blog Page — /blog (placeholder)
  * File: src/pages/Blog.tsx
  */
-import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CTABanner from "@/components/CTABanner";
 
 export default function Blog() {
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <Navbar />
-
       <section className="mx-auto flex max-w-[1400px] flex-col items-center justify-center px-8 py-40 text-center">
         <p
           className="mb-4 opacity-35"

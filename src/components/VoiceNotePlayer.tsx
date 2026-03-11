@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { Play, Pause } from "lucide-react";
-import djamelPhoto from "@/assets/hero-thumb.png"; // Fallback to existing asset
+import djamelPhoto from "@/assets/about-hrwl.png";
 import voiceNoteAudio from "@/assets/about-voice-note.mp3";
 
 const subtitles = [
@@ -109,11 +109,11 @@ const VoiceNotePlayer = () => {
     const progress = (currentTime / duration) * 100;
 
     return (
-        <div className="w-full bg-surface/30 backdrop-blur-sm rounded-[2rem] p-8 md:p-12 border border-border/50">
+        <div className="w-full bg-surface/30 backdrop-blur-sm rounded-[2.5rem] p-10 md:p-16 border border-border/50">
             <div className="flex flex-col lg:flex-row gap-8 items-center">
                 {/* Photo */}
                 <div className="flex-shrink-0">
-                    <div className="w-48 h-48 md:w-64 md:h-64 rounded-3xl overflow-hidden border-4 border-foreground/10 hover-lift">
+                    <div className="w-56 h-56 md:w-80 md:h-80 rounded-[2rem] overflow-hidden border-4 border-foreground/10 hover-lift shadow-2xl">
                         <img
                             src={djamelPhoto}
                             alt="Djamel Haroual"
@@ -132,21 +132,21 @@ const VoiceNotePlayer = () => {
                                 Voice Note
                             </span>
                         </div>
-                        <h3 className="text-2xl md:text-3xl font-bold mb-1">
+                        <h3 className="text-3xl md:text-4xl font-bold mb-2">
                             A Personal Introduction
                         </h3>
-                        <p className="text-muted-foreground">
+                        <p className="text-lg text-muted-foreground">
                             Press play to hear from Djamel
                         </p>
                     </div>
 
                     {/* Subtitles Display */}
-                    <div className="mb-8 min-h-[120px] flex items-center">
+                    <div className="mb-10 min-h-[140px] flex items-center">
                         <div className="space-y-2 w-full">
                             {visibleSubtitles.map((subtitle, idx) => (
                                 <p
                                     key={idx}
-                                    className="text-xl md:text-2xl leading-relaxed transition-all duration-700 ease-out"
+                                    className="text-2xl md:text-3xl font-medium leading-relaxed transition-all duration-700 ease-out"
                                     style={{
                                         opacity: subtitle.opacity,
                                         transform: subtitle.opacity === 1 ? 'translateY(0) scale(1)' : 'translateY(10px) scale(0.95)',
@@ -156,7 +156,7 @@ const VoiceNotePlayer = () => {
                                 </p>
                             ))}
                             {!isPlaying && currentTime === 0 && (
-                                <p className="text-xl md:text-2xl text-muted-foreground italic animate-fade-up">
+                                <p className="text-2xl md:text-3xl font-medium text-muted-foreground italic animate-fade-up">
                                     Click play to start...
                                 </p>
                             )}
@@ -184,12 +184,12 @@ const VoiceNotePlayer = () => {
                         <div className="flex items-center justify-between">
                             <button
                                 onClick={togglePlayPause}
-                                className="w-14 h-14 rounded-full bg-foreground text-background flex items-center justify-center hover-lift hover:scale-110 transition-transform"
+                                className="w-20 h-20 rounded-full bg-foreground text-background flex items-center justify-center hover-lift hover:scale-105 transition-transform shadow-xl"
                             >
                                 {isPlaying ? (
-                                    <Pause className="w-6 h-6" fill="currentColor" />
+                                    <Pause className="w-8 h-8" fill="currentColor" />
                                 ) : (
-                                    <Play className="w-6 h-6 ml-1" fill="currentColor" />
+                                    <Play className="w-8 h-8 ml-1" fill="currentColor" />
                                 )}
                             </button>
 
