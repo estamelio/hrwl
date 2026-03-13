@@ -4,201 +4,199 @@ import { ArrowLeft, ArrowRight, Play } from "lucide-react";
 import { Case } from "@/data/cases";
 import Footer from "@/components/Footer";
 
-// SVG Placeholder Component
-const Placeholder = ({ className, text }: { className?: string; text?: string }) => (
-    <div className={`bg-muted flex items-center justify-center border border-border border-dashed rounded-md ${className}`}>
-        <span className="text-[10px] text-muted-foreground font-mono uppercase tracking-widest">{text || "Placeholder"}</span>
-    </div>
-);
+// HRWL Project Assets
+import hrwlLogo from "@/assets/hrwl-logo.png";
+import hrwlWLogo from "@/assets/hrwl-w-logo.gif";
+import hrwlLogoAnimation from "@/assets/hrwl-logo-animation.gif";
+import hrwlEndcard from "@/assets/hrwl-endcard.gif";
+import hrwlCardFront from "@/assets/hrwl-card-front.png";
+import hrwlCardBack from "@/assets/hrwl-card-back.png";
+import hrwlBusinessCard from "@/assets/hrwl-business-card.mp4";
+import hrwl3DSpline from "@/assets/hrwl-3d-spline.mp4";
+import hrwlChibiBatman from "@/assets/hrwl-chibi-batman.mp4";
+
+import BackToWork from "@/components/BackToWork";
 
 interface Props {
-    caseData: Case;
-    nextCase: Case;
+  caseData: Case;
+  nextCase: Case;
 }
 
 const HRWLVisualIdentityCaseStudy = ({ caseData, nextCase }: Props) => {
-    return (
-        <div className="min-h-screen bg-background">
-            {/* Hero Section */}
-            <section className="pt-24 pb-8 px-8 md:px-12 lg:px-20 max-w-[1400px] mx-auto w-full">
-                {/* Back button top-left */}
-                <div className="w-full flex justify-start mb-12">
-                    <Link to="/work" className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-all group">
-                        <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
-                        <span className="font-medium text-sm">Back to Work</span>
-                    </Link>
-                </div>
+  return (
+    <div className="min-h-screen bg-background text-foreground">
+      <BackToWork />
 
-                <div className="flex flex-col items-center text-center gap-4">
-                    {/* Labels centered */}
-                    <div className="flex items-center gap-4 justify-center">
-                        <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-foreground/40 bg-foreground/5 dark:bg-white/5 px-3 py-1 rounded-full border border-border/50">
-                            Case Study
-                        </span>
-                        <span className="text-[10px] font-mono text-foreground/30">{caseData.year}</span>
-                    </div>
-
-                    <h1
-                        className="w-full"
-                        style={{
-                            fontFamily: "'Helvetica Now Text', 'Helvetica Neue', Helvetica, Arial, sans-serif",
-                            fontWeight: 900,
-                            fontSize: "clamp(32px, 4.5vw, 64px)",
-                            lineHeight: "0.9",
-                            letterSpacing: "-4px",
-                            color: "hsl(var(--foreground))",
-                            textAlign: "center",
-                        }}
-                    >
-                        {caseData.title}
-                    </h1>
-                    <p
-                        className="text-muted-foreground w-full font-medium mx-auto"
-                        style={{
-                            fontSize: "clamp(16px, 1.8vw, 24px)",
-                            lineHeight: "1.1",
-                            letterSpacing: "-0.5px",
-                            maxWidth: "100%",
-                        }}
-                    >
-                        {caseData.overview}
-                    </p>
-                </div>
-            </section>
-
-            {/* Hero Identity Section */}
-            <section className="px-8 md:px-12 lg:px-20 mb-12 max-w-[1400px] mx-auto">
-                <div className="aspect-[21/9] bg-foreground dark:bg-[#0A0A0A] rounded-[24px] overflow-hidden relative group flex items-center justify-center shadow-xl">
-                    <div className="text-background font-black text-6xl md:text-8xl tracking-tighter select-none">HRWL®</div>
-                </div>
-            </section>
-
-            {/* Quick Stats Grid Below Media */}
-            <section className="px-8 md:px-12 lg:px-20 mb-20 max-w-[1400px] mx-auto">
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    {[
-                        { label: "Production", value: caseData.production },
-                        { label: "Year", value: caseData.year },
-                        { label: "Team", value: `${caseData.credits.length} specialists` },
-                        { label: "Result", value: "Full identity system" },
-                    ].map((stat, i) => (
-                        <div key={i} className="p-6 rounded-[20px] bg-white dark:bg-[#0E0E0E] border border-border/50 flex flex-col justify-center shadow-subtle">
-                            <p className="text-[9px] text-muted-foreground uppercase tracking-widest font-bold mb-1.5">{stat.label}</p>
-                            <p className="font-bold text-base tracking-tight text-foreground">{stat.value}</p>
-                        </div>
-                    ))}
-                </div>
-            </section>
-
-
-            {/* Problem & Solution */}
-            <section className="px-8 md:px-12 lg:px-20 mb-20 max-w-[1400px] mx-auto">
-                <div className="grid md:grid-cols-2 gap-16">
-                    <div>
-                        <h2 className="text-2xl md:text-3xl font-bold mb-4 tracking-tight">Problem</h2>
-                        <p className="text-muted-foreground leading-relaxed text-base md:text-lg">{caseData.problem}</p>
-                    </div>
-                    <div>
-                        <h2 className="text-2xl md:text-3xl font-bold mb-4 tracking-tight">Solution</h2>
-                        <p className="text-muted-foreground leading-relaxed text-base md:text-lg">{caseData.solution}</p>
-                    </div>
-                </div>
-            </section>
-
-            {/* Visual Identity — Logo System */}
-            <section className="px-8 md:px-12 lg:px-20 mb-20 max-w-[1400px] mx-auto">
-                <h2 className="text-2xl md:text-3xl font-bold mb-8 tracking-tight">Visual Identity</h2>
-                <div className="grid md:grid-cols-3 gap-4 mb-4">
-                    <div className="bg-foreground rounded-[24px] p-10 flex items-center justify-center aspect-square shadow-xl">
-                        <div className="text-background font-black text-4xl md:text-6xl tracking-tighter">HRWL</div>
-                    </div>
-                    <div className="bg-foreground rounded-[24px] p-10 flex items-center justify-center aspect-square shadow-xl">
-                        <div className="text-background font-black text-7xl md:text-9xl tracking-tighter">W</div>
-                    </div>
-                    <div className="bg-foreground rounded-[24px] p-10 flex items-center justify-center aspect-square shadow-xl overflow-hidden">
-                        <Placeholder className="w-full h-full bg-transparent border-none" text="Logo Animation" />
-                    </div>
-                </div>
-            </section>
-
-            {/* Business Cards */}
-            <section className="px-8 md:px-12 lg:px-20 mb-20 max-w-[1400px] mx-auto">
-                <h2 className="text-2xl md:text-3xl font-bold mb-8 tracking-tight">Business Cards</h2>
-                <div className="grid md:grid-cols-2 gap-6 mb-6">
-                    <Placeholder className="aspect-[3.5/2] w-full rounded-[24px] shadow-lg" text="Card Front" />
-                    <Placeholder className="aspect-[3.5/2] w-full rounded-[24px] shadow-lg" text="Card Back" />
-                </div>
-                <Placeholder className="aspect-video w-full bg-foreground rounded-[32px] shadow-2xl" text="Business Card Motion" />
-            </section>
-
-            {/* Demo Reel + OC Animations */}
-            <section className="px-8 md:px-12 lg:px-20 mb-20 max-w-[1400px] mx-auto">
-                <h2 className="text-2xl md:text-3xl font-bold mb-8 tracking-tight">Demo Reel + OC Animations</h2>
-
-                {/* Demo reel placeholder */}
-                <div className="aspect-video bg-foreground rounded-[32px] overflow-hidden relative group cursor-pointer mb-8 shadow-2xl">
-                    <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="w-20 h-20 rounded-full bg-background/20 backdrop-blur-md flex items-center justify-center group-hover:scale-110 transition-transform shadow-xl">
-                            <Play className="w-8 h-8 text-background ml-1" />
-                        </div>
-                    </div>
-                    <div className="absolute bottom-6 left-8 text-background/80">
-                        <span className="text-sm font-bold tracking-widest uppercase">Demo Reel</span>
-                    </div>
-                </div>
-
-                {/* OC Animations */}
-                <div className="grid md:grid-cols-2 gap-6">
-                    <Placeholder className="aspect-square w-full rounded-[24px] shadow-lg" text="OC Animation 01" />
-                    <Placeholder className="aspect-square w-full rounded-[24px] shadow-lg" text="OC Animation 02" />
-                </div>
-            </section>
-
-            {/* Endcard */}
-            <section className="px-8 md:px-12 lg:px-20 mb-20 max-w-[1400px] mx-auto">
-                <Placeholder className="aspect-video w-full bg-foreground rounded-[32px] shadow-2xl" text="Endcard" />
-            </section>
-
-            {/* Outcome */}
-            <section className="px-8 md:px-12 lg:px-20 mb-20 max-w-[1400px] mx-auto">
-                <div className="bg-foreground/5 rounded-[32px] p-10 md:p-16 border border-border/50">
-                    <h2 className="text-2xl md:text-3xl font-bold mb-4 tracking-tight">Outcome</h2>
-                    <p className="text-muted-foreground leading-relaxed text-base md:text-lg">{caseData.result}</p>
-                </div>
-            </section>
-
-            {/* Credits */}
-            <section className="px-8 md:px-12 lg:px-20 mb-24 max-w-[1400px] mx-auto">
-                <h2 className="text-2xl md:text-3xl font-bold mb-8 tracking-tight">Credits</h2>
-                <div className="grid md:grid-cols-2 gap-x-12">
-                    {caseData.credits.map((credit, i) => (
-                        <div key={i} className="flex items-center justify-between py-6 border-b border-border/50">
-                            <span className="text-sm text-muted-foreground font-bold uppercase tracking-widest">{credit.role}</span>
-                            <span className="font-bold text-lg">{credit.name}</span>
-                        </div>
-                    ))}
-                </div>
-            </section>
-
-            {/* Next Case CTA */}
-            <div className="bg-muted/5 py-24 px-8 md:px-12 lg:px-20 border-t border-border/50">
-                <div className="max-w-[1400px] mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
-                    <div>
-                        <p className="text-sm text-muted-foreground uppercase tracking-widest font-bold mb-2">Next Case Study</p>
-                        <p className="text-4xl md:text-5xl font-bold tracking-tight">{nextCase.title.split('—')[0]}</p>
-                    </div>
-                    <Link to={`/work/${nextCase.id}`}>
-                        <Button className="rounded-full px-12 py-8 h-auto text-xl font-bold hover:scale-105 transition-transform shadow-lg">
-                            View Case Study
-                            <ArrowRight className="w-6 h-6 ml-2" />
-                        </Button>
-                    </Link>
-                </div>
-            </div>
-
-            <Footer />
+      {/* Hero */}
+      <section className="pt-24 pb-4 px-6">
+        <div className="max-w-[900px] mx-auto">
+          <div className="flex items-center gap-3 mb-4">
+            <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground border border-border rounded-full px-2.5 py-1">Case Study</span>
+            <span className="text-xs font-mono text-muted-foreground">{caseData.year}</span>
+          </div>
+          <h1 className="text-3xl md:text-4xl font-bold leading-tight tracking-tight mb-3">{caseData.title}</h1>
+          <p className="text-lg text-muted-foreground max-w-[600px]">{caseData.overview}</p>
         </div>
-    );
+      </section>
+
+      {/* Hero Logo */}
+      <section className="px-6 mb-6">
+        <div className="max-w-[1000px] mx-auto">
+          <div className="aspect-[21/9] bg-foreground rounded-lg overflow-hidden relative flex items-center justify-center">
+            <img src={hrwlLogo} alt="HRWL Logo" className="w-40 md:w-56 opacity-90" />
+          </div>
+        </div>
+      </section>
+
+      {/* Quick Stats */}
+      <section className="px-6 mb-12">
+        <div className="max-w-[1000px] mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+            {[
+              { label: "Production", value: caseData.production },
+              { label: "Year", value: caseData.year },
+              { label: "Team", value: `${caseData.credits.length} specialists` },
+              { label: "Result", value: "Full identity system" },
+            ].map((stat, i) => (
+              <div key={i} className="bg-surface/50 rounded-md p-3 border border-border">
+                <p className="text-xs text-muted-foreground uppercase tracking-wider mb-0.5">{stat.label}</p>
+                <p className="font-semibold text-sm">{stat.value}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Problem & Solution */}
+      <section className="px-6 mb-12">
+        <div className="max-w-[900px] mx-auto grid md:grid-cols-2 gap-8">
+          <div>
+            <h2 className="text-xl font-bold mb-3">Problem</h2>
+            <p className="text-muted-foreground text-sm leading-relaxed">{caseData.problem}</p>
+          </div>
+          <div>
+            <h2 className="text-xl font-bold mb-3">Solution</h2>
+            <p className="text-muted-foreground text-sm leading-relaxed">{caseData.solution}</p>
+          </div>
+        </div>
+      </section>
+
+      {/* Visual Identity — Logo System */}
+      <section className="px-6 mb-12">
+        <div className="max-w-[900px] mx-auto">
+          <h2 className="text-xl font-bold mb-4">Visual Identity</h2>
+          <div className="grid md:grid-cols-3 gap-3 mb-4">
+            <div className="bg-foreground rounded-md p-6 flex items-center justify-center aspect-square">
+              <img src={hrwlLogo} alt="HRWL Main Logo" className="w-full max-w-[120px]" />
+            </div>
+            <div className="bg-foreground rounded-md p-6 flex items-center justify-center aspect-square">
+              <img src={hrwlWLogo} alt="HRWL W Logo Animation" className="w-16" />
+            </div>
+            <div className="bg-foreground rounded-md p-6 flex items-center justify-center aspect-square">
+              <img src={hrwlLogoAnimation} alt="HRWL Logo Animation" className="w-full" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Business Cards */}
+      <section className="px-6 mb-12">
+        <div className="max-w-[900px] mx-auto">
+          <h2 className="text-xl font-bold mb-4">Business Cards</h2>
+          <div className="grid md:grid-cols-2 gap-3 mb-4">
+            <div className="bg-surface/50 rounded-md p-3">
+              <img src={hrwlCardFront} alt="Business Card Front" className="w-full rounded" />
+            </div>
+            <div className="bg-surface/50 rounded-md p-3">
+              <img src={hrwlCardBack} alt="Business Card Back" className="w-full rounded" />
+            </div>
+          </div>
+          <div className="bg-foreground rounded-md overflow-hidden">
+            <video src={hrwlBusinessCard} autoPlay loop muted playsInline className="w-full" />
+          </div>
+        </div>
+      </section>
+
+      {/* Demo Reel + OC Animations */}
+      <section className="px-6 mb-12">
+        <div className="max-w-[900px] mx-auto">
+          <h2 className="text-xl font-bold mb-4">Demo Reel + OC Animations</h2>
+          
+          {/* Demo reel placeholder */}
+          <div className="aspect-video bg-foreground rounded-lg overflow-hidden relative group cursor-pointer mb-4">
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="w-14 h-14 rounded-full bg-background/20 backdrop-blur-sm flex items-center justify-center group-hover:scale-110 transition-transform">
+                <Play className="w-6 h-6 text-background ml-0.5" />
+              </div>
+            </div>
+            <div className="absolute bottom-3 left-4 text-background/80">
+              <span className="text-xs font-medium">Demo Reel</span>
+            </div>
+          </div>
+
+          {/* OC Animations */}
+          <div className="grid md:grid-cols-2 gap-3">
+            <div className="bg-surface/50 rounded-md overflow-hidden">
+              <video src={hrwl3DSpline} autoPlay loop muted playsInline className="w-full aspect-square object-cover" />
+            </div>
+            <div className="bg-surface/50 rounded-md overflow-hidden">
+              <video src={hrwlChibiBatman} autoPlay loop muted playsInline className="w-full aspect-square object-cover" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Endcard */}
+      <section className="px-6 mb-12">
+        <div className="max-w-[900px] mx-auto">
+          <div className="bg-foreground rounded-md overflow-hidden">
+            <img src={hrwlEndcard} alt="HRWL Endcard" className="w-full" />
+          </div>
+        </div>
+      </section>
+
+      {/* Outcome */}
+      <section className="px-6 mb-12">
+        <div className="max-w-[700px] mx-auto">
+          <h2 className="text-xl font-bold mb-3">Outcome</h2>
+          <p className="text-sm text-muted-foreground">{caseData.result}</p>
+        </div>
+      </section>
+
+      {/* Credits */}
+      <section className="px-6 mb-12">
+        <div className="max-w-[700px] mx-auto">
+          <h2 className="text-xl font-bold mb-4">Credits</h2>
+          <div className="grid md:grid-cols-2 gap-x-6">
+            {caseData.credits.map((credit, i) => (
+              <div key={i} className="flex items-center justify-between py-2 border-b border-border">
+                <span className="text-xs text-muted-foreground">{credit.role}</span>
+                <span className="font-medium text-sm">{credit.name}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Next Case */}
+      <div className="border-t border-border bg-surface/30 py-10 px-6">
+        <div className="max-w-[700px] mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+          <div>
+            <p className="text-xs text-muted-foreground mb-1">Next Case Study</p>
+            <p className="text-lg font-bold">{nextCase.title}</p>
+          </div>
+          <Link to={`/work/${nextCase.id}`}>
+            <Button variant="outline" className="group rounded-full">
+              View Case
+              <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+            </Button>
+          </Link>
+        </div>
+      </div>
+
+      <Footer />
+    </div>
+  );
 };
 
 export default HRWLVisualIdentityCaseStudy;

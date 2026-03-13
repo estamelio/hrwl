@@ -1,39 +1,27 @@
-/**
- * BackToWork — a slim sub-bar that sits directly below the Navbar on case study pages.
- * Looks like an extension of the navbar with a "← Back to Work" link.
- */
 import { Link } from "react-router-dom";
+import { ArrowLeft } from "lucide-react";
+import { motion } from "framer-motion";
 
-export default function BackToWork() {
+const BackToWork = () => {
   return (
-    <div
-      className="sticky top-[57px] z-[49] w-full bg-background/95 backdrop-blur-xl"
-      style={{ borderBottom: "1px solid hsl(var(--foreground) / 0.06)" }}
-    >
-      <div className="mx-auto max-w-[1400px] px-5 py-2.5 md:px-8">
-        <Link
-          to="/work"
-          onClick={() => window.scrollTo({ top: 0 })}
-          className="inline-flex items-center gap-2 no-underline transition-opacity hover:opacity-80"
-          style={{
-            fontFamily: "Inter, sans-serif",
-            fontWeight: 500,
-            fontSize: 13,
-            color: "hsl(var(--foreground) / 0.5)",
-          }}
+    <div className="fixed top-[72px] left-0 right-0 z-40 px-6 pointer-events-none">
+      <div className="max-w-[1400px] mx-auto">
+        <motion.div
+          initial={{ opacity: 0, x: -10 }}
+          animate={{ opacity: 1, x: 0 }}
+          className="pointer-events-auto"
         >
-          <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
-            <path
-              d="M10 4L6 8L10 12"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-          Back to Work
-        </Link>
+          <Link 
+            to="/work" 
+            className="inline-flex items-center gap-2 px-4 py-2 bg-background/60 backdrop-blur-md border border-border/50 rounded-full text-muted-foreground hover:text-foreground hover:bg-background/80 transition-all duration-300"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            <span className="font-medium text-sm">Back to Work</span>
+          </Link>
+        </motion.div>
       </div>
     </div>
   );
-}
+};
+
+export default BackToWork;

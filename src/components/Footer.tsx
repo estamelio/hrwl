@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import hrwlLogo from "@/assets/hrwl-logo-white.png";
+import hrwlLogoWhite from "@/assets/hrwl-logo-white.png";
 import hrwlLogoBlack from "@/assets/Hrwl-Logo-black.svg";
 import { useTheme } from "next-themes";
 import { Instagram, Linkedin, Youtube, Music2, ArrowUpRight } from "lucide-react";
@@ -10,29 +10,25 @@ interface FooterProps {
 
 const Footer = ({ catchphrase = "Let's create something worth watching." }: FooterProps) => {
   const currentYear = new Date().getFullYear();
-  const { theme } = useTheme();
+  const { resolvedTheme } = useTheme();
+
+  const logoSrc = resolvedTheme === "dark" ? hrwlLogoBlack : hrwlLogoWhite;
 
   return (
     <footer className="bg-foreground text-background">
       <div className="max-w-[1400px] mx-auto px-6 lg:px-12 py-20 lg:py-24">
         {/* Top Section */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 mb-16 lg:mb-20">
-          {/* Brand Section */}
+          {/* Brand */}
           <div className="lg:col-span-5">
-            <img 
-              src={theme === "dark" ? hrwlLogoBlack : hrwlLogo} 
-              alt="HRWL" 
-              className="h-8 w-auto mb-8" 
-            />
+            <img src={logoSrc} alt="HRWL" className="h-6 w-auto mb-8" />
             <h3 className="text-2xl md:text-3xl font-semibold mb-4 max-w-md leading-tight">
               {catchphrase}
             </h3>
             <p className="text-background/50 leading-relaxed max-w-md mb-8">
               Freelance Motion Designer specializing in brand films and commercials for ambitious brands.
             </p>
-
-            {/* Social Icons */}
-            <div className="flex gap-3">
+            <div className="flex gap-4">
               {[
                 { icon: Youtube, href: "https://youtube.com/@hrwl", label: "YouTube" },
                 { icon: Instagram, href: "https://instagram.com/hrwl", label: "Instagram" },
@@ -44,16 +40,16 @@ const Footer = ({ catchphrase = "Let's create something worth watching." }: Foot
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-11 h-11 rounded-full bg-background/5 flex items-center justify-center hover:bg-background/10 transition-colors"
+                  className="w-12 h-12 rounded-full bg-background/5 flex items-center justify-center hover:bg-background/10 transition-all hover:scale-110"
                   aria-label={social.label}
                 >
-                  <social.icon className="w-4 h-4" />
+                  <social.icon className="w-5 h-5" />
                 </a>
               ))}
             </div>
           </div>
 
-          {/* Navigation Links */}
+          {/* Navigation */}
           <div className="lg:col-span-7 grid grid-cols-2 md:grid-cols-3 gap-8 lg:gap-12">
             <div>
               <h4 className="font-semibold mb-5 text-sm uppercase tracking-wider text-background/40">Explore</h4>
@@ -91,18 +87,18 @@ const Footer = ({ catchphrase = "Let's create something worth watching." }: Foot
                   Start Inquiry
                   <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
                 </Link>
-                <a href="mailto:hello@hrwl.co" className="text-background/60 hover:text-background transition-colors text-sm">
-                  hello@hrwl.co
+                <a href="mailto:djamel@hrwl.studio" className="text-background/60 hover:text-background transition-colors text-sm">
+                  djamel@hrwl.studio
                 </a>
-                <a href="#" className="text-background/60 hover:text-background transition-colors text-sm">
+                <Link to="/shop" className="text-background/60 hover:text-background transition-colors text-sm">
                   Shop
-                </a>
+                </Link>
               </nav>
             </div>
           </div>
         </div>
 
-        {/* Bottom Bar */}
+        {/* Bottom */}
         <div className="pt-8 border-t border-background/10">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="text-background/40 text-sm">

@@ -4,8 +4,19 @@
  */
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { useEffect } from "react";
 
 export default function Inquiries() {
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "//embed.typeform.com/next/embed.js";
+    script.async = true;
+    document.body.appendChild(script);
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
+
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col">
       {/* Main content */}
@@ -41,14 +52,13 @@ export default function Inquiries() {
 
         {/* Form embed placeholder */}
         <div
-          className="mt-10 w-full rounded-3xl"
+          className="mt-10 w-full"
           style={{
             maxWidth: 820,
-            minHeight: 300,
-            backgroundColor: "hsl(var(--foreground))",
+            minHeight: 500,
           }}
         >
-          {/* Embedded form will go here */}
+          <div data-tf-live="01KKGEMERVA8C5YWASV0MADA72"></div>
         </div>
 
         {/* Spacer */}
@@ -68,7 +78,7 @@ export default function Inquiries() {
             All other inquiries:
           </h2>
           <a
-            href="mailto:hi@hrwl.co"
+            href="mailto:djamel@hrwl.studio"
             className="mt-2 inline-block transition-opacity hover:opacity-70"
             style={{
               fontFamily: "Inter, sans-serif",
@@ -78,7 +88,7 @@ export default function Inquiries() {
               textDecoration: "none",
             }}
           >
-            hi@hrwl.co
+            djamel@hrwl.studio
           </a>
         </div>
       </main>

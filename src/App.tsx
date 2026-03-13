@@ -7,6 +7,7 @@ import { ThemeProvider } from "next-themes";
 import { AnimatePresence } from "framer-motion";
 import PageTransition from "./components/PageTransition";
 import Navbar from "./components/Navbar";
+import AkioAgent from "./components/AkioAgent";
 import Index from "./pages/Index";
 import Work from "./pages/Work";
 import About from "./pages/About";
@@ -14,6 +15,7 @@ import Blog from "./pages/Blog";
 import NotFound from "./pages/NotFound";
 import CaseStudy from "./pages/CaseStudy";
 import Inquiries from "./pages/Inquiries";
+import ScrollToTop from "./components/ScrollToTop";
 
 const queryClient = new QueryClient();
 
@@ -41,7 +43,9 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter basename="/HRWL">
+          <ScrollToTop />
           <Navbar />
+          <AkioAgent />
           <AnimatedRoutes />
         </BrowserRouter>
       </TooltipProvider>

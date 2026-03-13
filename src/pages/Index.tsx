@@ -77,7 +77,10 @@ export default function Index() {
     <div className="min-h-screen bg-background text-foreground font-inter">
       <main className="overflow-x-hidden">
         {/* Full Viewport Hero Section */}
-        <div className="min-h-[105vh] flex flex-col items-center justify-center pt-28">
+        <div className="min-h-[90vh] md:min-h-screen flex flex-col items-center justify-center pt-28 overflow-hidden relative">
+          <div className="absolute inset-0 z-0 pointer-events-none">
+            <div className="absolute top-[20%] left-1/2 h-[500px] w-[800px] -translate-x-1/2 opacity-20 blur-[120px] bg-gradient-to-r from-primary/30 to-blue-500/20 rounded-full" />
+          </div>
           <section className="w-full px-6 flex flex-col items-center">
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
@@ -162,11 +165,11 @@ export default function Index() {
                   Freelance Motion Designer & Creative Director crafting high-ROI visual stories for ambitious brands.
                 </p>
 
-                <div className="flex flex-wrap items-center justify-center gap-5">
-                  <Link to="/inquiries" className="px-10 py-4 rounded-full bg-foreground text-background font-bold text-sm shadow-xl transition-all hover:scale-[1.03] active:scale-[0.98]">
+                <div className="flex flex-wrap items-center justify-center gap-4 mt-6">
+                  <Link to="/inquiries" className="px-12 py-5 rounded-full bg-foreground text-background font-bold text-base shadow-xl transition-all hover:scale-[1.03] active:scale-[0.98]">
                     Start Inquiry
                   </Link>
-                  <Link to="/work" className="px-10 py-4 rounded-full bg-muted/30 border border-border/50 text-foreground font-bold text-sm backdrop-blur-sm transition-all hover:bg-muted/50">
+                  <Link to="/work" className="px-12 py-5 rounded-full bg-muted/30 border border-border/50 text-foreground font-bold text-base backdrop-blur-sm transition-all hover:bg-muted/50">
                     See Case Studies
                   </Link>
                 </div>
@@ -176,7 +179,7 @@ export default function Index() {
         </div>
 
         {/* Selected Work Grid */}
-        <section className="px-8 md:px-12 lg:px-20 py-32 max-w-[1700px] mx-auto border-t border-border/30">
+        <section className="px-8 md:px-12 lg:px-20 py-20 max-w-[1700px] mx-auto border-t border-border/30">
           <ScrollReveal>
             <div className="flex flex-col mb-16">
               <span className="text-[10px] font-bold tracking-[0.2em] text-muted-foreground uppercase mb-3 px-1">Recent Work</span>
@@ -251,7 +254,7 @@ export default function Index() {
         </section>
 
         {/* What I Do */}
-        <section className="px-8 md:px-12 lg:px-20 py-32 bg-muted/5">
+        <section className="px-8 md:px-12 lg:px-20 py-20 bg-muted/5">
           <div className="max-w-[1500px] mx-auto">
             <ScrollReveal>
               <div className="flex flex-col items-center text-center mb-24">
@@ -288,7 +291,7 @@ export default function Index() {
         </section>
 
         {/* FAQ Section */}
-        <section id="faq" className="px-8 md:px-12 lg:px-20 py-32 max-w-[1600px] mx-auto">
+        <section id="faq" className="px-8 md:px-12 lg:px-20 py-20 max-w-[1600px] mx-auto">
           <ScrollReveal>
             <div className="mb-20 flex flex-col md:flex-row md:items-end justify-between gap-10">
               <div>

@@ -64,11 +64,11 @@ export default function CTABanner() {
           >
             New Business:{" "}
             <a
-              href="mailto:work@hrwl.co"
+              href="mailto:djamel@hrwl.studio"
               className="hover:text-white transition-colors"
               style={{ color: "rgba(255,255,255,0.4)", textDecoration: "none" }}
             >
-              work@hrwl.co
+              djamel@hrwl.studio
             </a>
           </p>
           <Link

@@ -216,16 +216,16 @@ export default function Navbar() {
                     <Link
                       to={to}
                       onClick={handleNavClick(to)}
-                      className="block py-3 transition-opacity hover:opacity-60"
+                      className="block py-4 transition-all duration-300 hover:pl-2"
                       style={{
                         fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
                         fontWeight: 900,
-                        fontSize: "clamp(36px, 10vw, 56px)",
-                        lineHeight: "1.1",
-                        letterSpacing: "-1px",
+                        fontSize: "clamp(42px, 12vw, 64px)",
+                        lineHeight: "1",
+                        letterSpacing: "-2px",
                         color: "hsl(var(--foreground))",
                         textDecoration: "none",
-                        opacity: pathname === to ? 1 : 0.35,
+                        opacity: pathname === to ? 1 : 0.25,
                       }}
                     >
                       {label}
@@ -301,7 +301,7 @@ export default function Navbar() {
               }}
             >
               <p style={{ fontFamily: "Inter", fontSize: "13px", color: "hsl(var(--foreground))", opacity: 0.35 }}>
-                djamel@hrwl.co
+                djamel@hrwl.studio
               </p>
             </motion.div>
           </motion.div>
