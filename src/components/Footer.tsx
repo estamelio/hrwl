@@ -15,8 +15,31 @@ const Footer = ({ catchphrase = "Let's create something worth watching." }: Foot
   const logoSrc = resolvedTheme === "dark" ? hrwlLogoBlack : hrwlLogoWhite;
 
   return (
-    <footer className="bg-foreground text-background">
-      <div className="max-w-[1400px] mx-auto px-6 lg:px-12 py-20 lg:py-24">
+    <footer className="bg-foreground text-background relative overflow-hidden">
+      {/* Gradient HRWL background logo — sits behind all content */}
+      <div className="absolute bottom-[50%] left-1/2 -translate-x-1/2 w-[90%] max-w-[900px] pointer-events-none select-none" style={{ zIndex: 0 }}>
+        {/* Dark mode SVG — white, subtle */}
+        <svg className="hidden dark:block w-full h-auto opacity-[0.06]" viewBox="0 0 884 170" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M120.255 56.7735H66.5888V0H0V169.119H66.5888V112.334H120.255V169.119H186.843V0H120.255V56.7735ZM606.405 98.4089H600.739L581.917 0.173337H530.272L511.451 98.4089H505.784L493.442 0.173337H425.831L455.393 169.292H545.273L553.343 104.869H558.835L566.916 169.292H656.796L686.358 0.173337H618.736L606.405 98.4089ZM756.674 0.173337H690.085V169.292H883.5V114.125H756.674V0.173337ZM351.069 81.2948L263.104 81.1215V54.9246L351.069 55.1326C361.182 55.1326 365.629 60.3558 365.629 68.2137C365.629 76.0716 361.182 81.2948 351.069 81.2948ZM432.426 67.6244C432.426 19.7141 404.316 0.358229 356.119 0.358229L196.515 0.173337V169.292H263.104V130.049L354.099 130.222L373.942 169.5H439.126L410.377 115.315C423.126 105.261 432.426 89.5688 432.426 67.6244Z" fill="url(#paint0_footer_dark)" />
+          <defs>
+            <linearGradient id="paint0_footer_dark" x1="441.75" y1="-65" x2="441.75" y2="170" gradientUnits="userSpaceOnUse">
+              <stop stopColor="#FFFFFF" stopOpacity="0" />
+              <stop offset="1" stopColor="#FFFFFF" />
+            </linearGradient>
+          </defs>
+        </svg>
+        {/* Light mode SVG — subtle, barely visible */}
+        <svg className="block dark:hidden w-full h-auto opacity-[0.04]" viewBox="0 0 884 170" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M120.255 56.7735H66.5888V0H0V169.119H66.5888V112.334H120.255V169.119H186.843V0H120.255V56.7735ZM606.405 98.4089H600.739L581.917 0.173337H530.272L511.451 98.4089H505.784L493.442 0.173337H425.831L455.393 169.292H545.273L553.343 104.869H558.835L566.916 169.292H656.796L686.358 0.173337H618.736L606.405 98.4089ZM756.674 0.173337H690.085V169.292H883.5V114.125H756.674V0.173337ZM351.069 81.2948L263.104 81.1215V54.9246L351.069 55.1326C361.182 55.1326 365.629 60.3558 365.629 68.2137C365.629 76.0716 361.182 81.2948 351.069 81.2948ZM432.426 67.6244C432.426 19.7141 404.316 0.358229 356.119 0.358229L196.515 0.173337V169.292H263.104V130.049L354.099 130.222L373.942 169.5H439.126L410.377 115.315C423.126 105.261 432.426 89.5688 432.426 67.6244Z" fill="url(#paint0_footer_light)" />
+          <defs>
+            <linearGradient id="paint0_footer_light" x1="441.75" y1="-65" x2="441.75" y2="170" gradientUnits="userSpaceOnUse">
+              <stop stopColor="#FFFFFF" stopOpacity="0" />
+              <stop offset="1" stopColor="#E8E8E8" />
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+      <div className="max-w-[1400px] mx-auto px-6 lg:px-12 py-20 lg:py-24 relative" style={{ zIndex: 1 }}>
         {/* Top Section */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 mb-16 lg:mb-20">
           {/* Brand */}
@@ -71,7 +94,8 @@ const Footer = ({ catchphrase = "Let's create something worth watching." }: Foot
               </nav>
             </div>
 
-            <div>
+            {/* Services — hidden on mobile */}
+            <div className="hidden md:block">
               <h4 className="font-semibold mb-5 text-sm uppercase tracking-wider text-background/40">Services</h4>
               <nav className="flex flex-col gap-3">
                 {["Brand Films", "Commercials", "Motion Design", "Creative Direction"].map((item) => (
@@ -83,7 +107,7 @@ const Footer = ({ catchphrase = "Let's create something worth watching." }: Foot
             <div>
               <h4 className="font-semibold mb-5 text-sm uppercase tracking-wider text-background/40">Connect</h4>
               <nav className="flex flex-col gap-3">
-                <Link to="/inquiries" className="text-background/60 hover:text-background transition-colors text-sm flex items-center gap-1 group">
+                <Link to="/inquiry" className="text-background/60 hover:text-background transition-colors text-sm flex items-center gap-1 group">
                   Start Inquiry
                   <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
                 </Link>

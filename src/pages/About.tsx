@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import {
@@ -8,23 +9,49 @@ import {
   Mic,
   Tv,
   Brain,
+  ChevronDown,
 } from "lucide-react";
 import VoiceNotePlayer from "@/components/VoiceNotePlayer";
 import Footer from "@/components/Footer";
 
+// Collapsible section component
+const CollapsibleSection = ({
+  title,
+  children,
+  isOpen,
+  onToggle,
+}: {
+  title: string;
+  children: React.ReactNode;
+  isOpen: boolean;
+  onToggle: () => void;
+}) => (
+  <div className="border-b border-border/60 last:border-0">
+    <button
+      onClick={onToggle}
+      className="w-full flex items-center justify-between py-5 text-left group"
+    >
+      <h2 className="text-lg md:text-xl font-semibold tracking-tight group-hover:opacity-70 transition-opacity duration-300">
+        {title}
+      </h2>
+      <ChevronDown
+        className={`w-5 h-5 text-muted-foreground transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] ${isOpen ? "rotate-180" : ""}`}
+      />
+    </button>
+    <div
+      className={`grid transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] ${isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}
+    >
+      <div className="overflow-hidden">
+        <div className="pb-8">{children}</div>
+      </div>
+    </div>
+  </div>
+);
+
 const services = [
-  {
-    title: "Cinematic Brand Films",
-    description: "Narrative-driven motion pieces that introduce or elevate a brand.",
-  },
-  {
-    title: "Commercial Motion Design",
-    description: "High-impact animated visuals built for marketing campaigns and product launches.",
-  },
-  {
-    title: "Creative Direction",
-    description: "Helping brands translate complex ideas into clear and compelling visual stories.",
-  },
+  { title: "Cinematic Brand Films", description: "Narrative-driven motion pieces that introduce or elevate a brand." },
+  { title: "Commercial Motion Design", description: "High-impact animated visuals built for marketing campaigns and product launches." },
+  { title: "Creative Direction", description: "Helping brands translate complex ideas into clear and compelling visual stories." },
 ];
 
 const problems = [
@@ -70,137 +97,156 @@ const collaborators = [
 ];
 
 const About = () => {
+  const [openSections, setOpenSections] = useState<Record<string, boolean>>({
+    whoiam: true,
+  });
+
+  const toggleSection = (key: string) => {
+    setOpenSections((prev) => ({ ...prev, [key]: !prev[key] }));
+  };
+
+  const sectionKeys = ["whoiam", "whatido", "approach", "beyond"];
+  const allOpen = sectionKeys.every((k) => openSections[k]);
+
+  const toggleAll = () => {
+    const next: Record<string, boolean> = { ...openSections };
+    sectionKeys.forEach((k) => (next[k] = !allOpen));
+    setOpenSections(next);
+  };
+
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      {/* 1. Hero Audio Introduction */}
-      <section className="pt-28 pb-16 px-6">
-        <div className="max-w-[800px] mx-auto">
+      {/* Voice Intro */}
+      <section className="pt-28 pb-10 px-6">
+        <div className="max-w-[900px] mx-auto">
           <VoiceNotePlayer />
         </div>
       </section>
 
-      {/* 2. Identity Statement */}
-      <section className="px-6 pb-20">
+      {/* Identity Statement */}
+      <section className="px-6 pb-14">
         <div className="max-w-[800px] mx-auto text-center">
-          <h1 className="text-3xl md:text-5xl font-bold tracking-tight leading-[1.1] mb-4 animate-fade-up">
+          <h1 className="text-4xl md:text-5xl font-bold tracking-tight leading-[1.08] mb-4 animate-fade-up">
             Djamel Haroual
           </h1>
-          <p className="text-lg md:text-xl text-muted-foreground mb-3 animate-fade-up" style={{ animationDelay: "100ms" }}>
+          <p className="text-lg md:text-xl text-muted-foreground mb-3 animate-fade-up-delay-1">
             Freelance Motion Designer crafting cinematic brand films.
           </p>
-          <p className="text-base text-muted-foreground/80 max-w-lg mx-auto animate-fade-up" style={{ animationDelay: "150ms" }}>
+          <p className="text-base text-muted-foreground/80 max-w-lg mx-auto animate-fade-up-delay-2">
             I help ambitious brands turn complex ideas into clear, memorable visuals.
           </p>
-          <div className="flex items-center justify-center gap-2 mt-5 animate-fade-up" style={{ animationDelay: "200ms" }}>
+          <div className="flex items-center justify-center gap-2 mt-5 animate-fade-up-delay-3">
             <MapPin className="w-3.5 h-3.5 text-muted-foreground" />
             <span className="text-xs text-muted-foreground font-medium">Algeria · Available Worldwide</span>
           </div>
         </div>
       </section>
 
-      {/* 3. What I Do */}
-      <section className="px-6 py-16 bg-surface/30">
+      {/* Collapsible Sections */}
+      <section className="px-6 pb-16">
         <div className="max-w-[800px] mx-auto">
-          <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-8">What I Do</h2>
-          <div className="grid md:grid-cols-3 gap-6">
-            {services.map((service, i) => (
-              <div key={i}>
-                <h3 className="text-lg font-semibold mb-2">{service.title}</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">{service.description}</p>
-              </div>
-            ))}
+          {/* Toggle all */}
+          <div className="flex justify-end mb-2">
+            <button
+              onClick={toggleAll}
+              className="text-xs font-medium text-muted-foreground hover:text-foreground transition-colors duration-300 flex items-center gap-1.5"
+            >
+              {allOpen ? "Collapse All" : "Read All"}
+              <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-300 ${allOpen ? "rotate-180" : ""}`} />
+            </button>
           </div>
-        </div>
-      </section>
 
-      {/* 4. Problems I Solve */}
-      <section className="px-6 py-16">
-        <div className="max-w-[800px] mx-auto">
-          <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-8">Problems I Solve</h2>
-          <ul className="space-y-4 mb-6">
-            {problems.map((problem, i) => (
-              <li key={i} className="flex gap-3 text-base md:text-lg text-foreground/90">
-                <span className="text-muted-foreground font-bold mt-0.5">·</span>
-                <span>{problem}</span>
-              </li>
-            ))}
-          </ul>
-          <p className="text-sm text-muted-foreground border-t border-border pt-5 mt-8">
-            My work focuses on turning complexity into cinematic clarity.
-          </p>
-        </div>
-      </section>
+          {/* Who I Am — includes identity + problems */}
+          <CollapsibleSection title="Who I Am" isOpen={!!openSections.whoiam} onToggle={() => toggleSection("whoiam")}>
+            <div className="space-y-6">
+              <div>
+                <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-4">Problems I Solve</h3>
+                <ul className="space-y-3">
+                  {problems.map((p, i) => (
+                    <li key={i} className="flex gap-3 text-base text-foreground/90">
+                      <span className="text-muted-foreground font-bold mt-0.5">·</span>
+                      <span>{p}</span>
+                    </li>
+                  ))}
+                </ul>
+                <p className="text-sm text-muted-foreground border-t border-border pt-4 mt-5">
+                  My work focuses on turning complexity into cinematic clarity.
+                </p>
+              </div>
 
-      {/* 5. Journey */}
-      <section className="px-6 py-16 bg-surface/30">
-        <div className="max-w-[800px] mx-auto">
-          <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-8">The Journey</h2>
-          <div className="space-y-0">
-            {journey.map((phase, i) => (
-              <div
-                key={i}
-                className="grid grid-cols-12 gap-4 py-5 border-b border-border/60 last:border-0"
-              >
-                <div className="col-span-3 md:col-span-2">
-                  <span className="text-sm font-mono text-muted-foreground">{phase.year}</span>
+              {/* Journey */}
+              <div>
+                <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-4">The Journey</h3>
+                {journey.map((phase, i) => (
+                  <div key={i} className="grid grid-cols-12 gap-4 py-3 border-b border-border/50 last:border-0">
+                    <div className="col-span-3 md:col-span-2">
+                      <span className="text-sm font-mono text-muted-foreground">{phase.year}</span>
+                    </div>
+                    <div className="col-span-9 md:col-span-10">
+                      <h4 className="font-semibold text-sm mb-0.5">{phase.title}</h4>
+                      <p className="text-sm text-muted-foreground">{phase.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </CollapsibleSection>
+
+          {/* What I Do */}
+          <CollapsibleSection title="What I Do" isOpen={!!openSections.whatido} onToggle={() => toggleSection("whatido")}>
+            <div className="grid md:grid-cols-3 gap-5">
+              {services.map((s, i) => (
+                <div key={i}>
+                  <h3 className="text-base font-semibold mb-2">{s.title}</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">{s.description}</p>
                 </div>
-                <div className="col-span-9 md:col-span-10">
-                  <h3 className="font-semibold text-base mb-0.5">{phase.title}</h3>
-                  <p className="text-sm text-muted-foreground">{phase.description}</p>
+              ))}
+            </div>
+          </CollapsibleSection>
+
+          {/* My Approach */}
+          <CollapsibleSection title="My Approach" isOpen={!!openSections.approach} onToggle={() => toggleSection("approach")}>
+            <div className="grid md:grid-cols-2 gap-5">
+              {principles.map((p, i) => (
+                <div key={i} className="p-4 rounded-xl border border-border/60 bg-surface/20">
+                  <h3 className="font-semibold text-sm mb-1.5">{p.title}</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">{p.description}</p>
+                </div>
+              ))}
+            </div>
+          </CollapsibleSection>
+
+          {/* Beyond Work */}
+          <CollapsibleSection title="Beyond Work" isOpen={!!openSections.beyond} onToggle={() => toggleSection("beyond")}>
+            <div className="space-y-8">
+              <div className="space-y-3">
+                {personalInterests.map((interest, i) => (
+                  <div key={i} className="flex items-start gap-3">
+                    <interest.icon className="w-4 h-4 text-muted-foreground mt-1 flex-shrink-0" />
+                    <span className="text-sm text-foreground/80">{interest.text}</span>
+                  </div>
+                ))}
+              </div>
+
+              {/* Collaborators */}
+              <div>
+                <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-4">People I've Collaborated With</h3>
+                <div className="grid md:grid-cols-2 gap-x-10">
+                  {collaborators.map((c, i) => (
+                    <div key={i} className="flex items-center justify-between py-2.5 border-b border-border/40">
+                      <span className="font-medium text-sm">{c.name}</span>
+                      <span className="text-xs text-muted-foreground">{c.role}</span>
+                    </div>
+                  ))}
                 </div>
               </div>
-            ))}
-          </div>
+            </div>
+          </CollapsibleSection>
         </div>
       </section>
 
-      {/* 6. Principles */}
-      <section className="px-6 py-16">
-        <div className="max-w-[800px] mx-auto">
-          <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-8">How I Work</h2>
-          <div className="grid md:grid-cols-2 gap-6">
-            {principles.map((principle, i) => (
-              <div key={i} className="p-5 rounded-xl border border-border/60 bg-surface/20">
-                <h3 className="font-semibold text-base mb-2">{principle.title}</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">{principle.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 7. Human Side */}
-      <section className="px-6 py-16 bg-surface/30">
-        <div className="max-w-[800px] mx-auto">
-          <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-8">Beyond the Work</h2>
-          <div className="space-y-4">
-            {personalInterests.map((interest, i) => (
-              <div key={i} className="flex items-start gap-3">
-                <interest.icon className="w-4 h-4 text-muted-foreground mt-1 flex-shrink-0" />
-                <span className="text-sm text-foreground/80">{interest.text}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 8. Collaborators */}
-      <section className="px-6 py-16">
-        <div className="max-w-[800px] mx-auto">
-          <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-8">People I've Collaborated With</h2>
-          <div className="grid md:grid-cols-2 gap-x-12 gap-y-0">
-            {collaborators.map((collab, i) => (
-              <div key={i} className="flex items-center justify-between py-3 border-b border-border/50">
-                <span className="font-medium text-sm">{collab.name}</span>
-                <span className="text-xs text-muted-foreground">{collab.role}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 9. CTA */}
-      <section className="px-6 py-20 flex-1 flex items-end">
+      {/* CTA */}
+      <section className="px-6 py-16 flex-1 flex items-end">
         <div className="max-w-[800px] mx-auto w-full text-center">
           <p className="text-xl md:text-2xl font-semibold mb-3 tracking-tight">
             If you're building something ambitious and want it to be seen clearly, let's talk.

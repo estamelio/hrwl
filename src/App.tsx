@@ -7,14 +7,14 @@ import { ThemeProvider } from "next-themes";
 import { AnimatePresence } from "framer-motion";
 import PageTransition from "./components/PageTransition";
 import Navbar from "./components/Navbar";
-import AkioAgent from "./components/AkioAgent";
+// import AkioAgent from "./components/AkioAgent"; // Temporarily disabled
 import Index from "./pages/Index";
 import Work from "./pages/Work";
 import About from "./pages/About";
 import Blog from "./pages/Blog";
 import NotFound from "./pages/NotFound";
 import CaseStudy from "./pages/CaseStudy";
-import Inquiries from "./pages/Inquiries";
+import Inquiry from "./pages/Inquiry";
 import ScrollToTop from "./components/ScrollToTop";
 
 const queryClient = new QueryClient();
@@ -29,7 +29,7 @@ const AnimatedRoutes = () => {
         <Route path="/work/:id" element={<PageTransition><CaseStudy /></PageTransition>} />
         <Route path="/about" element={<PageTransition><About /></PageTransition>} />
         <Route path="/blog" element={<PageTransition><Blog /></PageTransition>} />
-        <Route path="/inquiries" element={<PageTransition><Inquiries /></PageTransition>} />
+        <Route path="/inquiry" element={<PageTransition><Inquiry /></PageTransition>} />
         <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />
       </Routes>
     </AnimatePresence>
@@ -45,7 +45,7 @@ const App = () => (
         <BrowserRouter basename="/HRWL">
           <ScrollToTop />
           <Navbar />
-          <AkioAgent />
+          {/* <AkioAgent /> — Temporarily disabled */}
           <AnimatedRoutes />
         </BrowserRouter>
       </TooltipProvider>

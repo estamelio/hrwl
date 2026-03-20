@@ -15,8 +15,6 @@ import hrwlBusinessCard from "@/assets/hrwl-business-card.mp4";
 import hrwl3DSpline from "@/assets/hrwl-3d-spline.mp4";
 import hrwlChibiBatman from "@/assets/hrwl-chibi-batman.mp4";
 
-import BackToWork from "@/components/BackToWork";
-
 interface Props {
   caseData: Case;
   nextCase: Case;
@@ -24,9 +22,7 @@ interface Props {
 
 const HRWLVisualIdentityCaseStudy = ({ caseData, nextCase }: Props) => {
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      <BackToWork />
-
+    <div className="min-h-screen bg-background">
       {/* Hero */}
       <section className="pt-24 pb-4 px-6">
         <div className="max-w-[900px] mx-auto">
@@ -121,7 +117,7 @@ const HRWLVisualIdentityCaseStudy = ({ caseData, nextCase }: Props) => {
       <section className="px-6 mb-12">
         <div className="max-w-[900px] mx-auto">
           <h2 className="text-xl font-bold mb-4">Demo Reel + OC Animations</h2>
-          
+
           {/* Demo reel placeholder */}
           <div className="aspect-video bg-foreground rounded-lg overflow-hidden relative group cursor-pointer mb-4">
             <div className="absolute inset-0 flex items-center justify-center">
@@ -193,8 +189,6 @@ const HRWLVisualIdentityCaseStudy = ({ caseData, nextCase }: Props) => {
           </Link>
         </div>
       </div>
-
-      <Footer />
     </div>
   );
 };

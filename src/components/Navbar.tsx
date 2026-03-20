@@ -16,6 +16,13 @@ const NAV_LINKS = [
   { label: "Blog", to: "/blog" },
 ];
 
+const MOBILE_NAV_LINKS = [
+  { label: "Work", to: "/work" },
+  { label: "About", to: "/about" },
+  { label: "Shop", to: "/shop" },
+  { label: "Blog", to: "/blog" },
+];
+
 const NAV_STYLE = {
   fontFamily: "Inter",
   fontWeight: 500,
@@ -152,8 +159,8 @@ export default function Navbar() {
                 Shop
               </a>
               <ThemeToggle />
-              <Link to="/inquiries" onClick={handleNavClick("/inquiries")} className="inquiry-btn">
-                Inquiries
+              <Link to="/inquiry" onClick={handleNavClick("/inquiry")} className="inquiry-btn">
+                Inquiry
                 <span className="inquiry-btn__icon">
                   <svg viewBox="0 0 14 15" fill="none" width="10" className="inquiry-btn__svg">
                     <path
@@ -191,80 +198,57 @@ export default function Navbar() {
       <AnimatePresence>
         {menuOpen && (
           <motion.div
-            initial={{ x: "-100%" }}
-            animate={{ x: 0 }}
-            exit={{ x: "-100%" }}
-            transition={{ duration: 0.5, ease: [0.77, 0, 0.175, 1] }}
-            className="fixed inset-0 z-40 flex flex-col md:hidden"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
+            className="fixed inset-0 z-40 flex flex-col items-center justify-center p-8 md:hidden"
             style={{
               backgroundColor: "hsl(var(--background))",
             }}
           >
-            {/* Spacer for navbar height */}
-            <div className="h-[65px] flex-shrink-0" />
-
-            {/* Nav links — large typography */}
-            <div className="flex flex-1 flex-col justify-center px-8">
-              <ul className="flex flex-col gap-2">
-                {NAV_LINKS.map(({ label, to }, i) => (
-                  <motion.li
-                    key={to}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.2 + i * 0.1 }}
-                  >
-                    <Link
-                      to={to}
-                      onClick={handleNavClick(to)}
-                      className="block py-4 transition-all duration-300 hover:pl-2"
-                      style={{
-                        fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
-                        fontWeight: 900,
-                        fontSize: "clamp(42px, 12vw, 64px)",
-                        lineHeight: "1",
-                        letterSpacing: "-2px",
-                        color: "hsl(var(--foreground))",
-                        textDecoration: "none",
-                        opacity: pathname === to ? 1 : 0.25,
-                      }}
-                    >
-                      {label}
-                    </Link>
-                  </motion.li>
-                ))}
-              </ul>
-
-              {/* Divider */}
-              <motion.div
-                initial={{ opacity: 0, scaleX: 0 }}
-                animate={{ opacity: 1, scaleX: 1 }}
-                transition={{ delay: 0.6 }}
-                className="my-8 w-12 origin-left"
-                style={{ height: "1px", backgroundColor: "hsl(var(--foreground) / 0.15)" }}
-              />
-
-              {/* Bottom links */}
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.7 }}
-                className="flex flex-col gap-4"
-              >
-                <a
-                  href="#"
-                  style={{
-                    fontFamily: "Inter",
-                    fontWeight: 400,
-                    fontSize: "15px",
-                    color: "hsl(var(--foreground))",
-                    textDecoration: "none",
-                    opacity: 0.5,
+            <div className="flex flex-col items-center justify-center gap-6 w-full">
+              {MOBILE_NAV_LINKS.map((link, i) => (
+                <motion.div
+                  key={link.to}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ 
+                    duration: 0.5, 
+                    delay: 0.1 + i * 0.06,
+                    ease: [0.4, 0, 0.2, 1] 
                   }}
                 >
-                  Shop
-                </a>
-                <Link to="/inquiries" onClick={handleNavClick("/inquiries")} className="inquiry-btn" style={{ fontSize: "14px" }}>
-                  Inquiries
+                  <Link
+                    to={link.to}
+                    onClick={() => setMenuOpen(false)}
+                    className={`text-3xl font-semibold transition-all duration-300 ${
+                      pathname === link.to 
+                        ? "text-foreground" 
+                        : "text-muted-foreground hover:text-foreground"
+                    }`}
+                  >
+                    {link.label}
+                  </Link>
+                </motion.div>
+              ))}
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ 
+                  duration: 0.5, 
+                  delay: 0.1 + MOBILE_NAV_LINKS.length * 0.06,
+                  ease: [0.4, 0, 0.2, 1] 
+                }}
+                className="mt-6"
+              >
+                <Link 
+                  to="/inquiry" 
+                  onClick={() => setMenuOpen(false)} 
+                  className="inquiry-btn-mobile"
+                >
+                  Start Inquiry
                   <span className="inquiry-btn__icon">
                     <svg viewBox="0 0 14 15" fill="none" width="10" className="inquiry-btn__svg">
                       <path
@@ -288,22 +272,6 @@ export default function Navbar() {
                 </Link>
               </motion.div>
             </div>
-
-            {/* Footer of overlay */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.8 }}
-              className="px-8 pb-10"
-              style={{
-                borderTop: "1px solid hsl(var(--foreground) / 0.08)",
-                paddingTop: "24px",
-              }}
-            >
-              <p style={{ fontFamily: "Inter", fontSize: "13px", color: "hsl(var(--foreground))", opacity: 0.35 }}>
-                djamel@hrwl.studio
-              </p>
-            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>

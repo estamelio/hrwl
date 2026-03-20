@@ -11,7 +11,7 @@ import { ScrollReveal } from "@/components/ScrollReveal";
 import heroThumb from "@/assets/hero-thumb.png";
 import WorkCard from "@/components/WorkCard";
 import { CASES } from "@/data/cases";
-import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { useState } from "react";
 
 const WHAT_I_DO = [
@@ -76,20 +76,22 @@ export default function Index() {
   return (
     <div className="min-h-screen bg-background text-foreground font-inter">
       <main className="overflow-x-hidden">
-        {/* Full Viewport Hero Section */}
-        <div className="min-h-[90vh] md:min-h-screen flex flex-col items-center justify-center pt-28 overflow-hidden relative">
+        {/* ═══ First Viewport: Hero Video Only ═══ */}
+        <div className="min-h-[90vh] md:min-h-screen flex items-center justify-center pt-20 pb-8 md:pt-24 md:pb-12 overflow-hidden relative">
+          {/* Ambient glow */}
           <div className="absolute inset-0 z-0 pointer-events-none">
             <div className="absolute top-[20%] left-1/2 h-[500px] w-[800px] -translate-x-1/2 opacity-20 blur-[120px] bg-gradient-to-r from-primary/30 to-blue-500/20 rounded-full" />
           </div>
-          <section className="w-full px-6 flex flex-col items-center">
+
+          <section className="w-full px-4 sm:px-6 md:px-8 flex flex-col items-center">
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-              className="relative flex justify-center mb-16"
-              style={{ maxWidth: "850px", width: "100%" }}
+              className="relative flex justify-center w-full"
+              style={{ maxWidth: "1100px" }}
             >
-              {/* Blue glow */}
+              {/* Blue glow behind video */}
               <div
                 className="absolute pointer-events-none"
                 style={{
@@ -103,8 +105,9 @@ export default function Index() {
                   borderRadius: "50%",
                 }}
               />
+              {/* Video container — ready for <video> embed */}
               <div
-                className="relative overflow-hidden rounded-[24px] w-full shadow-2xl"
+                className="relative overflow-hidden rounded-[16px] sm:rounded-[20px] md:rounded-[24px] w-full shadow-2xl"
                 style={{
                   backgroundColor: "#0F0F0F",
                   aspectRatio: "16/9",
@@ -117,174 +120,147 @@ export default function Index() {
                 />
                 <div className="absolute inset-0 bg-black/10" />
 
-                <div className="absolute left-8 top-8">
-                  <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/10">
-                    <div className="w-2 h-2 rounded-full bg-[#E7E5E4] animate-pulse" />
-                    <span className="text-[10px] font-bold tracking-[0.2em] text-white uppercase">Video Reel</span>
+                <div className="absolute left-4 top-4 sm:left-6 sm:top-6 md:left-8 md:top-8">
+                  <div className="inline-flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/10">
+                    <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-[#E7E5E4] animate-pulse" />
+                    <span className="text-[8px] sm:text-[10px] font-bold tracking-[0.2em] text-white uppercase">Video Reel</span>
                   </div>
                 </div>
 
-                <div className="absolute bottom-10 left-10 right-10 flex items-center justify-between">
-                  <h3 className="text-2xl md:text-3xl font-bold text-white tracking-tight">Showreel 2024</h3>
-                  <div className="w-12 h-12 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center transition-transform hover:scale-110">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" /></svg>
+                <div className="absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 sm:right-6 md:bottom-10 md:left-10 md:right-10 flex items-center justify-between">
+                  <h3 className="text-lg sm:text-2xl md:text-3xl font-bold text-white tracking-tight">Showreel 2024</h3>
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center transition-transform hover:scale-110 cursor-pointer">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" className="sm:w-5 sm:h-5"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" /></svg>
                   </div>
                 </div>
               </div>
             </motion.div>
-
-            <ScrollReveal delay={0.4}>
-              <div className="text-center">
-                <h1
-                  className="mb-8"
-                  style={{
-                    fontFamily: "'Helvetica Now Text', 'Helvetica Neue', Helvetica, Arial, sans-serif",
-                    fontWeight: 900,
-                    fontSize: "clamp(24px, 3vw, 42px)",
-                    lineHeight: "1.15",
-                    letterSpacing: "0.72px",
-                    color: "hsl(var(--foreground))",
-                    maxWidth: "1240px",
-                    margin: "0 auto 24px auto"
-                  }}
-                >
-                  Cinematic Brand Films
-                  <br />
-                  That make your product impossible to ignore
-                </h1>
-                <p
-                  className="mb-12 max-w-2xl mx-auto font-medium"
-                  style={{
-                    fontFamily: "Inter",
-                    fontWeight: 500,
-                    fontSize: "clamp(14px, 1.3vw, 19px)",
-                    lineHeight: "clamp(22px, 2.5vw, 34px)",
-                    color: "hsl(var(--muted-foreground))",
-                  }}
-                >
-                  Freelance Motion Designer & Creative Director crafting high-ROI visual stories for ambitious brands.
-                </p>
-
-                <div className="flex flex-wrap items-center justify-center gap-4 mt-6">
-                  <Link to="/inquiries" className="px-12 py-5 rounded-full bg-foreground text-background font-bold text-base shadow-xl transition-all hover:scale-[1.03] active:scale-[0.98]">
-                    Start Inquiry
-                  </Link>
-                  <Link to="/work" className="px-12 py-5 rounded-full bg-muted/30 border border-border/50 text-foreground font-bold text-base backdrop-blur-sm transition-all hover:bg-muted/50">
-                    See Case Studies
-                  </Link>
-                </div>
-              </div>
-            </ScrollReveal>
           </section>
         </div>
 
-        {/* Selected Work Grid */}
-        <section className="px-8 md:px-12 lg:px-20 py-20 max-w-[1700px] mx-auto border-t border-border/30">
-          <ScrollReveal>
-            <div className="flex flex-col mb-16">
-              <span className="text-[10px] font-bold tracking-[0.2em] text-muted-foreground uppercase mb-3 px-1">Recent Work</span>
-              <div className="flex items-end justify-between">
-                <h2
-                  className="text-left"
-                  style={{
-                    fontFamily: "Inter, sans-serif",
-                    fontWeight: 800,
-                    fontSize: "clamp(32px, 5vw, 68px)",
-                    lineHeight: "1",
-                    letterSpacing: "-3.5px",
-                    color: "hsl(var(--foreground))",
-                  }}
-                >
-                  Selected Projects
-                </h2>
-                <Link to="/work" className="flex items-center gap-1.5 text-xs font-bold opacity-60 hover:opacity-100 transition-all uppercase tracking-widest mt-auto mb-2">
-                  View All <ArrowRight className="w-3.5 h-3.5 rotate-[-45deg]" />
+        {/* ═══ Headline + CTA (below the fold) ═══ */}
+        <section className="px-6 md:px-12 py-16 md:py-24">
+          <ScrollReveal delay={0.15}>
+            <div className="text-center max-w-[1240px] mx-auto">
+              <h1
+                className="mb-6 md:mb-8"
+                style={{
+                  fontFamily: "Inter, sans-serif",
+                  fontWeight: 900,
+                  fontSize: "clamp(24px, 3vw, 42px)",
+                  lineHeight: "1.15",
+                  letterSpacing: "0.72px",
+                  color: "hsl(var(--foreground))",
+                }}
+              >
+                Cinematic Brand Films
+                <br />
+                That make your product impossible to ignore
+              </h1>
+              <p
+                className="mb-10 md:mb-12 max-w-2xl mx-auto font-medium"
+                style={{
+                  fontFamily: "Inter, sans-serif",
+                  fontWeight: 500,
+                  fontSize: "clamp(14px, 1.3vw, 19px)",
+                  lineHeight: "clamp(22px, 2.5vw, 34px)",
+                  color: "hsl(var(--muted-foreground))",
+                }}
+              >
+                Freelance Motion Designer &amp; Creative Director crafting high-ROI visual stories for ambitious brands.
+              </p>
+
+              <div className="flex flex-wrap items-center justify-center gap-4">
+                <Link to="/inquiry" className="min-w-[220px] text-center px-10 py-5 rounded-full bg-foreground text-background font-bold text-base shadow-xl transition-all hover:scale-[1.03] active:scale-[0.98]">
+                  Start Inquiry
+                </Link>
+                <Link to="/work" className="min-w-[220px] text-center px-10 py-5 rounded-full bg-muted/30 border border-border/50 text-foreground font-bold text-base backdrop-blur-sm transition-all hover:bg-muted/50">
+                  See Case Studies
                 </Link>
               </div>
             </div>
           </ScrollReveal>
+        </section>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 lg:gap-14">
-            {CASES.slice(0, 3).map((project, i) => (
-              <ScrollReveal key={project.id} delay={i * 0.1}>
-                <Link to={project.comingSoon ? "#" : `/work/${project.id}`} className="group block relative">
-                  <div className="relative aspect-[4/3] overflow-hidden rounded-[20px] bg-muted/20 mb-6 transition-all duration-500 group-hover:scale-[0.98]">
-                    <img
-                      src={project.comingSoon ? "" : "/placeholder.svg"} 
-                      alt={project.title}
-                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                    />
-                    
-                    {/* Hover Arrow Circle */}
-                    {!project.comingSoon && (
-                      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <div className="w-12 h-12 rounded-full bg-foreground text-background flex items-center justify-center shadow-xl transform scale-75 group-hover:scale-100 transition-transform duration-300">
-                          <ArrowUpRight className="w-5 h-5" />
-                        </div>
-                      </div>
-                    )}
+        {/* Selected Work — lovable style */}
+        <section className="px-6 lg:px-12 py-24">
+          <div className="max-w-[1200px] mx-auto">
+            <div className="flex items-end justify-between mb-12">
+              <div>
+                <p className="text-[11px] uppercase tracking-[0.15em] text-muted-foreground mb-2 font-medium">
+                  Recent Work
+                </p>
+                <h2 className="text-2xl md:text-3xl font-semibold tracking-tight">Selected Projects</h2>
+              </div>
+              <Link
+                to="/work"
+                className="hidden md:flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors duration-300"
+              >
+                View All
+                <ArrowUpRight className="w-3.5 h-3.5" />
+              </Link>
+            </div>
 
-                    <div className="absolute inset-0 flex items-center justify-center opacity-5 group-hover:opacity-0 transition-opacity group-hover:duration-300 pointer-events-none">
-                      <span className="text-8xl font-black text-foreground">0{i + 1}</span>
+            <div className="grid md:grid-cols-3 gap-5">
+              {CASES.filter(c => !c.comingSoon).slice(0, 3).map((project, i) => (
+                <Link key={project.id} to={`/work/${project.id}`} className="group block">
+                  <div className="aspect-[4/3] bg-foreground rounded-xl mb-3 overflow-hidden relative card-elevated">
+                    <div className="absolute inset-0 bg-gradient-to-br from-foreground/80 to-foreground flex items-center justify-center">
+                      <span className="text-4xl font-bold text-background/8 group-hover:text-background/15 transition-colors duration-500">
+                        0{i + 1}
+                      </span>
                     </div>
-                    
-                    {project.comingSoon && (
-                      <div className="absolute inset-0 bg-background/40 backdrop-blur-[2px] flex items-center justify-center">
-                        <span className="px-5 py-2 rounded-full bg-foreground text-background text-[10px] font-black tracking-widest uppercase">
-                          COMING SOON
-                        </span>
+                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-400">
+                      <div className="w-10 h-10 rounded-full bg-background text-foreground flex items-center justify-center shadow-lg">
+                        <ArrowUpRight className="w-4 h-4" />
                       </div>
-                    )}
+                    </div>
                   </div>
-                  <div className="flex flex-col">
-                    <div className="flex items-baseline justify-between mb-1">
-                      <h3 className="text-xl font-bold tracking-tight text-foreground group-hover:text-muted-foreground transition-colors truncate">
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <h3 className="text-sm font-semibold mb-0.5 group-hover:text-muted-foreground transition-colors duration-300">
                         {project.title.split(" — ")[0]}
                       </h3>
-                      <span className="text-[11px] font-mono text-muted-foreground/40">{project.year}</span>
+                      <p className="text-xs text-muted-foreground">{project.production || "Brand System"}</p>
                     </div>
-                    <p className="text-xs font-medium text-muted-foreground/60 uppercase tracking-wider">
-                      {project.production || "Brand System"}
-                    </p>
+                    <span className="text-[11px] font-mono text-muted-foreground/60">{project.year}</span>
                   </div>
                 </Link>
-              </ScrollReveal>
-            ))}
+              ))}
+            </div>
+
+            <Link
+              to="/work"
+              className="md:hidden flex items-center justify-center gap-2 text-sm font-medium mt-10 text-muted-foreground"
+            >
+              View All Work
+              <ArrowUpRight className="w-4 h-4" />
+            </Link>
           </div>
         </section>
 
-        {/* What I Do */}
-        <section className="px-8 md:px-12 lg:px-20 py-20 bg-muted/5">
-          <div className="max-w-[1500px] mx-auto">
-            <ScrollReveal>
-              <div className="flex flex-col items-center text-center mb-24">
-                <span className="text-[10px] font-bold tracking-[0.2em] text-muted-foreground uppercase mb-4">What I Do</span>
-                <h2
-                  style={{
-                    fontFamily: "Inter, sans-serif",
-                    fontWeight: 800,
-                    fontSize: "clamp(32px, 5vw, 68px)",
-                    lineHeight: "1.05",
-                    letterSpacing: "-3.5px",
-                    color: "hsl(var(--foreground))",
-                    maxWidth: "900px",
-                  }}
-                >
-                  Creative solutions for <br />
-                  <span className="text-muted-foreground">business problems.</span>
-                </h2>
-              </div>
-            </ScrollReveal>
+        {/* What I Do — lovable style */}
+        <section className="px-6 lg:px-12 py-24">
+          <div className="max-w-[900px] mx-auto">
+            <div className="text-center mb-12">
+              <p className="text-[11px] uppercase tracking-[0.15em] text-muted-foreground mb-2 font-medium">
+                What I Do
+              </p>
+              <h2 className="text-2xl md:text-3xl font-semibold tracking-tight">
+                Creative solutions for business problems.
+              </h2>
+            </div>
 
-            <div className="grid md:grid-cols-3 gap-8">
+            <div className="grid md:grid-cols-3 gap-4">
               {WHAT_I_DO.map((item, i) => (
-                <ScrollReveal key={i} delay={i * 0.1}>
-                  <div className="p-10 rounded-[32px] bg-white dark:bg-[#0E0E0E] border border-border/40 shadow-subtle hover:border-foreground/20 transition-all group min-h-[280px] flex flex-col">
-                    <span className="text-2xl font-mono font-bold text-muted-foreground/30 mb-10 block group-hover:text-foreground/50 transition-colors uppercase">{item.num}</span>
-                    <h3 className="text-2xl font-bold mb-5 tracking-tight">{item.title}</h3>
-                    <p className="text-muted-foreground/70 text-base leading-relaxed font-medium">{item.description}</p>
-                  </div>
-                </ScrollReveal>
+                <div
+                  key={i}
+                  className="p-6 bg-card rounded-xl border border-border/60 card-elevated"
+                >
+                  <span className="text-[11px] font-mono text-muted-foreground/50">{item.num}</span>
+                  <h3 className="text-base font-semibold mt-3 mb-2">{item.title}</h3>
+                  <p className="text-muted-foreground text-sm leading-relaxed">{item.description}</p>
+                </div>
               ))}
             </div>
           </div>
@@ -297,8 +273,8 @@ export default function Index() {
               <div>
                 <h2
                   style={{
-                    fontFamily: "'Helvetica Light', 'Helvetica Neue', Helvetica, Arial, sans-serif",
-                    fontWeight: 400,
+                    fontFamily: "Inter, sans-serif",
+                    fontWeight: 600,
                     fontSize: "clamp(28px, 4.5vw, 64px)",
                     lineHeight: "1.1",
                     letterSpacing: "-2.45px",
@@ -310,8 +286,8 @@ export default function Index() {
                 </h2>
                 <h2
                   style={{
-                    fontFamily: "'Helvetica Light', 'Helvetica Neue', Helvetica, Arial, sans-serif",
-                    fontWeight: 400,
+                    fontFamily: "Inter, sans-serif",
+                    fontWeight: 600,
                     fontSize: "clamp(28px, 4.5vw, 64px)",
                     lineHeight: "1.1",
                     letterSpacing: "-2.45px",
@@ -324,7 +300,7 @@ export default function Index() {
                 </h2>
               </div>
               <div className="flex-shrink-0">
-                <Link to="/inquiries" className="faq-start-inquiry inline-flex">
+                <Link to="/inquiry" className="faq-start-inquiry inline-flex">
                   Start Inquiry
                 </Link>
               </div>

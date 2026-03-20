@@ -72,7 +72,7 @@ export default function CTABanner() {
             </a>
           </p>
           <Link
-            to="/inquiries"
+            to="/inquiry"
             className="faq-start-inquiry"
           >
             Start Inquiry

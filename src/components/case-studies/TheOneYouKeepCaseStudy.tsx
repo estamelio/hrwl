@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight, Play, Pause, ChevronDown, ChevronUp, ExternalLink, Quote } from "lucide-react";
 import { Case } from "@/data/cases";
 import Footer from "@/components/Footer";
-import BackToWork from "@/components/BackToWork";
 import voiceoverAudio from "@/assets/the-one-you-keep-vo.mp3";
 
 const SCRIPT_PREVIEW = `Sometimes, there comes a time… when silence feels too loud,
@@ -57,7 +56,6 @@ interface Props {
   nextCase: Case;
 }
 
-// Smooth collapsible section — no box, clean typography
 const CollapsibleSection = ({
   title,
   children,
@@ -68,33 +66,31 @@ const CollapsibleSection = ({
   children: React.ReactNode;
   isOpen: boolean;
   onToggle: () => void;
-}) => {
-  return (
-    <div className="border-b border-border/60 last:border-0">
-      <button
-        onClick={onToggle}
-        className="w-full flex items-center justify-between py-5 text-left group"
-      >
-        <h2 className="text-xl md:text-2xl font-semibold tracking-tight group-hover:opacity-70 transition-opacity duration-300">{title}</h2>
-        <div className="flex items-center gap-2 flex-shrink-0">
-          <span className="text-xs text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-            {isOpen ? "Collapse" : "Read"}
-          </span>
-          <ChevronDown
-            className={`w-5 h-5 text-muted-foreground transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] ${isOpen ? "rotate-180" : ""}`}
-            />
-        </div>
-      </button>
-      <div
-        className={`grid transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] ${isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}
-      >
-        <div className="overflow-hidden">
-          <div className="pb-8">{children}</div>
-        </div>
+}) => (
+  <div className="border-b border-border/60 last:border-0">
+    <button
+      onClick={onToggle}
+      className="w-full flex items-center justify-between py-5 text-left group"
+    >
+      <h2 className="text-lg md:text-xl font-semibold tracking-tight group-hover:opacity-70 transition-opacity duration-300">{title}</h2>
+      <div className="flex items-center gap-2 flex-shrink-0">
+        <span className="text-xs text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          {isOpen ? "Collapse" : "Read"}
+        </span>
+        <ChevronDown
+          className={`w-5 h-5 text-muted-foreground transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] ${isOpen ? "rotate-180" : ""}`}
+        />
+      </div>
+    </button>
+    <div
+      className={`grid transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] ${isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}
+    >
+      <div className="overflow-hidden">
+        <div className="pb-8">{children}</div>
       </div>
     </div>
-  );
-};
+  </div>
+);
 
 const VOPlayer = () => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -130,7 +126,7 @@ const VOPlayer = () => {
     <div className="flex items-center gap-3 bg-surface/50 rounded-full border border-border px-4 py-2.5 max-w-md">
       <button
         onClick={toggle}
-        className="w-10 h-10 rounded-full bg-foreground text-background flex items-center justify-center flex-shrink-0 hover:scale-105 transition-transform duration-300"
+        className="w-10 h-10 rounded-full bg-foreground text-background flex items-center justify-center flex-shrink-0 hover:scale-105 active:scale-95 transition-transform duration-300"
       >
         {isPlaying ? <Pause className="w-4 h-4" fill="currentColor" /> : <Play className="w-4 h-4 ml-0.5" fill="currentColor" />}
       </button>
@@ -168,9 +164,7 @@ const TheOneYouKeepCaseStudy = ({ caseData, nextCase }: Props) => {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      <BackToWork />
-
+    <div className="min-h-screen bg-background">
       {/* Hero */}
       <section className="pt-24 pb-6 px-6">
         <div className="max-w-[900px] mx-auto">
@@ -178,7 +172,7 @@ const TheOneYouKeepCaseStudy = ({ caseData, nextCase }: Props) => {
             <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground border border-border rounded-full px-2.5 py-1">Case Study</span>
             <span className="text-xs font-mono text-muted-foreground">{caseData.year}</span>
           </div>
-          <h1 className="text-3xl md:text-5xl font-bold leading-[1.1] tracking-tight mb-4">{caseData.title}</h1>
+          <h1 className="text-2xl md:text-4xl font-semibold leading-[1.1] tracking-tight mb-4">{caseData.title}</h1>
           <p className="text-lg md:text-xl text-muted-foreground max-w-[640px] leading-relaxed">{caseData.overview}</p>
         </div>
       </section>
@@ -204,7 +198,7 @@ const TheOneYouKeepCaseStudy = ({ caseData, nextCase }: Props) => {
               { label: "Format", value: "Brand Film" },
               { label: "Production", value: caseData.production },
               { label: "Year", value: caseData.year },
-              { label: "Team", value: `${caseData.credits.length} specialists` },
+              { label: "Roles", value: `${caseData.credits.length} roles` },
             ].map((stat, i) => (
               <div key={i} className="bg-surface/40 rounded-lg p-4 border border-border/50">
                 <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">{stat.label}</p>
@@ -262,7 +256,6 @@ const TheOneYouKeepCaseStudy = ({ caseData, nextCase }: Props) => {
               <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
                 The intent was not to impress. It was to test whether <strong className="text-foreground">emotion could be manufactured on demand</strong>, using the same rigor typically reserved for commercial work.
               </p>
-              {/* Visual references */}
               <div className="grid md:grid-cols-2 gap-3 mt-6">
                 <div className="aspect-video bg-surface/50 rounded-lg border border-border border-dashed flex items-center justify-center">
                   <span className="text-xs text-muted-foreground">Reference visual</span>
@@ -277,16 +270,16 @@ const TheOneYouKeepCaseStudy = ({ caseData, nextCase }: Props) => {
           {/* Emotional Objective */}
           <CollapsibleSection title="Emotional Objective" isOpen={!!openSections.emotional} onToggle={() => toggleSection("emotional")}>
             <div className="space-y-5">
-              <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
-                Make the viewer feel <strong className="text-foreground">seen — not told.</strong> The film needed to bypass intellect and land directly in memory. Not through spectacle, but through restraint, rhythm, and the quiet power of saying less than you mean.
+              <p className="text-base md:text-lg text-foreground/90 leading-relaxed font-medium italic">
+                "The feeling of realizing someone mattered more than you've ever said out loud."
               </p>
               <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
-                The emotional target was specific: <strong className="text-foreground">nostalgia layered with genuine warmth</strong>, delivered through a medium the recipient wouldn't expect — animation, poetry, and sound working together as a single emotional unit.
+                This is the emotional state that drives memorability, loyalty, and long-term attachment — exactly what brands struggle to achieve with surface-level storytelling.
               </p>
             </div>
           </CollapsibleSection>
 
-          {/* Constraints & Creative Decisions — merged */}
+          {/* Constraints & Creative Decisions */}
           <CollapsibleSection title="Constraints & Creative Decisions" isOpen={!!openSections.constraints} onToggle={() => toggleSection("constraints")}>
             <div className="space-y-8">
               <div className="grid md:grid-cols-2 gap-8">
@@ -294,10 +287,11 @@ const TheOneYouKeepCaseStudy = ({ caseData, nextCase }: Props) => {
                   <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-4">Constraints</h3>
                   <ul className="space-y-3">
                     {[
-                      "Single audience — crafted for one person",
-                      "Personal emotion as the sole input",
-                      "No commercial brief or brand guidelines",
-                      "Budget: zero — only skill and time",
+                      "One month to complete the project",
+                      "No client brief",
+                      "Personal initiative outside commercial work",
+                      "One creator acting as writer, director, designer, animator, and producer",
+                      "One month of overinvestment into a non-monetized outcome",
                     ].map((item, i) => (
                       <li key={i} className="flex gap-3 text-base text-muted-foreground leading-relaxed">
                         <span className="text-foreground font-bold mt-0.5">·</span>
@@ -307,24 +301,17 @@ const TheOneYouKeepCaseStudy = ({ caseData, nextCase }: Props) => {
                   </ul>
                 </div>
                 <div>
-                  <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-4">Decisions</h3>
-                  <ul className="space-y-3">
-                    {[
-                      { decision: "Pixel art over clean vector", reason: "nostalgia as emotional shortcut" },
-                      { decision: "Poem-first", reason: "visuals serve the writing, not the other way around" },
-                      { decision: "Frame-by-frame animation", reason: "intentional imperfection" },
-                      { decision: "Restraint compounds emotion", reason: "less is more" },
-                    ].map((item, i) => (
-                      <li key={i} className="flex gap-3 text-base text-muted-foreground leading-relaxed">
-                        <span className="text-foreground font-bold mt-0.5">·</span>
-                        <span><strong className="text-foreground">{item.decision}</strong> — {item.reason}</span>
-                      </li>
-                    ))}
-                  </ul>
+                  <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-4">Creative Decisions</h3>
+                  <div className="space-y-4 text-base text-muted-foreground leading-relaxed">
+                    <p>Nothing was added to make the film more impressive. Elements were added only if they <strong className="text-foreground">sharpened meaning.</strong></p>
+                    <p>If a moment could be felt without being shown, it was removed. If an idea could be implied instead of explained, it was implied.</p>
+                    <p>The film avoided spectacle by design. <strong className="text-foreground">No visual flexing. No unnecessary motion.</strong></p>
+                    <p>The role of craft was to disappear behind intent.</p>
+                    <p className="text-sm border-t border-border/50 pt-4 mt-4">
+                      This approach mirrors how high-performing brand narratives work: <em>they don't demand attention — they earn it.</em>
+                    </p>
+                  </div>
                 </div>
-              </div>
-              <div className="aspect-[21/9] bg-surface/50 rounded-lg border border-border border-dashed flex items-center justify-center">
-                <span className="text-xs text-muted-foreground">Visual reference</span>
               </div>
             </div>
           </CollapsibleSection>
@@ -332,9 +319,22 @@ const TheOneYouKeepCaseStudy = ({ caseData, nextCase }: Props) => {
           {/* Impact & Testimonial */}
           <CollapsibleSection title="Impact & Testimonial" isOpen={!!openSections.impact} onToggle={() => toggleSection("impact")}>
             <div className="space-y-8">
-              <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
-                {caseData.result}
+              <p className="text-base md:text-lg text-foreground/90 leading-relaxed font-medium">
+                The film achieved its primary objective: it stayed with people.
               </p>
+              <ul className="space-y-2">
+                {[
+                  "Demonstrates end-to-end creative direction",
+                  "Shows emotional engineering under constraint",
+                  "Signals authorship, restraint, and judgment",
+                  "Proves collaboration without creative dilution",
+                ].map((item, i) => (
+                  <li key={i} className="flex gap-3 text-base text-muted-foreground">
+                    <span className="text-foreground font-bold mt-0.5">·</span>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
 
               {/* Testimonial */}
               <div className="rounded-xl border border-border p-6 md:p-8">
@@ -371,28 +371,30 @@ const TheOneYouKeepCaseStudy = ({ caseData, nextCase }: Props) => {
 
           {/* Why This Matters */}
           <CollapsibleSection title="Why This Matters to Brands" isOpen={!!openSections.why} onToggle={() => toggleSection("why")}>
-            <div className="space-y-4">
-              <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
-                This project proves that <strong className="text-foreground">emotional engineering is a predictable, repeatable business asset</strong> — not just an artistic choice.
+            <div className="space-y-5 text-base md:text-lg text-muted-foreground leading-relaxed">
+              <p>Most brands chase attention.<br />Few invest in recall.</p>
+              <p>
+                <em>The One You Keep</em> exists to show that emotional storytelling is not an indulgence — <strong className="text-foreground">it's a system.</strong>
               </p>
-              <p className="text-base text-muted-foreground leading-relaxed">
-                If a single birthday message can leave someone speechless, imagine what this level of intentional craft can do for a brand launch, a product reveal, or a campaign that needs to be <em>remembered</em>.
+              <p>
+                When intention, narrative, visuals, and sound are aligned, emotion becomes predictable. <strong className="text-foreground">Predictable emotion becomes a business asset.</strong>
               </p>
-              <div className="mt-4 py-4 border-t border-border/50">
-                <p className="text-lg font-semibold text-center">
-                  Governing principle: <span className="text-muted-foreground font-normal">restraint compounds emotion</span>
-                </p>
-              </div>
+              <p>
+                This project wasn't created to be sold. It was created to prove that it <em>could</em> be.
+              </p>
+              <p className="text-sm border-t border-border/50 pt-4">
+                That distinction is the difference between content that performs — and stories that endure.
+              </p>
             </div>
           </CollapsibleSection>
         </div>
       </section>
 
-      {/* Production Breakdown — visible by default, collapsible */}
+      {/* Production Breakdown — visible by default */}
       <section className="px-6 mb-10">
         <div className="max-w-[900px] mx-auto">
           <CollapsibleSection title="Production Breakdown" isOpen={openSections.production !== false} onToggle={() => toggleSection("production")}>
-            {/* Script / Poem */}
+            {/* Script */}
             <div className="mb-10">
               <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-4">Script / Poem</h3>
               <div className="bg-surface/30 rounded-xl border border-border p-6 md:p-8">
@@ -421,12 +423,26 @@ const TheOneYouKeepCaseStudy = ({ caseData, nextCase }: Props) => {
               <VOPlayer />
             </div>
 
-            {/* Storyboard / Styleframes */}
+            {/* Process Videos */}
+            <div className="mb-10">
+              <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-4">Process</h3>
+              <p className="text-sm text-muted-foreground mb-4">Script → Moodboard → Storyboard → Style Frames → Animation pipeline.</p>
+              <div className="grid md:grid-cols-2 gap-3">
+                <div className="bg-surface/50 rounded-lg border border-border border-dashed flex items-center justify-center" style={{ aspectRatio: "1152 / 720" }}>
+                  <span className="text-xs text-muted-foreground">Process Video 01</span>
+                </div>
+                <div className="bg-surface/50 rounded-lg border border-border border-dashed flex items-center justify-center" style={{ aspectRatio: "1080 / 720" }}>
+                  <span className="text-xs text-muted-foreground">Process Video 02</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Storyboard */}
             <div className="mb-10">
               <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-4">Storyboard / Styleframes</h3>
               <div className="grid grid-cols-4 gap-2">
-                {Array.from({ length: 16 }).map((_, i) => (
-                  <div key={i} className="aspect-video bg-surface/50 rounded-lg border border-border border-dashed flex items-center justify-center transition-colors duration-300 hover:bg-surface/80">
+                {Array.from({ length: 12 }).map((_, i) => (
+                  <div key={i} className="aspect-video bg-surface/50 rounded-lg border border-border border-dashed flex items-center justify-center hover:bg-surface/80 transition-colors duration-300">
                     <span className="text-[10px] text-muted-foreground/40 font-mono">{String(i + 1).padStart(2, "0")}</span>
                   </div>
                 ))}
@@ -441,7 +457,7 @@ const TheOneYouKeepCaseStudy = ({ caseData, nextCase }: Props) => {
               </p>
               <div className="grid grid-cols-3 md:grid-cols-6 gap-2">
                 {Array.from({ length: 6 }).map((_, i) => (
-                  <div key={i} className="aspect-square bg-surface/50 rounded-lg border border-border border-dashed flex items-center justify-center transition-colors duration-300 hover:bg-surface/80">
+                  <div key={i} className="aspect-square bg-surface/50 rounded-lg border border-border border-dashed flex items-center justify-center hover:bg-surface/80 transition-colors duration-300">
                     <span className="text-[10px] text-muted-foreground/40 font-mono">GIF {String(i + 1).padStart(2, "0")}</span>
                   </div>
                 ))}
@@ -462,7 +478,7 @@ const TheOneYouKeepCaseStudy = ({ caseData, nextCase }: Props) => {
               <p className="text-base text-muted-foreground mb-4 leading-relaxed">Explorations and designs that didn't make the final cut.</p>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
                 {Array.from({ length: 8 }).map((_, i) => (
-                  <div key={i} className="aspect-square bg-surface/50 rounded-lg border border-border border-dashed flex items-center justify-center transition-colors duration-300 hover:bg-surface/80">
+                  <div key={i} className="aspect-square bg-surface/50 rounded-lg border border-border border-dashed flex items-center justify-center hover:bg-surface/80 transition-colors duration-300">
                     <span className="text-[10px] text-muted-foreground/40 font-mono">R&D {String(i + 1).padStart(2, "0")}</span>
                   </div>
                 ))}
@@ -475,7 +491,7 @@ const TheOneYouKeepCaseStudy = ({ caseData, nextCase }: Props) => {
       {/* Credits */}
       <section className="px-6 mb-16">
         <div className="max-w-[900px] mx-auto">
-          <h2 className="text-2xl md:text-3xl font-bold mb-8 tracking-tight">Credits</h2>
+          <h2 className="text-2xl md:text-3xl font-bold mb-8 tracking-tight">Roles & Credits</h2>
           <div className="grid md:grid-cols-2 gap-x-12 gap-y-1">
             {caseData.credits.map((credit, i) => (
               <div key={i} className="flex items-center justify-between py-4 border-b border-border/60">
@@ -514,8 +530,6 @@ const TheOneYouKeepCaseStudy = ({ caseData, nextCase }: Props) => {
           </Link>
         </div>
       </div>
-
-      <Footer />
     </div>
   );
 };
