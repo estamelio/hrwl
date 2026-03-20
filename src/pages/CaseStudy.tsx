@@ -48,10 +48,14 @@ const CaseStudy = () => {
   }
 
   // Wrapper function to add BackToWork to any case
+  // Wrapper function to add BackToWork to any case
   const withNavigation = (content: React.ReactNode) => (
-    <div className="min-h-screen bg-background">
-      <BackToWork />
-      {content}
+    <div className="min-h-screen bg-background flex flex-col">
+      <div className="flex-1">
+        <BackToWork />
+        {content}
+      </div>
+      <Footer />
     </div>
   );
 
