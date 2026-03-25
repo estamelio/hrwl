@@ -20,7 +20,16 @@ export interface Case {
   approach?: string;
   keyHighlight?: string;
   comingSoon?: boolean;
+  thumbnail?: string;
 }
+
+
+import hrwlLaunchThumb from "../assets/Thumbnails - work grids/Launch Campaign/Launch Campaign.webp";
+import hrwlIdentityThumb from "../assets/Thumbnails - work grids/Visual Identity - Hrwl/Visual Identity - Hrwl.webp";
+import hrwlBrandFilmThumb from "../assets/Thumbnails - work grids/Brand Film - Hrwl/Brand Film - HRWL.webp";
+import noxisrosThumb from "../assets/Thumbnails - work grids/Noxisros/Noxisros.webp";
+import googleThumb from "../assets/Thumbnails - work grids/Google/Google.webp";
+import theOneYouKeepThumb from "../assets/Thumbnails - work grids/The One You Keep/The One You Keep.webp";
 
 export const CASES: Case[] = [
   {
@@ -40,6 +49,7 @@ export const CASES: Case[] = [
       { role: "Motion Design", name: "Djamel Haroual" },
       { role: "Sound Design & Music", name: "Yuhui (Kelvin) Jian" },
     ],
+    thumbnail: hrwlLaunchThumb,
   },
   {
     id: "hrwl",
@@ -57,6 +67,7 @@ export const CASES: Case[] = [
       { role: "Creative Direction & Motion", name: "Djamel Haroual" },
       { role: "Sound Design", name: "Djamel Haroual" },
     ],
+    thumbnail: hrwlIdentityThumb,
   },
   {
     id: "hrwl-brand-film",
@@ -77,6 +88,7 @@ export const CASES: Case[] = [
       { role: "Animation", name: "Djamel Haroual" },
       { role: "Music & Sound Design", name: "Uliania PchelinUley" },
     ],
+    thumbnail: hrwlBrandFilmThumb,
   },
   {
     id: "noxisros",
@@ -99,6 +111,7 @@ export const CASES: Case[] = [
       { role: "Sound Effects Designer", name: "Ilias Lem" },
       { role: "Music Producer", name: "Uliania PchelinUley" },
     ],
+    thumbnail: noxisrosThumb,
   },
   {
     id: "google",
@@ -117,6 +130,7 @@ export const CASES: Case[] = [
       { role: "Animation", name: "Djamel Haroual" },
       { role: "Sound Design", name: "Ilias Lem" },
     ],
+    thumbnail: googleThumb,
   },
   {
     id: "coinbase",
@@ -166,5 +180,6 @@ export const CASES: Case[] = [
       { role: "Sound Design", name: "John Green", link: "https://www.instagram.com/johnodysseyaudio/" },
       { role: "Music Composition", name: "Penrose Audio", link: "https://www.instagram.com/p/DNIBDJyNTRK/" },
     ],
+    thumbnail: theOneYouKeepThumb,
   },
 ];

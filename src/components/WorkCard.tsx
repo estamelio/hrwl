@@ -22,6 +22,11 @@ const WorkCard = ({ title, description, href, image, comingSoon }: WorkCardProps
             alt={title}
             className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
           />
+          {!image && !comingSoon && (
+            <div className="absolute inset-0 bg-gradient-to-br from-foreground/80 to-foreground flex items-center justify-center">
+               <span className="text-[10px] text-background/20 uppercase tracking-widest font-medium">Preview</span>
+            </div>
+          )}
           {comingSoon && (
             <div className="absolute inset-0 bg-background/20 backdrop-blur-[2px] flex items-center justify-center">
               <span className="px-4 py-1.5 rounded-full bg-foreground text-background text-[10px] font-bold tracking-widest uppercase">

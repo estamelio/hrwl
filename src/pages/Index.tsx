@@ -204,12 +204,20 @@ export default function Index() {
             <div className="grid md:grid-cols-3 gap-5">
               {CASES.filter(c => !c.comingSoon).slice(0, 3).map((project, i) => (
                 <Link key={project.id} to={`/work/${project.id}`} className="group block">
-                  <div className="aspect-[4/3] bg-foreground rounded-xl mb-3 overflow-hidden relative card-elevated">
-                    <div className="absolute inset-0 bg-gradient-to-br from-foreground/80 to-foreground flex items-center justify-center">
-                      <span className="text-4xl font-bold text-background/8 group-hover:text-background/15 transition-colors duration-500">
-                        0{i + 1}
-                      </span>
-                    </div>
+                  <div className="aspect-[4/3] bg-muted rounded-xl mb-3 overflow-hidden relative card-elevated">
+                    {project.thumbnail ? (
+                      <img
+                        src={project.thumbnail}
+                        alt={project.title}
+                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      />
+                    ) : (
+                      <div className="absolute inset-0 bg-gradient-to-br from-foreground/80 to-foreground flex items-center justify-center">
+                        <span className="text-4xl font-bold text-background/8 group-hover:text-background/15 transition-colors duration-500">
+                          0{i + 1}
+                        </span>
+                      </div>
+                    )}
                     <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-400">
                       <div className="w-10 h-10 rounded-full bg-background text-foreground flex items-center justify-center shadow-lg">
                         <ArrowUpRight className="w-4 h-4" />

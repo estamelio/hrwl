@@ -38,14 +38,24 @@ const Work = () => {
               >
                 <div className={`rounded-xl overflow-hidden border border-border/60 bg-card card-elevated ${project.comingSoon ? "opacity-60" : ""}`}>
                   {/* Thumbnail — 577.96 : 324.53 ratio */}
-                  <div className="relative overflow-hidden" style={{ aspectRatio: "577.96 / 324.53" }}>
-                    <div className="absolute inset-0 bg-foreground" />
-                    <div className="absolute inset-0 bg-gradient-to-br from-foreground/90 to-foreground" />
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <span className="text-[11px] text-background/20 uppercase tracking-widest font-medium">
-                        {project.comingSoon ? "Coming Soon" : "Preview"}
-                      </span>
-                    </div>
+                  <div className="relative overflow-hidden bg-muted" style={{ aspectRatio: "577.96 / 324.53" }}>
+                    {project.thumbnail ? (
+                      <img
+                        src={project.thumbnail}
+                        alt={project.title}
+                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      />
+                    ) : (
+                      <>
+                        <div className="absolute inset-0 bg-foreground" />
+                        <div className="absolute inset-0 bg-gradient-to-br from-foreground/90 to-foreground" />
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <span className="text-[11px] text-background/20 uppercase tracking-widest font-medium">
+                            {project.comingSoon ? "Coming Soon" : "Preview"}
+                          </span>
+                        </div>
+                      </>
+                    )}
                     {/* Hover overlay */}
                     <div className="absolute inset-0 bg-background/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   </div>
