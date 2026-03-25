@@ -8,14 +8,58 @@ import TheOneYouKeepCaseStudy from "@/components/case-studies/TheOneYouKeepCaseS
 import HRWLVisualIdentityCaseStudy from "@/components/case-studies/HRWLVisualIdentityCaseStudy";
 import HRWLBrandFilmCaseStudy from "@/components/case-studies/HRWLBrandFilmCaseStudy";
 import BackToWork from "@/components/BackToWork";
+import hrwlSfx from "@/assets/Case studies/Hrwl - Launch Campaign/SFX/djamel_sfx_final.mp3";
+
+// Google Storyboard
+import googleSb1 from "@/assets/Case studies/Google - case study/Storyboard images/1.webp";
+import googleSb2 from "@/assets/Case studies/Google - case study/Storyboard images/2.webp";
+import googleSb3 from "@/assets/Case studies/Google - case study/Storyboard images/Frame 3.webp";
+import googleSb4 from "@/assets/Case studies/Google - case study/Storyboard images/game of frame.webp";
+import googleSb5 from "@/assets/Case studies/Google - case study/Storyboard images/last frame.webp";
+
+// HRWL Launch Storyboard
+import launchSb1 from "@/assets/Case studies/Hrwl - Launch Campaign/Storyboard/Frame 2147226620.webp";
+import launchSb2 from "@/assets/Case studies/Hrwl - Launch Campaign/Storyboard/Frame 2147226621.webp";
+import launchSb3 from "@/assets/Case studies/Hrwl - Launch Campaign/Storyboard/Frame 2147226678.webp";
+import launchSb4 from "@/assets/Case studies/Hrwl - Launch Campaign/Storyboard/RMM 1.webp";
+import launchSb5 from "@/assets/Case studies/Hrwl - Launch Campaign/Storyboard/RMM2.webp";
+import launchSb6 from "@/assets/Case studies/Hrwl - Launch Campaign/Storyboard/RMM3.webp";
+import launchSb7 from "@/assets/Case studies/Hrwl - Launch Campaign/Storyboard/RMM4.webp";
+import launchSb8 from "@/assets/Case studies/Hrwl - Launch Campaign/Storyboard/RMM6.webp";
+import launchSb9 from "@/assets/Case studies/Hrwl - Launch Campaign/Storyboard/RMM 7.webp";
+import launchSb10 from "@/assets/Case studies/Hrwl - Launch Campaign/Storyboard/RMM8.webp";
 
 // Mini SFX player
-const SFXPlayer = ({ label }: { label: string }) => {
+const SFXPlayer = ({ label, src }: { label: string; src: string }) => {
   const [isPlaying, setIsPlaying] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  const togglePlay = () => {
+    if (!audioRef.current) {
+      audioRef.current = new Audio(src);
+      audioRef.current.onended = () => setIsPlaying(false);
+    }
+
+    if (isPlaying) {
+      audioRef.current.pause();
+    } else {
+      audioRef.current.play();
+    }
+    setIsPlaying(!isPlaying);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+    };
+  }, []);
 
   return (
     <button
-      onClick={() => setIsPlaying(!isPlaying)}
+      onClick={togglePlay}
       className="flex items-center gap-2 px-4 py-3 bg-foreground text-background rounded-lg hover:opacity-90 transition-opacity duration-300 group"
     >
       {isPlaying ? (
@@ -117,17 +161,19 @@ const CaseStudy = () => {
         <section className="px-6 mb-6">
           <div className="max-w-[1000px] mx-auto">
             <div className="grid md:grid-cols-2 gap-3">
-              {["Film 01", "Film 02"].map((film, i) => (
-                <div key={i} className="aspect-video bg-foreground rounded-lg overflow-hidden relative group cursor-pointer">
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-12 h-12 rounded-full bg-background/20 backdrop-blur-sm flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
-                      <Play className="w-5 h-5 text-background ml-0.5" />
-                    </div>
-                  </div>
-                  <div className="absolute bottom-2.5 left-3 right-3 flex justify-between items-end text-background/80">
-                    <span className="text-xs font-medium">{film}</span>
-                    <span className="text-xs font-mono">{i === 0 ? "0:15" : "0:17"}</span>
-                  </div>
+              {[
+                { title: "Website Animation", id: "1077085520" },
+                { title: "Trailer", id: "1177055608" }
+              ].map((film, i) => (
+                <div key={i} className="aspect-video bg-foreground rounded-lg overflow-hidden relative group">
+                  <iframe
+                    src={`https://player.vimeo.com/video/${film.id}?badge=0&autopause=0&player_id=0&app_id=58479`}
+                    className="absolute inset-0 w-full h-full"
+                    allow="autoplay; fullscreen; picture-in-picture"
+                    style={{ border: 0 }}
+                    loading="lazy"
+                    title={film.title}
+                  />
                 </div>
               ))}
             </div>
@@ -182,14 +228,13 @@ const CaseStudy = () => {
           </div>
         </section>
 
-        {/* Storyboard — 10 scenes */}
         <section className="px-6 mb-12">
           <div className="max-w-[700px] mx-auto">
             <h2 className="text-xl font-bold mb-4">Storyboard</h2>
-            <div className="grid grid-cols-5 gap-2">
-              {Array.from({ length: 10 }).map((_, i) => (
-                <div key={i} className="aspect-video bg-surface/50 rounded-md border border-border border-dashed flex items-center justify-center hover:bg-surface/80 transition-colors duration-300">
-                  <span className="text-[10px] text-muted-foreground/40 font-mono">{String(i + 1).padStart(2, "0")}</span>
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-2">
+              {[launchSb1, launchSb2, launchSb3, launchSb4, launchSb5, launchSb6, launchSb7, launchSb8, launchSb9, launchSb10].map((img, i) => (
+                <div key={i} className="aspect-video bg-surface/50 rounded-md border border-border overflow-hidden hover:opacity-80 transition-opacity duration-300">
+                  <img src={img} alt={`Storyboard ${i + 1}`} className="w-full h-full object-cover" loading="lazy" />
                 </div>
               ))}
             </div>
@@ -229,7 +274,6 @@ const CaseStudy = () => {
           </div>
         </section>
 
-        {/* Sound Design + SFX Players */}
         <section className="px-6 mb-12">
           <div className="max-w-[700px] mx-auto">
             <h2 className="text-xl font-bold mb-4">Collaboration & Sound Design</h2>
@@ -239,8 +283,7 @@ const CaseStudy = () => {
               </p>
             </div>
             <div className="flex gap-3">
-              <SFXPlayer label="Sound Effect 01" />
-              <SFXPlayer label="Sound Effect 02" />
+              <SFXPlayer label="Case SFX Mix" src={hrwlSfx} />
             </div>
           </div>
         </section>
@@ -297,15 +340,17 @@ const CaseStudy = () => {
           </div>
         </section>
 
-        {/* Final Animation Video */}
         <section className="px-6 mb-6">
           <div className="max-w-[1000px] mx-auto">
-            <div className="aspect-video bg-foreground rounded-xl overflow-hidden relative group cursor-pointer">
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-14 h-14 rounded-full bg-background/20 backdrop-blur-sm flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
-                  <Play className="w-6 h-6 text-background ml-0.5" />
-                </div>
-              </div>
+            <div className="aspect-video bg-foreground rounded-xl overflow-hidden relative group">
+              <iframe
+                src="https://player.vimeo.com/video/1065449370?badge=0&autopause=0&player_id=0&app_id=58479"
+                className="absolute inset-0 w-full h-full"
+                allow="autoplay; fullscreen; picture-in-picture"
+                style={{ border: 0 }}
+                loading="lazy"
+                title="Google Case Study"
+              />
             </div>
           </div>
         </section>
@@ -343,14 +388,13 @@ const CaseStudy = () => {
           </div>
         </section>
 
-        {/* Style Frames — 5 */}
         <section className="px-6 mb-12">
           <div className="max-w-[700px] mx-auto">
             <h2 className="text-xl font-bold mb-4 text-foreground">Style Frames</h2>
-            <div className="grid grid-cols-3 gap-2">
-              {Array.from({ length: 5 }).map((_, i) => (
-                <div key={i} className="aspect-video bg-surface/50 rounded-lg border border-border border-dashed flex items-center justify-center hover:bg-surface/80 transition-colors duration-300">
-                  <span className="text-[10px] text-muted-foreground/40 font-mono">{String(i + 1).padStart(2, "0")}</span>
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-2">
+              {[googleSb1, googleSb2, googleSb3, googleSb4, googleSb5].map((img, i) => (
+                <div key={i} className="aspect-video bg-surface/50 rounded-lg border border-border overflow-hidden hover:opacity-80 transition-opacity duration-300">
+                  <img src={img} alt={`Style Frame ${i + 1}`} className="w-full h-full object-cover" loading="lazy" />
                 </div>
               ))}
             </div>
@@ -410,12 +454,15 @@ const CaseStudy = () => {
 
       <section className="px-6 mb-6">
         <div className="max-w-[1000px] mx-auto">
-          <div className="aspect-video bg-foreground rounded-lg overflow-hidden relative group cursor-pointer">
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-14 h-14 rounded-full bg-background/20 backdrop-blur-sm flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
-                <Play className="w-6 h-6 text-background ml-0.5" />
-              </div>
-            </div>
+          <div className="aspect-video bg-foreground rounded-lg overflow-hidden relative group">
+            <iframe
+              src="https://player.vimeo.com/video/1177053983?badge=0&autopause=0&player_id=0&app_id=58479"
+              className="absolute inset-0 w-full h-full"
+              allow="autoplay; fullscreen; picture-in-picture"
+              style={{ border: 0 }}
+              loading="lazy"
+              title="Project Video"
+            />
           </div>
         </div>
       </section>

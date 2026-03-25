@@ -5,6 +5,37 @@ import { ArrowLeft, ArrowRight, Play, ChevronDown } from "lucide-react";
 import { Case } from "@/data/cases";
 import Footer from "@/components/Footer";
 
+// Animation Assets
+import akiowaving from "@/assets/Case studies/Hrwl - Brand Film/Animation/Akiowavinganimation.gif";
+import dream31 from "@/assets/Case studies/Hrwl - Brand Film/Animation/Dream_31.gif";
+import akio from "@/assets/Case studies/Hrwl - Brand Film/Animation/akio.gif";
+import brandFilmVideo from "@/assets/Case studies/Hrwl - Brand Film/Animation/hrwl_djamel_1727540225_3467177420635114078_67547052611.mp4";
+
+// Storyboard (8)
+import bfSb1 from "@/assets/Case studies/Hrwl - Brand Film/Storyboard/scene 1.webp";
+import bfSb2 from "@/assets/Case studies/Hrwl - Brand Film/Storyboard/Frame 1.webp";
+import bfSb3 from "@/assets/Case studies/Hrwl - Brand Film/Storyboard/frame 2.webp";
+import bfSb4 from "@/assets/Case studies/Hrwl - Brand Film/Storyboard/scene 5.webp";
+import bfSb5 from "@/assets/Case studies/Hrwl - Brand Film/Storyboard/The one you keep.webp";
+import bfSb6 from "@/assets/Case studies/Hrwl - Brand Film/Storyboard/coinbase.webp";
+import bfSb7 from "@/assets/Case studies/Hrwl - Brand Film/Storyboard/Yaaay.webp";
+import bfSb8 from "@/assets/Case studies/Hrwl - Brand Film/Storyboard/CTA 1.webp";
+
+// R&D (13)
+import bfRd1 from "@/assets/Case studies/Hrwl - Brand Film/R&Ds/scene 3.webp";
+import bfRd2 from "@/assets/Case studies/Hrwl - Brand Film/R&Ds/scene 4.webp";
+import bfRd3 from "@/assets/Case studies/Hrwl - Brand Film/R&Ds/frame 5.webp";
+import bfRd4 from "@/assets/Case studies/Hrwl - Brand Film/R&Ds/Hrwl.webp";
+import bfRd5 from "@/assets/Case studies/Hrwl - Brand Film/R&Ds/Google .webp";
+import bfRd6 from "@/assets/Case studies/Hrwl - Brand Film/R&Ds/Noxsiros.webp";
+import bfRd7 from "@/assets/Case studies/Hrwl - Brand Film/R&Ds/RMM5.webp";
+import bfRd8 from "@/assets/Case studies/Hrwl - Brand Film/R&Ds/Yooopiiii.webp";
+import bfRd9 from "@/assets/Case studies/Hrwl - Brand Film/R&Ds/impact frame 1.webp";
+import bfRd10 from "@/assets/Case studies/Hrwl - Brand Film/R&Ds/impact frame 2.webp";
+import bfRd11 from "@/assets/Case studies/Hrwl - Brand Film/R&Ds/impact frame 4.webp";
+import bfRd12 from "@/assets/Case studies/Hrwl - Brand Film/R&Ds/Frame 2147226525.webp";
+import bfRd13 from "@/assets/Case studies/Hrwl - Brand Film/R&Ds/CTA 3.webp";
+
 interface Props {
     caseData: Case;
     nextCase: Case;
@@ -65,15 +96,17 @@ const HRWLBrandFilmCaseStudy = ({ caseData, nextCase }: Props) => {
                 </div>
             </section>
 
-            {/* Hero Video */}
             <section className="px-6 mb-6">
                 <div className="max-w-[1000px] mx-auto">
-                    <div className="aspect-video bg-foreground rounded-xl overflow-hidden relative group cursor-pointer">
-                        <div className="absolute inset-0 flex items-center justify-center">
-                            <div className="w-14 h-14 rounded-full bg-background/20 backdrop-blur-sm flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
-                                <Play className="w-6 h-6 text-background ml-0.5" />
-                            </div>
-                        </div>
+                    <div className="aspect-video bg-foreground rounded-xl overflow-hidden relative group">
+                        <video 
+                            src={brandFilmVideo} 
+                            autoPlay 
+                            loop 
+                            muted 
+                            playsInline 
+                            className="w-full h-full object-cover"
+                        />
                     </div>
                 </div>
             </section>
@@ -134,42 +167,38 @@ const HRWLBrandFilmCaseStudy = ({ caseData, nextCase }: Props) => {
                                 </p>
                             </div>
 
-                            {/* Small animation — 898x772 */}
                             <div>
                                 <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-3">Animation Assets</h3>
-                                <div className="bg-surface/50 rounded-lg border border-border border-dashed flex items-center justify-center mb-3" style={{ aspectRatio: "898 / 772" }}>
-                                    <span className="text-xs text-muted-foreground">Animation · 898 × 772</span>
-                                </div>
-                                {/* Two connected 1920x1080 animations */}
-                                <div className="grid grid-cols-2 gap-1">
-                                    <div className="bg-surface/50 rounded-lg border border-border border-dashed flex items-center justify-center" style={{ aspectRatio: "1920 / 1080" }}>
-                                        <span className="text-xs text-muted-foreground">Connected 01</span>
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-6">
+                                    <div className="bg-surface/50 rounded-lg overflow-hidden border border-border aspect-square">
+                                        <img src={akio} alt="Akio" className="w-full h-full object-cover" loading="lazy" />
                                     </div>
-                                    <div className="bg-surface/50 rounded-lg border border-border border-dashed flex items-center justify-center" style={{ aspectRatio: "1920 / 1080" }}>
-                                        <span className="text-xs text-muted-foreground">Connected 02</span>
+                                    <div className="bg-surface/50 rounded-lg overflow-hidden border border-border aspect-square">
+                                        <img src={akiowaving} alt="Akio Waving" className="w-full h-full object-cover" loading="lazy" />
+                                    </div>
+                                    <div className="bg-surface/50 rounded-lg overflow-hidden border border-border aspect-square">
+                                        <img src={dream31} alt="Dream 31" className="w-full h-full object-cover" loading="lazy" />
                                     </div>
                                 </div>
                             </div>
 
-                            {/* Storyboard — 12 */}
                             <div>
                                 <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-3">Storyboard</h3>
-                                <div className="grid grid-cols-4 gap-2">
-                                    {Array.from({ length: 12 }).map((_, i) => (
-                                        <div key={i} className="aspect-video bg-surface/50 rounded-lg border border-border border-dashed flex items-center justify-center hover:bg-surface/80 transition-colors duration-300">
-                                            <span className="text-[10px] text-muted-foreground/40 font-mono">{String(i + 1).padStart(2, "0")}</span>
+                                <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+                                    {[bfSb1, bfSb2, bfSb3, bfSb4, bfSb5, bfSb6, bfSb7, bfSb8].map((img, i) => (
+                                        <div key={i} className="aspect-video bg-surface/50 rounded-lg border border-border overflow-hidden hover:opacity-80 transition-opacity duration-300">
+                                            <img src={img} alt={`Storyboard ${i + 1}`} className="w-full h-full object-cover" loading="lazy" />
                                         </div>
                                     ))}
                                 </div>
                             </div>
 
-                            {/* R&D — 12 frames 1920x1080 */}
                             <div>
                                 <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-3">R&D — Experimental Frames</h3>
-                                <div className="grid grid-cols-4 gap-2">
-                                    {Array.from({ length: 12 }).map((_, i) => (
-                                        <div key={i} className="bg-surface/50 rounded-lg border border-border border-dashed flex items-center justify-center hover:bg-surface/80 transition-colors duration-300" style={{ aspectRatio: "1920 / 1080" }}>
-                                            <span className="text-[10px] text-muted-foreground/40 font-mono">R&D {String(i + 1).padStart(2, "0")}</span>
+                                <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+                                    {[bfRd1, bfRd2, bfRd3, bfRd4, bfRd5, bfRd6, bfRd7, bfRd8, bfRd9, bfRd10, bfRd11, bfRd12, bfRd13].map((img, i) => (
+                                        <div key={i} className="aspect-video bg-surface/50 rounded-lg border border-border overflow-hidden hover:opacity-80 transition-opacity duration-300">
+                                            <img src={img} alt={`R&D ${i + 1}`} className="w-full h-full object-cover" loading="lazy" />
                                         </div>
                                     ))}
                                 </div>

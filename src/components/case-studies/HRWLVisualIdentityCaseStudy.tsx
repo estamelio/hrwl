@@ -7,13 +7,25 @@ import Footer from "@/components/Footer";
 // HRWL Project Assets
 import hrwlLogo from "@/assets/hrwl-logo.png";
 import hrwlWLogo from "@/assets/hrwl-w-logo.gif";
-import hrwlLogoAnimation from "@/assets/hrwl-logo-animation.gif";
-import hrwlEndcard from "@/assets/hrwl-endcard.gif";
+import hrwlLogoAnimation from "@/assets/Case studies/Hrwl - Visual identity + demo reel/Animations/logo animation 1.webm";
+import hrwlEndcard from "@/assets/Case studies/Hrwl - Visual identity + demo reel/Storyboard/end.webp";
 import hrwlCardFront from "@/assets/hrwl-card-front.png";
 import hrwlCardBack from "@/assets/hrwl-card-back.png";
-import hrwlBusinessCard from "@/assets/hrwl-business-card.mp4";
-import hrwl3DSpline from "@/assets/hrwl-3d-spline.mp4";
-import hrwlChibiBatman from "@/assets/hrwl-chibi-batman.mp4";
+import hrwlBusinessCard from "@/assets/Case studies/Hrwl - Visual identity + demo reel/Animations/5.webm";
+import hrwl3DSpline from "@/assets/Case studies/Hrwl - Visual identity + demo reel/Animations/spline 3D_1.webm";
+import hrwlChibiBatman from "@/assets/Case studies/Hrwl - Visual identity + demo reel/Animations/chibi batman final post post final 1-.webm";
+
+// Storyboard
+import viSb1 from "@/assets/Case studies/Hrwl - Visual identity + demo reel/Storyboard/scene 1.webp";
+import viSb2 from "@/assets/Case studies/Hrwl - Visual identity + demo reel/Storyboard/scene 2.webp";
+import viSb3 from "@/assets/Case studies/Hrwl - Visual identity + demo reel/Storyboard/G 2.webp";
+import viSb4 from "@/assets/Case studies/Hrwl - Visual identity + demo reel/Storyboard/scene 4.webp";
+import viSb5 from "@/assets/Case studies/Hrwl - Visual identity + demo reel/Storyboard/scene 5.webp";
+import viSb6 from "@/assets/Case studies/Hrwl - Visual identity + demo reel/Storyboard/scene 6.webp";
+import viSb7 from "@/assets/Case studies/Hrwl - Visual identity + demo reel/Storyboard/scene 7.webp";
+import viSb8 from "@/assets/Case studies/Hrwl - Visual identity + demo reel/Storyboard/scene 8-10.webp";
+import viSb9 from "@/assets/Case studies/Hrwl - Visual identity + demo reel/Storyboard/scene 9-1.webp";
+import viSb10 from "@/assets/Case studies/Hrwl - Visual identity + demo reel/Storyboard/end.webp";
 
 interface Props {
   caseData: Case;
@@ -77,20 +89,25 @@ const HRWLVisualIdentityCaseStudy = ({ caseData, nextCase }: Props) => {
         </div>
       </section>
 
-      {/* Visual Identity — Logo System */}
       <section className="px-6 mb-12">
         <div className="max-w-[900px] mx-auto">
           <h2 className="text-xl font-bold mb-4">Visual Identity</h2>
-          <div className="grid md:grid-cols-3 gap-3 mb-4">
-            <div className="bg-foreground rounded-md p-6 flex items-center justify-center aspect-square">
+          <div className="grid md:grid-cols-2 gap-3 mb-4">
+            <div className="bg-foreground rounded-md p-6 flex items-center justify-center aspect-[16/9]">
               <img src={hrwlLogo} alt="HRWL Main Logo" className="w-full max-w-[120px]" />
             </div>
-            <div className="bg-foreground rounded-md p-6 flex items-center justify-center aspect-square">
-              <img src={hrwlWLogo} alt="HRWL W Logo Animation" className="w-16" />
+            <div className="bg-foreground rounded-md overflow-hidden aspect-[16/9]">
+              <video src={hrwlLogoAnimation} autoPlay loop muted playsInline className="w-full h-full object-cover" />
             </div>
-            <div className="bg-foreground rounded-md p-6 flex items-center justify-center aspect-square">
-              <img src={hrwlLogoAnimation} alt="HRWL Logo Animation" className="w-full" />
-            </div>
+          </div>
+          
+          <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-4">Storyboard</h3>
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-2">
+            {[viSb1, viSb2, viSb3, viSb4, viSb5, viSb6, viSb7, viSb8, viSb9, viSb10].map((img, i) => (
+              <div key={i} className="aspect-video bg-surface/50 rounded-md border border-border overflow-hidden hover:opacity-80 transition-opacity duration-300">
+                <img src={img} alt={`Storyboard ${i + 1}`} className="w-full h-full object-cover" loading="lazy" />
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -120,14 +137,14 @@ const HRWLVisualIdentityCaseStudy = ({ caseData, nextCase }: Props) => {
 
           {/* Demo reel placeholder */}
           <div className="aspect-video bg-foreground rounded-lg overflow-hidden relative group cursor-pointer mb-4">
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-14 h-14 rounded-full bg-background/20 backdrop-blur-sm flex items-center justify-center group-hover:scale-110 transition-transform">
-                <Play className="w-6 h-6 text-background ml-0.5" />
-              </div>
-            </div>
-            <div className="absolute bottom-3 left-4 text-background/80">
-              <span className="text-xs font-medium">Demo Reel</span>
-            </div>
+            <iframe
+              src="https://player.vimeo.com/video/1007931547?badge=0&autopause=0&player_id=0&app_id=58479"
+              className="absolute inset-0 w-full h-full"
+              allow="autoplay; fullscreen; picture-in-picture"
+              style={{ border: 0 }}
+              loading="lazy"
+              title="HRWL Demo Reel"
+            />
           </div>
 
           {/* OC Animations */}

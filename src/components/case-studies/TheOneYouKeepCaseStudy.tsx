@@ -4,7 +4,25 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight, Play, Pause, ChevronDown, ChevronUp, ExternalLink, Quote } from "lucide-react";
 import { Case } from "@/data/cases";
 import Footer from "@/components/Footer";
-import voiceoverAudio from "@/assets/the-one-you-keep-vo.mp3";
+import voiceoverAudio from "@/assets/Case studies/The One You Keep/Yasser's Birthday_Sound Mix_Final_Dials.mp3";
+
+// Storyboard
+import sb1 from "@/assets/Case studies/The One You Keep/Storyboard/1.webp";
+import sb2 from "@/assets/Case studies/The One You Keep/Storyboard/2.webp";
+import sb3 from "@/assets/Case studies/The One You Keep/Storyboard/3.webp";
+import sb4 from "@/assets/Case studies/The One You Keep/Storyboard/Credits 1png.webp";
+import sb5 from "@/assets/Case studies/The One You Keep/Storyboard/Full frame.webp";
+import sb6 from "@/assets/Case studies/The One You Keep/Storyboard/Full shit.webp";
+import sb7 from "@/assets/Case studies/The One You Keep/Storyboard/If you're like me.webp";
+import sb8 from "@/assets/Case studies/The One You Keep/Storyboard/Library.webp";
+import sb9 from "@/assets/Case studies/The One You Keep/Storyboard/Slide 16_9 - 40.webp";
+import sb10 from "@/assets/Case studies/The One You Keep/Storyboard/Slide 16_9 - 44.webp";
+import sb11 from "@/assets/Case studies/The One You Keep/Storyboard/d.webp";
+import sb12 from "@/assets/Case studies/The One You Keep/Storyboard/round 2.webp";
+
+// Videos
+import processVid1 from "@/assets/Case studies/The One You Keep/Videos/3.webm";
+import processVid2 from "@/assets/Case studies/The One You Keep/Videos/Pixel showcase.webm";
 
 const SCRIPT_PREVIEW = `Sometimes, there comes a time… when silence feels too loud,
 and the weight in your chest asks for nothing but a pen, a voice, a vow.
@@ -177,15 +195,17 @@ const TheOneYouKeepCaseStudy = ({ caseData, nextCase }: Props) => {
         </div>
       </section>
 
-      {/* Hero Video */}
       <section className="px-6 mb-8">
         <div className="max-w-[1000px] mx-auto">
-          <div className="aspect-video bg-foreground rounded-xl overflow-hidden relative group cursor-pointer">
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-16 h-16 rounded-full bg-background/20 backdrop-blur-sm flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
-                <Play className="w-7 h-7 text-background ml-0.5" />
-              </div>
-            </div>
+          <div className="aspect-video bg-foreground rounded-xl overflow-hidden relative group">
+            <iframe
+              src="https://player.vimeo.com/video/1108398165?badge=0&autopause=0&player_id=0&app_id=58479"
+              className="absolute inset-0 w-full h-full"
+              allow="autoplay; fullscreen; picture-in-picture"
+              style={{ border: 0 }}
+              loading="lazy"
+              title="The One You Keep"
+            />
           </div>
         </div>
       </section>
@@ -257,11 +277,11 @@ const TheOneYouKeepCaseStudy = ({ caseData, nextCase }: Props) => {
                 The intent was not to impress. It was to test whether <strong className="text-foreground">emotion could be manufactured on demand</strong>, using the same rigor typically reserved for commercial work.
               </p>
               <div className="grid md:grid-cols-2 gap-3 mt-6">
-                <div className="aspect-video bg-surface/50 rounded-lg border border-border border-dashed flex items-center justify-center">
-                  <span className="text-xs text-muted-foreground">Reference visual</span>
+                <div className="aspect-video bg-surface/50 rounded-lg border border-border overflow-hidden">
+                  <img src={sb5} alt="Full Frame" className="w-full h-full object-cover" loading="lazy" />
                 </div>
-                <div className="aspect-video bg-surface/50 rounded-lg border border-border border-dashed flex items-center justify-center">
-                  <span className="text-xs text-muted-foreground">Reference visual</span>
+                <div className="aspect-video bg-surface/50 rounded-lg border border-border overflow-hidden">
+                  <img src={sb6} alt="Process Visual" className="w-full h-full object-cover" loading="lazy" />
                 </div>
               </div>
             </div>
@@ -423,27 +443,25 @@ const TheOneYouKeepCaseStudy = ({ caseData, nextCase }: Props) => {
               <VOPlayer />
             </div>
 
-            {/* Process Videos */}
             <div className="mb-10">
               <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-4">Process</h3>
               <p className="text-sm text-muted-foreground mb-4">Script → Moodboard → Storyboard → Style Frames → Animation pipeline.</p>
               <div className="grid md:grid-cols-2 gap-3">
-                <div className="bg-surface/50 rounded-lg border border-border border-dashed flex items-center justify-center" style={{ aspectRatio: "1152 / 720" }}>
-                  <span className="text-xs text-muted-foreground">Process Video 01</span>
+                <div className="bg-surface/50 rounded-lg border border-border overflow-hidden">
+                  <video src={processVid1} autoPlay loop muted playsInline className="w-full h-full object-cover" />
                 </div>
-                <div className="bg-surface/50 rounded-lg border border-border border-dashed flex items-center justify-center" style={{ aspectRatio: "1080 / 720" }}>
-                  <span className="text-xs text-muted-foreground">Process Video 02</span>
+                <div className="bg-surface/50 rounded-lg border border-border overflow-hidden">
+                  <video src={processVid2} autoPlay loop muted playsInline className="w-full h-full object-cover" />
                 </div>
               </div>
             </div>
 
-            {/* Storyboard */}
             <div className="mb-10">
               <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-4">Storyboard / Styleframes</h3>
-              <div className="grid grid-cols-4 gap-2">
-                {Array.from({ length: 12 }).map((_, i) => (
-                  <div key={i} className="aspect-video bg-surface/50 rounded-lg border border-border border-dashed flex items-center justify-center hover:bg-surface/80 transition-colors duration-300">
-                    <span className="text-[10px] text-muted-foreground/40 font-mono">{String(i + 1).padStart(2, "0")}</span>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+                {[sb1, sb2, sb3, sb4, sb5, sb6, sb7, sb8, sb9, sb10, sb11, sb12].map((img, i) => (
+                  <div key={i} className="aspect-video bg-surface/50 rounded-lg border border-border overflow-hidden hover:opacity-80 transition-opacity duration-300">
+                    <img src={img} alt={`Storyboard ${i + 1}`} className="w-full h-full object-cover" loading="lazy" />
                   </div>
                 ))}
               </div>
