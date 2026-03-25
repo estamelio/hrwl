@@ -97,9 +97,7 @@ const collaborators = [
 ];
 
 const About = () => {
-  const [openSections, setOpenSections] = useState<Record<string, boolean>>({
-    whoiam: true,
-  });
+  const [openSections, setOpenSections] = useState<Record<string, boolean>>({});
 
   const toggleSection = (key: string) => {
     setOpenSections((prev) => ({ ...prev, [key]: !prev[key] }));
@@ -135,10 +133,7 @@ const About = () => {
           <p className="text-base text-muted-foreground/80 max-w-lg mx-auto animate-fade-up-delay-2">
             I help ambitious brands turn complex ideas into clear, memorable visuals.
           </p>
-          <div className="flex items-center justify-center gap-2 mt-5 animate-fade-up-delay-3">
-            <MapPin className="w-3.5 h-3.5 text-muted-foreground" />
-            <span className="text-xs text-muted-foreground font-medium">Algeria · Available Worldwide</span>
-          </div>
+
         </div>
       </section>
 

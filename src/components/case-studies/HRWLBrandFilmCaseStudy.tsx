@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight, Play, ChevronDown } from "lucide-react";
 import { Case } from "@/data/cases";
 import Footer from "@/components/Footer";
+import MediaLightbox from "@/components/MediaLightbox";
 
 // Animation Assets
 import akiowaving from "@/assets/Case studies/Hrwl - Brand Film/Animation/Akiowavinganimation.gif";
@@ -73,14 +74,25 @@ const CollapsibleSection = ({
 );
 
 const HRWLBrandFilmCaseStudy = ({ caseData, nextCase }: Props) => {
-    const [openSections, setOpenSections] = useState<Record<string, boolean>>({
-        context: true,
-        production: true,
+    const [openSections, setOpenSections] = useState<Record<string, boolean>>({});
+
+    const [lightbox, setLightbox] = useState({
+        isOpen: false,
+        index: 0,
+        images: [] as string[]
     });
 
     const toggleSection = (key: string) => {
         setOpenSections((prev) => ({ ...prev, [key]: !prev[key] }));
     };
+
+    const openLightbox = (index: number, images: string[]) => {
+        setLightbox({ isOpen: true, index, images });
+    };
+
+    const animImages = [akio, akiowaving, dream31];
+    const sbImages = [bfSb1, bfSb2, bfSb3, bfSb4, bfSb5, bfSb6, bfSb7, bfSb8];
+    const rdImages = [bfRd1, bfRd2, bfRd3, bfRd4, bfRd5, bfRd6, bfRd7, bfRd8, bfRd9, bfRd10, bfRd11, bfRd13];
 
     return (
         <div className="min-h-screen bg-background">
@@ -98,7 +110,7 @@ const HRWLBrandFilmCaseStudy = ({ caseData, nextCase }: Props) => {
 
             <section className="px-6 mb-6">
                 <div className="max-w-[1000px] mx-auto">
-                    <div className="aspect-video bg-foreground rounded-xl overflow-hidden relative group">
+                    <div className="aspect-video bg-black rounded-xl overflow-hidden relative group">
                         <video 
                             src={brandFilmVideo} 
                             autoPlay 
@@ -170,23 +182,27 @@ const HRWLBrandFilmCaseStudy = ({ caseData, nextCase }: Props) => {
                             <div>
                                 <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-3">Animation Assets</h3>
                                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-6">
-                                    <div className="bg-surface/50 rounded-lg overflow-hidden border border-border aspect-square">
-                                        <img src={akio} alt="Akio" className="w-full h-full object-cover" loading="lazy" />
-                                    </div>
-                                    <div className="bg-surface/50 rounded-lg overflow-hidden border border-border aspect-square">
-                                        <img src={akiowaving} alt="Akio Waving" className="w-full h-full object-cover" loading="lazy" />
-                                    </div>
-                                    <div className="bg-surface/50 rounded-lg overflow-hidden border border-border aspect-square">
-                                        <img src={dream31} alt="Dream 31" className="w-full h-full object-cover" loading="lazy" />
-                                    </div>
+                                    {animImages.map((img, i) => (
+                                        <div 
+                                            key={i} 
+                                            className="bg-surface/50 rounded-lg overflow-hidden border border-border aspect-square cursor-zoom-in hover:opacity-80 transition-opacity"
+                                            onClick={() => openLightbox(i, animImages)}
+                                        >
+                                            <img src={img} alt="Animation Asset" className="w-full h-full object-cover" loading="lazy" />
+                                        </div>
+                                    ))}
                                 </div>
                             </div>
 
                             <div>
                                 <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-3">Storyboard</h3>
                                 <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-                                    {[bfSb1, bfSb2, bfSb3, bfSb4, bfSb5, bfSb6, bfSb7, bfSb8].map((img, i) => (
-                                        <div key={i} className="aspect-video bg-surface/50 rounded-lg border border-border overflow-hidden hover:opacity-80 transition-opacity duration-300">
+                                    {sbImages.map((img, i) => (
+                                        <div 
+                                            key={i} 
+                                            className="aspect-video bg-surface/50 rounded-lg border border-border overflow-hidden hover:opacity-80 transition-opacity duration-300 cursor-zoom-in"
+                                            onClick={() => openLightbox(i, sbImages)}
+                                        >
                                             <img src={img} alt={`Storyboard ${i + 1}`} className="w-full h-full object-cover" loading="lazy" />
                                         </div>
                                     ))}
@@ -196,8 +212,12 @@ const HRWLBrandFilmCaseStudy = ({ caseData, nextCase }: Props) => {
                             <div>
                                 <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-3">R&D — Experimental Frames</h3>
                                 <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-                                    {[bfRd1, bfRd2, bfRd3, bfRd4, bfRd5, bfRd6, bfRd7, bfRd8, bfRd9, bfRd10, bfRd11, bfRd12, bfRd13].map((img, i) => (
-                                        <div key={i} className="aspect-video bg-surface/50 rounded-lg border border-border overflow-hidden hover:opacity-80 transition-opacity duration-300">
+                                    {rdImages.map((img, i) => (
+                                        <div 
+                                            key={i} 
+                                            className="aspect-video bg-surface/50 rounded-lg border border-border overflow-hidden hover:opacity-80 transition-opacity duration-300 cursor-zoom-in"
+                                            onClick={() => openLightbox(i, rdImages)}
+                                        >
                                             <img src={img} alt={`R&D ${i + 1}`} className="w-full h-full object-cover" loading="lazy" />
                                         </div>
                                     ))}
@@ -207,8 +227,11 @@ const HRWLBrandFilmCaseStudy = ({ caseData, nextCase }: Props) => {
                             {/* Concept Art — 2303x2148 */}
                             <div>
                                 <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-3">Concept Art</h3>
-                                <div className="max-w-[400px] bg-surface/50 rounded-lg border border-border border-dashed flex items-center justify-center" style={{ aspectRatio: "2303 / 2148" }}>
-                                    <span className="text-xs text-muted-foreground">Concept Art · 2303 × 2148</span>
+                                <div 
+                                    className="max-w-[600px] bg-surface/50 rounded-lg border border-border overflow-hidden cursor-zoom-in hover:opacity-90 transition-opacity"
+                                    onClick={() => openLightbox(0, [bfRd12])}
+                                >
+                                    <img src={bfRd12} alt="Concept Art" className="w-full h-auto object-cover" loading="lazy" />
                                 </div>
                             </div>
                         </div>
@@ -246,6 +269,13 @@ const HRWLBrandFilmCaseStudy = ({ caseData, nextCase }: Props) => {
                     </Link>
                 </div>
             </div>
+
+            <MediaLightbox 
+                isOpen={lightbox.isOpen}
+                images={lightbox.images}
+                initialIndex={lightbox.index}
+                onClose={() => setLightbox({ ...lightbox, isOpen: false })}
+            />
         </div>
     );
 };

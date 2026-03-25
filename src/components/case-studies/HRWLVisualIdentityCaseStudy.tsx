@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, ArrowRight, Play } from "lucide-react";
+import { ChevronDown, ArrowLeft, ArrowRight, Play } from "lucide-react";
+import MediaLightbox from "@/components/MediaLightbox";
 import { Case } from "@/data/cases";
 import Footer from "@/components/Footer";
 
@@ -27,12 +28,25 @@ import viSb8 from "@/assets/Case studies/Hrwl - Visual identity + demo reel/Stor
 import viSb9 from "@/assets/Case studies/Hrwl - Visual identity + demo reel/Storyboard/scene 9-1.webp";
 import viSb10 from "@/assets/Case studies/Hrwl - Visual identity + demo reel/Storyboard/end.webp";
 
+import { useState } from "react";
+
 interface Props {
   caseData: Case;
   nextCase: Case;
 }
 
 const HRWLVisualIdentityCaseStudy = ({ caseData, nextCase }: Props) => {
+    const [lightbox, setLightbox] = useState({
+        isOpen: false,
+        index: 0,
+        images: [] as string[]
+    });
+
+    const openLightbox = (index: number, images: string[]) => {
+        setLightbox({ isOpen: true, index, images });
+    };
+
+    const sbImages = [viSb1, viSb2, viSb3, viSb4, viSb5, viSb6, viSb7, viSb8, viSb9, viSb10];
   return (
     <div className="min-h-screen bg-background">
       {/* Hero */}
@@ -103,8 +117,12 @@ const HRWLVisualIdentityCaseStudy = ({ caseData, nextCase }: Props) => {
           
           <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-4">Storyboard</h3>
           <div className="grid grid-cols-2 md:grid-cols-5 gap-2">
-            {[viSb1, viSb2, viSb3, viSb4, viSb5, viSb6, viSb7, viSb8, viSb9, viSb10].map((img, i) => (
-              <div key={i} className="aspect-video bg-surface/50 rounded-md border border-border overflow-hidden hover:opacity-80 transition-opacity duration-300">
+            {sbImages.map((img, i) => (
+              <div 
+                key={i} 
+                className="aspect-video bg-surface/50 rounded-md border border-border overflow-hidden hover:opacity-80 transition-opacity duration-300 cursor-zoom-in"
+                onClick={() => openLightbox(i, sbImages)}
+              >
                 <img src={img} alt={`Storyboard ${i + 1}`} className="w-full h-full object-cover" loading="lazy" />
               </div>
             ))}
@@ -136,9 +154,9 @@ const HRWLVisualIdentityCaseStudy = ({ caseData, nextCase }: Props) => {
           <h2 className="text-xl font-bold mb-4">Demo Reel + OC Animations</h2>
 
           {/* Demo reel placeholder */}
-          <div className="aspect-video bg-foreground rounded-lg overflow-hidden relative group cursor-pointer mb-4">
+          <div className="aspect-video bg-black rounded-lg overflow-hidden relative group cursor-pointer mb-4">
             <iframe
-              src="https://player.vimeo.com/video/1007931547?badge=0&autopause=0&player_id=0&app_id=58479"
+              src="https://player.vimeo.com/video/1007931547?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1&loop=1"
               className="absolute inset-0 w-full h-full"
               allow="autoplay; fullscreen; picture-in-picture"
               style={{ border: 0 }}
@@ -206,6 +224,13 @@ const HRWLVisualIdentityCaseStudy = ({ caseData, nextCase }: Props) => {
           </Link>
         </div>
       </div>
+
+      <MediaLightbox 
+        isOpen={lightbox.isOpen}
+        images={lightbox.images}
+        initialIndex={lightbox.index}
+        onClose={() => setLightbox({ ...lightbox, isOpen: false })}
+      />
     </div>
   );
 };

@@ -3,7 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "author": "Salah Eddine Medkour <contact@salahmedkour.com>",
-  "url": "https://salahmed-ctrlz.github.io/salaheddine-medkour-portfolio/",
+  "url": "https://hrwl.studio",
   "type": "module",
   "scripts": {
     "dev": "vite",

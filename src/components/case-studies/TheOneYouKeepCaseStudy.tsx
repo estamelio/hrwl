@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight, Play, Pause, ChevronDown, ChevronUp, ExternalLink, Quote } from "lucide-react";
 import { Case } from "@/data/cases";
 import Footer from "@/components/Footer";
+import MediaLightbox from "@/components/MediaLightbox";
 import voiceoverAudio from "@/assets/Case studies/The One You Keep/Yasser's Birthday_Sound Mix_Final_Dials.mp3";
 
 // Storyboard
@@ -163,10 +164,19 @@ const VOPlayer = () => {
 };
 
 const TheOneYouKeepCaseStudy = ({ caseData, nextCase }: Props) => {
-  const [scriptExpanded, setScriptExpanded] = useState(false);
-  const [openSections, setOpenSections] = useState<Record<string, boolean>>({
-    production: true,
+  const [lightbox, setLightbox] = useState({
+    isOpen: false,
+    index: 0,
+    images: [] as string[]
   });
+
+  const openLightbox = (index: number, images: string[]) => {
+    setLightbox({ isOpen: true, index, images });
+  };
+
+  const sbImages = [sb1, sb2, sb3, sb4, sb5, sb6, sb7, sb8, sb9, sb10, sb11, sb12];
+  const [scriptExpanded, setScriptExpanded] = useState(false);
+  const [openSections, setOpenSections] = useState<Record<string, boolean>>({});
 
   const toggleSection = (key: string) => {
     setOpenSections((prev) => ({ ...prev, [key]: !prev[key] }));
@@ -197,9 +207,9 @@ const TheOneYouKeepCaseStudy = ({ caseData, nextCase }: Props) => {
 
       <section className="px-6 mb-8">
         <div className="max-w-[1000px] mx-auto">
-          <div className="aspect-video bg-foreground rounded-xl overflow-hidden relative group">
+          <div className="aspect-video bg-black rounded-xl overflow-hidden relative group">
             <iframe
-              src="https://player.vimeo.com/video/1108398165?badge=0&autopause=0&player_id=0&app_id=58479"
+              src="https://player.vimeo.com/video/1108398165?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1&loop=1"
               className="absolute inset-0 w-full h-full"
               allow="autoplay; fullscreen; picture-in-picture"
               style={{ border: 0 }}
@@ -277,10 +287,16 @@ const TheOneYouKeepCaseStudy = ({ caseData, nextCase }: Props) => {
                 The intent was not to impress. It was to test whether <strong className="text-foreground">emotion could be manufactured on demand</strong>, using the same rigor typically reserved for commercial work.
               </p>
               <div className="grid md:grid-cols-2 gap-3 mt-6">
-                <div className="aspect-video bg-surface/50 rounded-lg border border-border overflow-hidden">
+                <div
+                  className="aspect-video bg-surface/50 rounded-lg border border-border overflow-hidden cursor-zoom-in hover:opacity-90 transition-opacity"
+                  onClick={() => openLightbox(4, sbImages)}
+                >
                   <img src={sb5} alt="Full Frame" className="w-full h-full object-cover" loading="lazy" />
                 </div>
-                <div className="aspect-video bg-surface/50 rounded-lg border border-border overflow-hidden">
+                <div
+                  className="aspect-video bg-surface/50 rounded-lg border border-border overflow-hidden cursor-zoom-in hover:opacity-90 transition-opacity"
+                  onClick={() => openLightbox(5, sbImages)}
+                >
                   <img src={sb6} alt="Process Visual" className="w-full h-full object-cover" loading="lazy" />
                 </div>
               </div>
@@ -459,28 +475,19 @@ const TheOneYouKeepCaseStudy = ({ caseData, nextCase }: Props) => {
             <div className="mb-10">
               <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-4">Storyboard / Styleframes</h3>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-                {[sb1, sb2, sb3, sb4, sb5, sb6, sb7, sb8, sb9, sb10, sb11, sb12].map((img, i) => (
-                  <div key={i} className="aspect-video bg-surface/50 rounded-lg border border-border overflow-hidden hover:opacity-80 transition-opacity duration-300">
+                {sbImages.map((img, i) => (
+                  <div
+                    key={i}
+                    className="aspect-video bg-surface/50 rounded-lg border border-border overflow-hidden hover:opacity-80 transition-opacity duration-300 cursor-zoom-in"
+                    onClick={() => openLightbox(i, sbImages)}
+                  >
                     <img src={img} alt={`Storyboard ${i + 1}`} className="w-full h-full object-cover" loading="lazy" />
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Animation */}
-            <div className="mb-10">
-              <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-3">Animation</h3>
-              <p className="text-base text-muted-foreground mb-4 leading-relaxed">
-                Frame-by-frame pixel art animation in Aseprite. Each scene crafted individually to match the poem's emotional beats.
-              </p>
-              <div className="grid grid-cols-3 md:grid-cols-6 gap-2">
-                {Array.from({ length: 6 }).map((_, i) => (
-                  <div key={i} className="aspect-square bg-surface/50 rounded-lg border border-border border-dashed flex items-center justify-center hover:bg-surface/80 transition-colors duration-300">
-                    <span className="text-[10px] text-muted-foreground/40 font-mono">GIF {String(i + 1).padStart(2, "0")}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
+
 
             {/* Sonic Identity */}
             <div className="mb-10">
@@ -488,19 +495,6 @@ const TheOneYouKeepCaseStudy = ({ caseData, nextCase }: Props) => {
               <p className="text-base text-muted-foreground leading-relaxed">
                 Sound designed as a narrative layer — voice, texture, silence, and score working together. Sound design by <strong className="text-foreground">John Green</strong>, music composition by <strong className="text-foreground">Penrose Audio</strong>.
               </p>
-            </div>
-
-            {/* R&D */}
-            <div>
-              <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-3">R&D — Unused Designs</h3>
-              <p className="text-base text-muted-foreground mb-4 leading-relaxed">Explorations and designs that didn't make the final cut.</p>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-                {Array.from({ length: 8 }).map((_, i) => (
-                  <div key={i} className="aspect-square bg-surface/50 rounded-lg border border-border border-dashed flex items-center justify-center hover:bg-surface/80 transition-colors duration-300">
-                    <span className="text-[10px] text-muted-foreground/40 font-mono">R&D {String(i + 1).padStart(2, "0")}</span>
-                  </div>
-                ))}
-              </div>
             </div>
           </CollapsibleSection>
         </div>
@@ -548,6 +542,13 @@ const TheOneYouKeepCaseStudy = ({ caseData, nextCase }: Props) => {
           </Link>
         </div>
       </div>
+
+      <MediaLightbox
+        isOpen={lightbox.isOpen}
+        images={lightbox.images}
+        initialIndex={lightbox.index}
+        onClose={() => setLightbox({ ...lightbox, isOpen: false })}
+      />
     </div>
   );
 };

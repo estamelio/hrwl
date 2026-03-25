@@ -8,6 +8,7 @@ import TheOneYouKeepCaseStudy from "@/components/case-studies/TheOneYouKeepCaseS
 import HRWLVisualIdentityCaseStudy from "@/components/case-studies/HRWLVisualIdentityCaseStudy";
 import HRWLBrandFilmCaseStudy from "@/components/case-studies/HRWLBrandFilmCaseStudy";
 import BackToWork from "@/components/BackToWork";
+import MediaLightbox from "@/components/MediaLightbox";
 import hrwlSfx from "@/assets/Case studies/Hrwl - Launch Campaign/SFX/djamel_sfx_final.mp3";
 
 // Google Storyboard
@@ -73,6 +74,18 @@ const SFXPlayer = ({ label, src }: { label: string; src: string }) => {
 };
 
 const CaseStudy = () => {
+    const [lightbox, setLightbox] = useState({
+        isOpen: false,
+        index: 0,
+        images: [] as string[]
+    });
+
+    const openLightbox = (index: number, images: string[]) => {
+        setLightbox({ isOpen: true, index, images });
+    };
+
+    const launchSbImages = [launchSb1, launchSb2, launchSb3, launchSb4, launchSb5, launchSb6, launchSb7, launchSb8, launchSb9, launchSb10];
+    const googleSbImages = [googleSb1, googleSb2, googleSb3, googleSb4, googleSb5];
   const { id } = useParams();
   const caseData = CASES.find((c) => c.id === id);
   const currentIndex = CASES.findIndex((c) => c.id === id);
@@ -165,9 +178,9 @@ const CaseStudy = () => {
                 { title: "Website Animation", id: "1077085520" },
                 { title: "Trailer", id: "1177055608" }
               ].map((film, i) => (
-                <div key={i} className="aspect-video bg-foreground rounded-lg overflow-hidden relative group">
+                  <div className="aspect-video bg-black rounded-lg overflow-hidden relative group">
                   <iframe
-                    src={`https://player.vimeo.com/video/${film.id}?badge=0&autopause=0&player_id=0&app_id=58479`}
+                    src={`https://player.vimeo.com/video/${film.id}?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1&loop=1`}
                     className="absolute inset-0 w-full h-full"
                     allow="autoplay; fullscreen; picture-in-picture"
                     style={{ border: 0 }}
@@ -232,8 +245,12 @@ const CaseStudy = () => {
           <div className="max-w-[700px] mx-auto">
             <h2 className="text-xl font-bold mb-4">Storyboard</h2>
             <div className="grid grid-cols-2 md:grid-cols-5 gap-2">
-              {[launchSb1, launchSb2, launchSb3, launchSb4, launchSb5, launchSb6, launchSb7, launchSb8, launchSb9, launchSb10].map((img, i) => (
-                <div key={i} className="aspect-video bg-surface/50 rounded-md border border-border overflow-hidden hover:opacity-80 transition-opacity duration-300">
+              {launchSbImages.map((img, i) => (
+                <div 
+                    key={i} 
+                    className="aspect-video bg-surface/50 rounded-md border border-border overflow-hidden hover:opacity-80 transition-opacity duration-300 cursor-zoom-in"
+                    onClick={() => openLightbox(i, launchSbImages)}
+                >
                   <img src={img} alt={`Storyboard ${i + 1}`} className="w-full h-full object-cover" loading="lazy" />
                 </div>
               ))}
@@ -342,9 +359,9 @@ const CaseStudy = () => {
 
         <section className="px-6 mb-6">
           <div className="max-w-[1000px] mx-auto">
-            <div className="aspect-video bg-foreground rounded-xl overflow-hidden relative group">
+            <div className="aspect-video bg-black rounded-xl overflow-hidden relative group">
               <iframe
-                src="https://player.vimeo.com/video/1065449370?badge=0&autopause=0&player_id=0&app_id=58479"
+                src="https://player.vimeo.com/video/1065449370?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1&loop=1"
                 className="absolute inset-0 w-full h-full"
                 allow="autoplay; fullscreen; picture-in-picture"
                 style={{ border: 0 }}
@@ -392,8 +409,12 @@ const CaseStudy = () => {
           <div className="max-w-[700px] mx-auto">
             <h2 className="text-xl font-bold mb-4 text-foreground">Style Frames</h2>
             <div className="grid grid-cols-2 md:grid-cols-5 gap-2">
-              {[googleSb1, googleSb2, googleSb3, googleSb4, googleSb5].map((img, i) => (
-                <div key={i} className="aspect-video bg-surface/50 rounded-lg border border-border overflow-hidden hover:opacity-80 transition-opacity duration-300">
+              {googleSbImages.map((img, i) => (
+                <div 
+                    key={i} 
+                    className="aspect-video bg-surface/50 rounded-lg border border-border overflow-hidden hover:opacity-80 transition-opacity duration-300 cursor-zoom-in"
+                    onClick={() => openLightbox(i, googleSbImages)}
+                >
                   <img src={img} alt={`Style Frame ${i + 1}`} className="w-full h-full object-cover" loading="lazy" />
                 </div>
               ))}
@@ -454,9 +475,9 @@ const CaseStudy = () => {
 
       <section className="px-6 mb-6">
         <div className="max-w-[1000px] mx-auto">
-          <div className="aspect-video bg-foreground rounded-lg overflow-hidden relative group">
+          <div className="aspect-video bg-black rounded-lg overflow-hidden relative group">
             <iframe
-              src="https://player.vimeo.com/video/1177053983?badge=0&autopause=0&player_id=0&app_id=58479"
+              src="https://player.vimeo.com/video/1177053983?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1&loop=1"
               className="absolute inset-0 w-full h-full"
               allow="autoplay; fullscreen; picture-in-picture"
               style={{ border: 0 }}
