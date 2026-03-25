@@ -182,7 +182,7 @@ export default function Index() {
           </ScrollReveal>
         </section>
 
-        {/* Selected Work — lovable style */}
+        {/* Selected Work */}
         <section className="px-6 lg:px-12 py-24">
           <div className="max-w-[1200px] mx-auto">
             <div className="flex items-end justify-between mb-12">
@@ -247,7 +247,7 @@ export default function Index() {
           </div>
         </section>
 
-        {/* What I Do — lovable style */}
+        {/* What I Do  */}
         <section className="px-6 lg:px-12 py-24">
           <div className="max-w-[900px] mx-auto">
             <div className="text-center mb-12">
