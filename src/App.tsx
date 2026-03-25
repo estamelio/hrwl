@@ -42,7 +42,7 @@ const App = () => (
       <TooltipProvider>
         <Toaster />
         <Sonner />
-        <BrowserRouter basename="/HRWL">
+        <BrowserRouter>
           <ScrollToTop />
           <Navbar />
           {/* <AkioAgent /> — Temporarily disabled */}
