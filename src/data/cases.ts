@@ -21,6 +21,7 @@ export interface Case {
   keyHighlight?: string;
   comingSoon?: boolean;
   thumbnail?: string;
+  format?: string;
 }
 
 
@@ -30,6 +31,7 @@ import hrwlBrandFilmThumb from "../assets/Thumbnails - work grids/Brand Film - H
 import noxisrosThumb from "../assets/Thumbnails - work grids/Noxisros/Noxisros.webp";
 import googleThumb from "../assets/Thumbnails - work grids/Google/Google.webp";
 import theOneYouKeepThumb from "../assets/Thumbnails - work grids/The One You Keep/The One You Keep.webp";
+import coinbaseThumb from "../assets/Thumbnails - work grids/Coinbase/Coinbase.webp";
 
 export const CASES: Case[] = [
   {
@@ -43,6 +45,7 @@ export const CASES: Case[] = [
     solution: "Complete brand ecosystem: naming, logo, animations, Instagram assets, and 1-month brand film production.",
     production: "2 months",
     result: "Full brand system with motion toolkit and cinematic brand film.",
+    format: "Brand Identity + Film",
     credits: [
       { role: "Creative Director", name: "Djamel Haroual" },
       { role: "Team", name: "Noxisros" },
@@ -67,6 +70,7 @@ export const CASES: Case[] = [
     solution: "Cohesive visual language, demo reel, and modular motion assets.",
     production: "1 month",
     result: "Full identity system + demo reel and reusable motion assets.",
+    format: "Identity + Motion",
     credits: [
       { role: "Creative Direction & Motion", name: "Djamel Haroual" },
       { role: "Sound Design", name: "Djamel Haroual" },
@@ -85,6 +89,7 @@ export const CASES: Case[] = [
     solution: "A narrative-driven brand film that tells a story instead of listing work. The viewer discovers the creator through the story itself.",
     production: "3 months",
     result: "Positioned Djamel as creative partner, storyteller, strategist, and director — not just an animator.",
+    format: "Brand Film",
     credits: [
       { role: "Creative Direction", name: "Djamel Haroual" },
       { role: "Storyboard", name: "Djamel Haroual" },
@@ -106,6 +111,7 @@ export const CASES: Case[] = [
     solution: "A minimalist motion identity built around consistency, timing, and reduction. The films operate as moving logos rather than narratives. Single CTA: djamel@hrwl.studio",
     production: "5 days",
     result: "Instant brand recall, increased curiosity, high perceived quality, premium perception without explanation.",
+    format: "Campaign",
     credits: [
       { role: "Creative Direction", name: "Djamel Haroual" },
       { role: "Motion Design", name: "Djamel Haroual" },
@@ -124,6 +130,7 @@ export const CASES: Case[] = [
     solution: "Create a short animation that introduces the case study, structures attention, and makes reading engaging. The video hooks — the case study delivers.",
     production: "4 weeks",
     result: "A proof of concept: video-first case study introductions that increase engagement and reading completion.",
+    format: "Case Study Film",
     credits: [
       { role: "Creative Direction", name: "Djamel Haroual" },
       { role: "Storyboarding", name: "Djamel Haroual" },
@@ -142,6 +149,7 @@ export const CASES: Case[] = [
     hero: "Coinbase — framed through human stories, strategic pacing, and cinematic craft.",
     solution: "Research → storytelling strategy → storyboard → animation → sound design → delivery.",
     production: "1 month",
+    format: "Commercial",
     result: "A cinematic commercial that sells without feeling like it's selling.",
     comingSoon: true,
     credits: [
@@ -155,6 +163,7 @@ export const CASES: Case[] = [
       { role: "Music Production", name: "Davis" },
       { role: "Sound Design", name: "Davis" },
     ],
+    thumbnail: coinbaseThumb,
   },
   {
     id: "theoneyoukeep",
@@ -166,6 +175,7 @@ export const CASES: Case[] = [
     hero: "The One You Keep — where emotion meets artistry.",
     solution: "Poetic script → voiceover → visual system → frame-by-frame animation → sound design → cinematic polish.",
     production: "1 month",
+    format: "Brand Film",
     result: "The film achieved its primary objective: it stayed with people.",
     keyHighlight: "The film was designed to be remembered, not rewatched.",
     detailedDescription: "Test whether emotion could be manufactured on demand, using the same rigor typically reserved for commercial work.",

@@ -15,7 +15,9 @@ import Blog from "./pages/Blog";
 import NotFound from "./pages/NotFound";
 import CaseStudy from "./pages/CaseStudy";
 import Inquiry from "./pages/Inquiry";
+import BlogPost from "./pages/BlogPost";
 import ScrollToTop from "./components/ScrollToTop";
+import LoadingScreen from "./components/LoadingScreen";
 
 const queryClient = new QueryClient();
 
@@ -29,6 +31,7 @@ const AnimatedRoutes = () => {
         <Route path="/work/:id" element={<PageTransition><CaseStudy /></PageTransition>} />
         <Route path="/about" element={<PageTransition><About /></PageTransition>} />
         <Route path="/blog" element={<PageTransition><Blog /></PageTransition>} />
+        <Route path="/blog/:slug" element={<PageTransition><BlogPost /></PageTransition>} />
         <Route path="/inquiry" element={<PageTransition><Inquiry /></PageTransition>} />
         <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />
       </Routes>
@@ -40,6 +43,7 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
       <TooltipProvider>
+        <LoadingScreen />
         <Toaster />
         <Sonner />
         <BrowserRouter>

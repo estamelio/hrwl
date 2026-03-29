@@ -161,33 +161,76 @@
   }
 }
 
-/* ── FAQ Start Inquiry button ── */
+/* ── Dark Pill Button (Framer style) ── */
+.dark-pill-btn,
 .faq-start-inquiry {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  background: hsl(var(--foreground));
-  color: hsl(var(--background));
-  border-radius: 999px;
-  font-family: Inter, sans-serif;
-  font-weight: 600;
-  font-size: 14px;
-  padding: 0.75rem 1.75rem;
+  gap: 12px;
+  padding: 14px 28px;
+  background: linear-gradient(190.123deg, rgb(50, 50, 50) 13%, rgb(20, 20, 20) 109%);
+  border-radius: 126px;
+  color: #FFFFFF !important;
+  font-family: "Inter", sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  letter-spacing: -0.4px;
   text-decoration: none;
   border: none;
   cursor: pointer;
-  white-space: nowrap;
-  transition: opacity 0.3s, transform 0.2s;
+  transition: transform 0.2s cubic-bezier(0.2, 0, 0.2, 1), box-shadow 0.2s ease;
+  box-shadow: 
+    rgba(0, 0, 0, 0.15) -0.873394px 0.386309px 0.66851px -0.375px, 
+    rgba(0, 0, 0, 0.15) -2.0701px 0.915621px 1.58449px -0.75px, 
+    rgba(0, 0, 0, 0.145) -3.77607px 1.67019px 2.89027px -1.125px, 
+    rgba(0, 0, 0, 0.145) -6.27772px 2.77668px 4.80506px -1.5px, 
+    rgba(0, 0, 0, 0.14) -10.138px 4.48412px 7.75979px -1.875px, 
+    rgba(0, 0, 0, 0.133) -16.5949px 7.34005px 12.702px -2.25px, 
+    rgba(0, 0, 0, 0.12) -28.5753px 12.6391px 21.872px -2.625px, 
+    rgba(0, 0, 0, 0.1) -52px 23px 39.8016px -3px;
+  overflow: hidden;
 }
 
+/* Glass border effect */
+.dark-pill-btn::after,
+.faq-start-inquiry::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.2px; /* thickness */
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.dark-pill-btn:hover,
 .faq-start-inquiry:hover {
-  opacity: 0.85;
-  transform: scale(1.03);
+  transform: scale(1.02);
+  opacity: 0.95;
 }
 
+.dark-pill-btn:active,
 .faq-start-inquiry:active {
-  transform: scale(0.97);
+  transform: scale(0.98);
+}
+
+.dark-pill-btn .arrow-icon,
+.faq-start-inquiry .arrow-icon {
+  width: 18px;
+  height: 18px;
+  transform: rotate(-90deg);
+  transition: transform 0.3s ease;
+}
+
+.dark-pill-btn:hover .arrow-icon,
+.faq-start-inquiry:hover .arrow-icon {
+  transform: rotate(-90deg) translateY(2px);
 }
 
 /* ── Mobile Menu Inquiry Button ── */
@@ -240,4 +283,35 @@
 .card-elevated:hover {
   transform: translateY(-4px);
   box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.15);
+}
+/* ── Secondary Pill Button (matches dark-pill-btn size) ── */
+.secondary-pill-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 14px 28px;
+  background: hsl(var(--muted-foreground) / 0.1);
+  border-radius: 126px;
+  color: hsl(var(--foreground)) !important;
+  font-family: "Inter", sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  letter-spacing: -0.4px;
+  text-decoration: none;
+  border: 1px solid hsl(var(--border) / 0.75);
+  cursor: pointer;
+  transition: transform 0.2s cubic-bezier(0.2, 0, 0.2, 1), background-color 0.3s, border-color 0.3s;
+  backdrop-filter: blur(8px);
+}
+
+.secondary-pill-btn:hover {
+  transform: scale(1.02);
+  background: hsl(var(--muted-foreground) / 0.15);
+  border-color: hsl(var(--border));
+}
+
+.secondary-pill-btn:active {
+  transform: scale(0.98);
 }

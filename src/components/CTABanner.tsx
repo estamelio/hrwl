@@ -25,17 +25,6 @@ export default function CTABanner() {
           className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent"
         />
 
-        {/* Decorative Eyes from Screenshot 2 */}
-        <div className="absolute right-10 md:right-20 top-1/2 -translate-y-1/2 opacity-20 pointer-events-none hidden md:block select-none">
-          <div className="flex gap-4">
-            <div className="w-16 h-8 bg-white rounded-full blur-[2px]" />
-            <div className="w-16 h-8 bg-white rounded-full blur-[2px]" />
-          </div>
-          <div className="absolute inset-x-0 -bottom-20 text-center">
-            <span className="text-[120px] font-black text-white/5 tracking-tighter">HRWL</span>
-          </div>
-        </div>
-
         {/* Content */}
         <div className="relative z-10 flex flex-col items-start justify-center px-10 py-14 md:px-20 h-full min-h-[280px]">
           <h2
@@ -73,9 +62,10 @@ export default function CTABanner() {
           </p>
           <Link
             to="/inquiry"
-            className="faq-start-inquiry"
+            className="dark-pill-btn"
           >
             Start Inquiry
+            <svg className="arrow-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
           </Link>
         </div>
       </div>
