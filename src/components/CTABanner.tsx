@@ -20,9 +20,14 @@ export default function CTABanner() {
           className="absolute inset-0 h-full w-full object-cover dark:opacity-40 grayscale group-hover:scale-105 transition-transform duration-1000"
           style={{ backgroundColor: "#0A0A0A" }}
         />
-        {/* Dark overlay for contrast */}
+        {/* Contrast overlay (light mode) */}
         <div
-          className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent"
+          className="cta-banner-overlay absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent transition-opacity duration-500"
+        />
+        {/* Dark-mode gradient overlay — matches dark-pill-btn style */}
+        <div
+          className="absolute inset-0 hidden dark:block"
+          style={{ background: "linear-gradient(190.123deg, rgba(50,50,50,0.82) 13%, rgba(20,20,20,0.92) 109%)" }}
         />
 
         {/* Content */}

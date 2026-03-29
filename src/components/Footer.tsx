@@ -52,7 +52,7 @@ const Footer = ({ catchphrase = "Let's create something worth watching." }: Foot
             <div className="flex gap-4">
               {[
                 { icon: Instagram, href: "https://instagram.com/hrwl", label: "Instagram" },
-                { icon: Linkedin, href: "https://linkedin.com/in/hrwl", label: "LinkedIn" },
+                { icon: Linkedin, href: "https://www.linkedin.com/in/djamel-haroual-9028b3241/", label: "LinkedIn" },
               ].map((social) => (
                 <a
                   key={social.label}

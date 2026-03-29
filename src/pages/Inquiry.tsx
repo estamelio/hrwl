@@ -1,15 +1,8 @@
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { ArrowRight, Play, Mail } from "lucide-react";
+import { Play, ArrowRight } from "lucide-react";
 import Footer from "@/components/Footer";
+import ProgressiveForm from "@/components/ProgressiveForm";
 
 const Inquiry = () => {
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    alert("Inquiry submitted! We'll get back to you within 24 hours.");
-  };
-
   return (
     <div className="min-h-screen bg-background flex flex-col overflow-x-hidden no-scrollbar">
       <main className="flex-1 pt-32 pb-20 px-6">
@@ -30,8 +23,6 @@ const Inquiry = () => {
                 <p className="text-[10px] font-mono uppercase tracking-[0.2em] text-background/40">Djamel Haroual — 1:45</p>
               </div>
             </div>
-
-            {/* Subtle grain/texture overlay could go here */}
           </div>
 
           {/* Header Section */}
@@ -44,90 +35,9 @@ const Inquiry = () => {
             </p>
           </div>
 
-          {/* Form Section */}
+          {/* Progressive Form Section */}
           <div className="animate-fade-up" style={{ animationDelay: "200ms" }}>
-            <form onSubmit={handleSubmit} className="space-y-8">
-              <div className="grid md:grid-cols-2 gap-8">
-                <div className="space-y-2">
-                  <label className="text-[11px] uppercase tracking-widest font-bold text-muted-foreground/60 ml-1">Full Name</label>
-                  <Input
-                    placeholder="E.g. Jane Doe"
-                    className="h-14 bg-surface/30 border-border/40 focus:bg-surface/50 transition-all rounded-xl focus:ring-1 focus:ring-foreground/10"
-                    required
-                  />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-[11px] uppercase tracking-widest font-bold text-muted-foreground/60 ml-1">Email Address</label>
-                  <Input
-                    type="email"
-                    placeholder="jane@company.com"
-                    className="h-14 bg-surface/30 border-border/40 focus:bg-surface/50 transition-all rounded-xl focus:ring-1 focus:ring-foreground/10"
-                    required
-                  />
-                </div>
-              </div>
-
-              <div className="grid md:grid-cols-2 gap-8">
-                <div className="space-y-2">
-                  <label className="text-[11px] uppercase tracking-widest font-bold text-muted-foreground/60 ml-1">Company / Brand</label>
-                  <Input
-                    placeholder="Your brand name"
-                    className="h-14 bg-surface/30 border-border/40 focus:bg-surface/50 transition-all rounded-xl focus:ring-1 focus:ring-foreground/10"
-                    required
-                  />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-[11px] uppercase tracking-widest font-bold text-muted-foreground/60 ml-1">Project Category</label>
-                  <Input
-                    placeholder="Brand Film, Commercial, etc."
-                    className="h-14 bg-surface/30 border-border/40 focus:bg-surface/50 transition-all rounded-xl focus:ring-1 focus:ring-foreground/10"
-                    required
-                  />
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-[11px] uppercase tracking-widest font-bold text-muted-foreground/60 ml-1">Project Details & Vision</label>
-                <Textarea
-                  placeholder="Tell us about your goals, specific needs, and what makes this project special..."
-                  rows={6}
-                  className="bg-surface/30 border-border/40 focus:bg-surface/50 transition-all rounded-2xl p-5 resize-none focus:ring-1 focus:ring-foreground/10"
-                  required
-                />
-              </div>
-
-              <div className="grid md:grid-cols-2 gap-8">
-                <div className="space-y-2">
-                  <label className="text-[11px] uppercase tracking-widest font-bold text-muted-foreground/60 ml-1">Ideal Timeline</label>
-                  <Input
-                    placeholder="Launch date / Deadline"
-                    className="h-14 bg-surface/30 border-border/40 focus:bg-surface/50 transition-all rounded-xl focus:ring-1 focus:ring-foreground/10"
-                    required
-                  />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-[11px] uppercase tracking-widest font-bold text-muted-foreground/60 ml-1">Budget Range (USD)</label>
-                  <Input
-                    placeholder="Your Estimated Budget"
-                    className="h-14 bg-surface/30 border-border/40 focus:bg-surface/50 transition-all rounded-xl focus:ring-1 focus:ring-foreground/10"
-                    required
-                  />
-                </div>
-              </div>
-
-              <div className="flex flex-col sm:flex-row gap-4 pt-6">
-                <Button type="submit" variant="pill" size="lg" className="h-16 flex-1 text-base tracking-tight hover-lift group shadow-lg shadow-foreground/5">
-                  Send Inquiry
-                  <ArrowRight className="w-5 h-5 ml-1 transition-transform group-hover:translate-x-1" />
-                </Button>
-                <a href="mailto:hello@hrwl.co" className="flex-1">
-                  <Button type="button" variant="outline" size="lg" className="w-full h-16 rounded-full border-border/60 hover:bg-surface/20 hover-lift text-base">
-                    <Mail className="w-5 h-5 mr-2 opacity-60" />
-                    Mail directly
-                  </Button>
-                </a>
-              </div>
-            </form>
+            <ProgressiveForm />
 
             {/* Direct Booking Link */}
             <div className="mt-12 text-center pt-8 border-t border-border/10 flex flex-col items-center gap-3">

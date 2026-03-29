@@ -291,6 +291,23 @@
   box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.15);
 }
 
+/* ── CTA Banner Card ── */
+/* Light mode: photo bg (handled by the img tag in JSX — no override needed) */
+
+/* Dark mode: same gradient as the Start Inquiry / dark-pill-btn */
+.dark .cta-banner-card {
+  background: linear-gradient(190.123deg, rgb(50, 50, 50) 13%, rgb(20, 20, 20) 109%);
+  box-shadow:
+    rgba(0, 0, 0, 0.15) 0px 2px 4px -1px,
+    rgba(0, 0, 0, 0.2) 0px 8px 24px -4px,
+    rgba(0, 0, 0, 0.25) 0px 20px 48px -8px;
+}
+
+/* In dark mode hide the photo overlay so pure gradient shows */
+.dark .cta-banner-card .cta-banner-overlay {
+  opacity: 0;
+}
+
 /* ── Secondary Pill Button (matches dark-pill-btn size) ── */
 .secondary-pill-btn {
   position: relative;
