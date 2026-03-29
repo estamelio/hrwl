@@ -71,10 +71,9 @@ export default function Navbar() {
 
   return (
     <>
-      <header 
-        className={`fixed top-0 left-0 right-0 z-50 w-full bg-background/80 backdrop-blur-xl transition-all duration-300 ${
-          scrolled ? "border-b border-border/30 py-1" : "border-b border-transparent py-2.5"
-        }`}
+      <header
+        className={`fixed top-0 left-0 right-0 z-50 w-full bg-background/80 backdrop-blur-xl transition-all duration-300 ${scrolled ? "border-b border-border/30 py-1" : "border-b border-transparent py-2.5"
+          }`}
       >
         <nav className="flex w-full items-center justify-between px-6 py-4 md:px-10 lg:px-12">
           {/* ── Left: page links (desktop only) ── */}
@@ -95,9 +94,8 @@ export default function Navbar() {
                       opacity: pathname === to ? 1 : 0.4,
                       color: "hsl(var(--foreground))",
                     }}
-                    className={`transition-all duration-300 relative group hover:opacity-100 ${
-                      pathname === to ? "brightness-125" : ""
-                    }`}
+                    className={`transition-all duration-300 relative group hover:opacity-100 ${pathname === to ? "brightness-125" : ""
+                      }`}
                   >
                     {label}
                     {pathname === to && (
@@ -141,9 +139,9 @@ export default function Navbar() {
             onClick={handleNavClick("/")}
             className="absolute left-1/2 -translate-x-1/2 select-none"
           >
-            <img 
-              src={hrwlLogoBlack} 
-              alt="HRWL" 
+            <img
+              src={hrwlLogoBlack}
+              alt="HRWL"
               className="h-6 md:h-7 w-auto dark:invert transition-all duration-300 hover:scale-105"
             />
           </Link>
@@ -213,20 +211,19 @@ export default function Navbar() {
                   key={link.to}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ 
-                    duration: 0.5, 
+                  transition={{
+                    duration: 0.5,
                     delay: 0.1 + i * 0.06,
-                    ease: [0.4, 0, 0.2, 1] 
+                    ease: [0.4, 0, 0.2, 1]
                   }}
                 >
                   <Link
                     to={link.to}
                     onClick={() => setMenuOpen(false)}
-                    className={`text-3xl font-semibold transition-all duration-300 ${
-                      pathname === link.to 
-                        ? "text-foreground" 
+                    className={`text-3xl font-semibold transition-all duration-300 ${pathname === link.to
+                        ? "text-foreground"
                         : "text-muted-foreground hover:text-foreground"
-                    }`}
+                      }`}
                   >
                     {link.label}
                   </Link>
@@ -236,16 +233,16 @@ export default function Navbar() {
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ 
-                  duration: 0.5, 
+                transition={{
+                  duration: 0.5,
                   delay: 0.1 + MOBILE_NAV_LINKS.length * 0.06,
-                  ease: [0.4, 0, 0.2, 1] 
+                  ease: [0.4, 0, 0.2, 1]
                 }}
                 className="mt-6"
               >
-                <Link 
-                  to="/inquiry" 
-                  onClick={() => setMenuOpen(false)} 
+                <Link
+                  to="/inquiry"
+                  onClick={() => setMenuOpen(false)}
                   className="inquiry-btn-mobile"
                 >
                   Start Inquiry

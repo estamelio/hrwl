@@ -18,6 +18,7 @@ import Inquiry from "./pages/Inquiry";
 import BlogPost from "./pages/BlogPost";
 import ScrollToTop from "./components/ScrollToTop";
 import LoadingScreen from "./components/LoadingScreen";
+import CustomScrollbar from "./components/CustomScrollbar";
 
 const queryClient = new QueryClient();
 
@@ -49,6 +50,7 @@ const App = () => (
         <BrowserRouter>
           <ScrollToTop />
           <Navbar />
+          <CustomScrollbar />
           {/* <AkioAgent /> — Temporarily disabled */}
           <AnimatedRoutes />
         </BrowserRouter>
