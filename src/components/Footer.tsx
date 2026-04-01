@@ -37,9 +37,9 @@ const Footer = ({ catchphrase = "Let's create something worth watching." }: Foot
           </defs>
         </svg>
       </div> */}
-      <div className="max-w-[1400px] mx-auto px-6 lg:px-12 pt-20 lg:pt-24 pb-10 lg:pb-12 relative" style={{ zIndex: 1 }}>
+      <div className="max-w-[1400px] mx-auto px-6 lg:px-12 pt-12 lg:pt-16 pb-8 lg:pb-10 relative" style={{ zIndex: 1 }}>
         {/* Top Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 mb-16 lg:mb-20">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-8 mb-12 lg:mb-16">
           {/* Brand */}
           <div className="lg:col-span-5">
             <img src={logoSrc} alt="HRWL" className="h-6 w-auto mb-8" />

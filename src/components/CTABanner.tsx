@@ -7,50 +7,45 @@ import { Link } from "react-router-dom";
 
 export default function CTABanner() {
   return (
-    <section className="mx-auto max-w-[1400px] px-6 py-10 md:px-8">
+    <section className="mx-auto max-w-[1400px] px-6 py-6 md:px-8">
       <div
         className="relative overflow-hidden rounded-[32px] cta-banner-card group"
-        style={{ minHeight: "280px" }}
+        style={{ minHeight: "180px" }}
       >
-        {/* Background image (light mode) */}
+        {/* Background image */}
         <img
           src={ctaBg}
           alt=""
           aria-hidden
-          className="absolute inset-0 h-full w-full object-cover dark:opacity-40 grayscale group-hover:scale-105 transition-transform duration-1000"
+          className="absolute inset-0 h-full w-full object-cover grayscale group-hover:scale-105 transition-transform duration-1000"
           style={{ backgroundColor: "#0A0A0A" }}
         />
-        {/* Contrast overlay (light mode) */}
+        {/* Contrast overlay */}
         <div
           className="cta-banner-overlay absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent transition-opacity duration-500"
         />
-        {/* Dark-mode gradient overlay — matches dark-pill-btn style */}
-        <div
-          className="absolute inset-0 hidden dark:block"
-          style={{ background: "linear-gradient(190.123deg, rgba(50,50,50,0.82) 13%, rgba(20,20,20,0.92) 109%)" }}
-        />
 
         {/* Content */}
-        <div className="relative z-10 flex flex-col items-start justify-center px-10 py-14 md:px-20 h-full min-h-[280px]">
+        <div className="relative z-10 flex flex-col items-start justify-center px-10 py-8 md:px-20 h-full min-h-[180px]">
           <h2
             className="mb-2"
             style={{
               fontFamily: "Inter",
               fontWeight: 500,
-              fontSize: "clamp(26px, 3vw, 42px)",
+              fontSize: "clamp(24px, 2.5vw, 36px)",
               lineHeight: "1.2",
-              letterSpacing: "-1.5px",
+              letterSpacing: "-1px",
               color: "#FFFFFF",
             }}
           >
             Have a Project in mind ?
           </h2>
           <p
-            className="mb-10"
+            className="mb-6"
             style={{
               fontFamily: "Inter",
               fontWeight: 400,
-              fontSize: "clamp(14px, 1.5vw, 18px)",
+              fontSize: "clamp(13px, 1.2vw, 16px)",
               lineHeight: "1.2",
               letterSpacing: "-0.5px",
               color: "rgba(255,255,255,0.7)",

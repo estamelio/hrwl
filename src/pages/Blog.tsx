@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import Footer from "@/components/Footer";
 import CTABanner from "@/components/CTABanner";
+import { RevealContainer, RevealItem } from "@/components/Reveal";
 import blogThumbnail from "@/assets/blog-brand-film-100m.png";
 
 const BLOG_ENTRIES = [
@@ -28,36 +29,44 @@ export default function Blog() {
             </p>
           </div>
 
-          {/* Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 max-w-[900px] mx-auto">
+          <RevealContainer className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {BLOG_ENTRIES.map((post) => (
-              <Link
-                key={post.slug}
-                to={`/blog/${post.slug}`}
-                className="group block"
-              >
-                <div className="rounded-xl overflow-hidden border border-border/60 bg-card card-elevated">
-                  <div className="aspect-[577.96/324.53] overflow-hidden">
-                    <img
-                      src={post.image}
-                      alt={post.title}
-                      className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]"
-                    />
-                  </div>
-                  <div className="px-5 py-4">
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className="text-[11px] font-mono text-muted-foreground/50">{post.date}</span>
-                      <span className="w-1 h-1 rounded-full bg-muted-foreground/20" />
-                      <span className="text-[11px] text-muted-foreground/50">{post.readTime}</span>
+              <RevealItem key={post.slug}>
+                <Link
+                  to={`/blog/${post.slug}`}
+                  className="group block"
+                >
+                  <div className="rounded-xl overflow-hidden border border-border/60 bg-card card-elevated uppercase-info">
+                    {/* Thumbnail — 2.35 / 1 ratio */}
+                    <div className="relative overflow-hidden bg-muted" style={{ aspectRatio: "2.35 / 1" }}>
+                      <img
+                        src={post.image}
+                        alt={post.title}
+                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      />
+                      <div className="absolute inset-0 bg-background/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                     </div>
-                    <h3 className="font-semibold text-sm leading-snug group-hover:text-muted-foreground transition-colors duration-300">
-                      {post.title}: {post.subtitle}
-                    </h3>
+                    {/* Info — Fixed height for uniformity */}
+                    <div className="px-5 py-4 flex flex-col h-[105px] justify-between">
+                      <div>
+                        <div className="flex items-start justify-between gap-3">
+                          <h3 className="font-semibold text-sm leading-snug group-hover:text-muted-foreground transition-colors duration-400 text-foreground">
+                            {post.title}
+                          </h3>
+                          <span className="text-[11px] font-mono text-muted-foreground/50 flex-shrink-0 mt-0.5">
+                            {post.date}
+                          </span>
+                        </div>
+                        <p className="text-xs text-muted-foreground mt-2 line-clamp-2 leading-relaxed">
+                          {post.subtitle} — {post.readTime}
+                        </p>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </Link>
+                </Link>
+              </RevealItem>
             ))}
-          </div>
+          </RevealContainer>
         </div>
       </div>
       <CTABanner />

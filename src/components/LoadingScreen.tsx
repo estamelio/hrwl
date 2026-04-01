@@ -22,9 +22,9 @@ export default function LoadingScreen() {
     <AnimatePresence>
       {isVisible && (
         <motion.div
-          initial={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.8, ease: "easeInOut" }}
+          initial={{ y: 0 }}
+          exit={{ y: "-100%" }}
+          transition={{ duration: 0.8, ease: [0.645, 0.045, 0.355, 1] as any }}
           style={{
             position: "fixed",
             inset: 0,

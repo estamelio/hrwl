@@ -72,8 +72,12 @@ export default function Navbar() {
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 w-full bg-background/80 backdrop-blur-xl transition-all duration-300 ${scrolled ? "border-b border-border/30 py-1" : "border-b border-transparent py-2.5"
+        className={`fixed top-0 left-0 right-0 z-50 w-full bg-background/80 backdrop-blur-xl transition-colors ${scrolled ? "border-b border-border/30 py-1" : "border-b border-transparent py-2.5"
           }`}
+        style={{ 
+          transitionDuration: "800ms", 
+          transitionTimingFunction: "cubic-bezier(0.4, 0, 0.2, 1)" 
+        }}
       >
         <nav className="flex w-full items-center justify-between px-6 py-4 md:px-10 lg:px-12">
           {/* ── Left: page links (desktop only) ── */}

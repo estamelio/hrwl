@@ -164,6 +164,10 @@ const VOPlayer = () => {
 };
 
 const TheOneYouKeepCaseStudy = ({ caseData, nextCase }: Props) => {
+  const [activeSection, setActiveSection] = useState<string | null>(null);
+  const [expandAll, setExpandAll] = useState(false);
+  const [scriptExpanded, setScriptExpanded] = useState(false);
+
   const [lightbox, setLightbox] = useState({
     isOpen: false,
     index: 0,
@@ -175,32 +179,25 @@ const TheOneYouKeepCaseStudy = ({ caseData, nextCase }: Props) => {
   };
 
   const sbImages = [sb1, sb2, sb3, sb4, sb5, sb6, sb7, sb8, sb9, sb10, sb11, sb12];
-  const [scriptExpanded, setScriptExpanded] = useState(false);
-  const [openSections, setOpenSections] = useState<Record<string, boolean>>({});
 
   const toggleSection = (key: string) => {
-    setOpenSections((prev) => ({ ...prev, [key]: !prev[key] }));
+    if (expandAll) return;
+    setActiveSection(prev => prev === key ? null : key);
   };
 
-  const allCollapsibleKeys = ["intent", "emotional", "constraints", "impact", "why"];
-  const allOpen = allCollapsibleKeys.every((k) => openSections[k]);
-
-  const toggleAll = () => {
-    const newState: Record<string, boolean> = { ...openSections };
-    allCollapsibleKeys.forEach((k) => (newState[k] = !allOpen));
-    setOpenSections(newState);
-  };
+  const isSectionOpen = (key: string) => expandAll || activeSection === key;
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background text-foreground">
+
       {/* Hero */}
-      <section className="pt-24 pb-6 px-6">
+      <section className="pt-32 pb-6 px-6">
         <div className="max-w-[900px] mx-auto">
           <div className="flex items-center gap-3 mb-4">
-            <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground border border-border rounded-full px-2.5 py-1">Case Study</span>
+            <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground border border-border rounded-full px-2.5 py-1 transition-colors duration-500">Case Study</span>
             <span className="text-xs font-mono text-muted-foreground">{caseData.year}</span>
           </div>
-          <h1 className="text-2xl md:text-4xl font-semibold leading-[1.1] tracking-tight mb-4">{caseData.title}</h1>
+          <h1 className="text-2xl md:text-5xl font-semibold leading-[1.1] tracking-tight mb-4">{caseData.title}</h1>
           <p className="text-lg md:text-xl text-muted-foreground max-w-[640px] leading-relaxed">{caseData.overview}</p>
         </div>
       </section>
@@ -230,7 +227,7 @@ const TheOneYouKeepCaseStudy = ({ caseData, nextCase }: Props) => {
               { label: "Year", value: caseData.year },
               { label: "Roles", value: `${caseData.credits.length} roles` },
             ].map((stat, i) => (
-              <div key={i} className="bg-surface/40 rounded-lg p-4 border border-border/50">
+              <div key={i} className="bg-surface/40 rounded-lg p-4 border border-border/50 transition-colors duration-500">
                 <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">{stat.label}</p>
                 <p className="font-semibold text-base">{stat.value}</p>
               </div>
@@ -242,7 +239,7 @@ const TheOneYouKeepCaseStudy = ({ caseData, nextCase }: Props) => {
       {/* Key Highlight */}
       <section className="px-6 mb-10">
         <div className="max-w-[800px] mx-auto">
-          <div className="bg-foreground text-background rounded-xl p-8 md:p-10 text-center">
+          <div className="bg-foreground text-background rounded-xl p-8 md:p-10 text-center transition-colors duration-500">
             <p className="text-lg md:text-xl leading-relaxed font-medium">
               The film was designed to be <span className="font-bold">remembered, not rewatched.</span>
             </p>
@@ -257,11 +254,11 @@ const TheOneYouKeepCaseStudy = ({ caseData, nextCase }: Props) => {
       <section className="px-6 mb-2">
         <div className="max-w-[900px] mx-auto flex justify-end">
           <button
-            onClick={toggleAll}
+            onClick={() => setExpandAll(!expandAll)}
             className="text-xs font-medium text-muted-foreground hover:text-foreground transition-colors duration-300 flex items-center gap-1.5"
           >
-            {allOpen ? "Collapse All" : "Read All Sections"}
-            <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-300 ${allOpen ? "rotate-180" : ""}`} />
+            {expandAll ? "Collapse All" : "Read All Sections"}
+            <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-300 ${expandAll ? "rotate-180" : ""}`} />
           </button>
         </div>
       </section>
@@ -270,8 +267,8 @@ const TheOneYouKeepCaseStudy = ({ caseData, nextCase }: Props) => {
       <section className="px-6 mb-10">
         <div className="max-w-[900px] mx-auto">
           {/* Intent */}
-          <CollapsibleSection title="Intent" isOpen={!!openSections.intent} onToggle={() => toggleSection("intent")}>
-            <div className="space-y-5">
+          <CollapsibleSection title="Intent" isOpen={isSectionOpen("intent")} onToggle={() => toggleSection("intent")}>
+            <div className="space-y-5 max-w-[700px]">
               <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
                 Most brand content fails for one reason: <strong className="text-foreground">it is transactional.</strong> It delivers information, checks boxes, and disappears. It does not stay with the viewer long enough to influence memory, preference, or behavior.
               </p>
@@ -280,12 +277,9 @@ const TheOneYouKeepCaseStudy = ({ caseData, nextCase }: Props) => {
               </p>
               <div className="flex flex-wrap gap-3 my-4">
                 {["No brief", "No KPI", "No approval layers", "No safety net"].map((item) => (
-                  <span key={item} className="px-3 py-1.5 rounded-full bg-surface border border-border text-sm font-medium">{item}</span>
+                  <span key={item} className="px-3 py-1.5 rounded-full bg-surface border border-border text-sm font-medium transition-colors duration-500">{item}</span>
                 ))}
               </div>
-              <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
-                The intent was not to impress. It was to test whether <strong className="text-foreground">emotion could be manufactured on demand</strong>, using the same rigor typically reserved for commercial work.
-              </p>
               <div className="grid md:grid-cols-2 gap-3 mt-6">
                 <div
                   className="aspect-video bg-surface/50 rounded-lg border border-border overflow-hidden cursor-zoom-in hover:opacity-90 transition-opacity"
@@ -304,8 +298,8 @@ const TheOneYouKeepCaseStudy = ({ caseData, nextCase }: Props) => {
           </CollapsibleSection>
 
           {/* Emotional Objective */}
-          <CollapsibleSection title="Emotional Objective" isOpen={!!openSections.emotional} onToggle={() => toggleSection("emotional")}>
-            <div className="space-y-5">
+          <CollapsibleSection title="Emotional Objective" isOpen={isSectionOpen("emotional")} onToggle={() => toggleSection("emotional")}>
+            <div className="space-y-5 max-w-[700px]">
               <p className="text-base md:text-lg text-foreground/90 leading-relaxed font-medium italic">
                 "The feeling of realizing someone mattered more than you've ever said out loud."
               </p>
@@ -316,8 +310,8 @@ const TheOneYouKeepCaseStudy = ({ caseData, nextCase }: Props) => {
           </CollapsibleSection>
 
           {/* Constraints & Creative Decisions */}
-          <CollapsibleSection title="Constraints & Creative Decisions" isOpen={!!openSections.constraints} onToggle={() => toggleSection("constraints")}>
-            <div className="space-y-8">
+          <CollapsibleSection title="Constraints & Creative Decisions" isOpen={isSectionOpen("constraints")} onToggle={() => toggleSection("constraints")}>
+            <div className="space-y-8 max-w-[700px]">
               <div className="grid md:grid-cols-2 gap-8">
                 <div>
                   <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-4">Constraints</h3>
@@ -342,10 +336,6 @@ const TheOneYouKeepCaseStudy = ({ caseData, nextCase }: Props) => {
                     <p>Nothing was added to make the film more impressive. Elements were added only if they <strong className="text-foreground">sharpened meaning.</strong></p>
                     <p>If a moment could be felt without being shown, it was removed. If an idea could be implied instead of explained, it was implied.</p>
                     <p>The film avoided spectacle by design. <strong className="text-foreground">No visual flexing. No unnecessary motion.</strong></p>
-                    <p>The role of craft was to disappear behind intent.</p>
-                    <p className="text-sm border-t border-border/50 pt-4 mt-4">
-                      This approach mirrors how high-performing brand narratives work: <em>they don't demand attention — they earn it.</em>
-                    </p>
                   </div>
                 </div>
               </div>
@@ -353,39 +343,22 @@ const TheOneYouKeepCaseStudy = ({ caseData, nextCase }: Props) => {
           </CollapsibleSection>
 
           {/* Impact & Testimonial */}
-          <CollapsibleSection title="Impact & Testimonial" isOpen={!!openSections.impact} onToggle={() => toggleSection("impact")}>
-            <div className="space-y-8">
+          <CollapsibleSection title="Impact & Testimonial" isOpen={isSectionOpen("impact")} onToggle={() => toggleSection("impact")}>
+            <div className="space-y-8 max-w-[700px]">
               <p className="text-base md:text-lg text-foreground/90 leading-relaxed font-medium">
                 The film achieved its primary objective: it stayed with people.
               </p>
-              <ul className="space-y-2">
-                {[
-                  "Demonstrates end-to-end creative direction",
-                  "Shows emotional engineering under constraint",
-                  "Signals authorship, restraint, and judgment",
-                  "Proves collaboration without creative dilution",
-                ].map((item, i) => (
-                  <li key={i} className="flex gap-3 text-base text-muted-foreground">
-                    <span className="text-foreground font-bold mt-0.5">·</span>
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
 
               {/* Testimonial */}
-              <div className="rounded-xl border border-border p-6 md:p-8">
+              <div className="rounded-xl border border-border p-6 md:p-8 transition-colors duration-500">
                 <Quote className="w-8 h-8 text-muted-foreground/20 mb-4" />
-                <blockquote className="text-base md:text-lg leading-relaxed mb-6 text-foreground/90">
-                  I am honestly flabbegasted… This is way more than just a happy birthday wish, <strong>IT'S A WHOLE MASTERPIECE.</strong>
+                <blockquote className="text-base md:text-lg leading-relaxed mb-6 text-foreground/90 font-serif italic">
+                  I am honestly flabbergasted… This is way more than just a happy birthday wish, <strong className="not-italic">IT'S A WHOLE MASTERPIECE.</strong>
                   <br /><br />
                   You took time, the creativity to craft something this beautiful JUST FOR ME and i can't tell you how much that means, every detail shows how much heart you put into it and i felt every second of it.
-                  <br /><br />
-                  Honestly, you gave me a memory i will hold on onto for a looooooong time, it's rare to receive something so thoughtful so demure, and i genuinely feel grateful and lucky to have someone like you around
-                  <br /><br />
-                  From the bottom of my heart, thank you ❤️, this made my birthday so much more special.
                 </blockquote>
                 <div className="flex items-center gap-4 pt-4 border-t border-border/50">
-                  <div className="w-12 h-12 rounded-full bg-foreground/10 flex items-center justify-center text-base font-bold">
+                  <div className="w-12 h-12 rounded-full bg-foreground/10 flex items-center justify-center text-base font-bold transition-colors duration-500">
                     YM
                   </div>
                   <div>
@@ -398,103 +371,73 @@ const TheOneYouKeepCaseStudy = ({ caseData, nextCase }: Props) => {
                       Yasser Moussaoui
                       <ExternalLink className="w-3.5 h-3.5" />
                     </a>
-                    <p className="text-sm text-muted-foreground mt-0.5">The one this was made for</p>
+                    <p className="text-sm text-muted-foreground mt-0.5">Project Recipient</p>
                   </div>
                 </div>
               </div>
             </div>
           </CollapsibleSection>
 
-          {/* Why This Matters */}
-          <CollapsibleSection title="Why This Matters to Brands" isOpen={!!openSections.why} onToggle={() => toggleSection("why")}>
-            <div className="space-y-5 text-base md:text-lg text-muted-foreground leading-relaxed">
-              <p>Most brands chase attention.<br />Few invest in recall.</p>
-              <p>
-                <em>The One You Keep</em> exists to show that emotional storytelling is not an indulgence — <strong className="text-foreground">it's a system.</strong>
-              </p>
-              <p>
-                When intention, narrative, visuals, and sound are aligned, emotion becomes predictable. <strong className="text-foreground">Predictable emotion becomes a business asset.</strong>
-              </p>
-              <p>
-                This project wasn't created to be sold. It was created to prove that it <em>could</em> be.
-              </p>
-              <p className="text-sm border-t border-border/50 pt-4">
-                That distinction is the difference between content that performs — and stories that endure.
-              </p>
-            </div>
-          </CollapsibleSection>
-        </div>
-      </section>
-
-      {/* Production Breakdown — visible by default */}
-      <section className="px-6 mb-10">
-        <div className="max-w-[900px] mx-auto">
-          <CollapsibleSection title="Production Breakdown" isOpen={openSections.production !== false} onToggle={() => toggleSection("production")}>
-            {/* Script */}
-            <div className="mb-10">
-              <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-4">Script / Poem</h3>
-              <div className="bg-surface/30 rounded-xl border border-border p-6 md:p-8">
-                <pre className="whitespace-pre-wrap font-serif text-base md:text-lg leading-relaxed text-foreground/90">
-                  {scriptExpanded ? SCRIPT_FULL : SCRIPT_PREVIEW}
-                </pre>
-                <button
-                  onClick={() => setScriptExpanded(!scriptExpanded)}
-                  className="mt-5 inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors duration-300"
-                >
-                  {scriptExpanded ? (
-                    <>Show less <ChevronUp className="w-4 h-4" /></>
-                  ) : (
-                    <>Click to read the full script <ChevronDown className="w-4 h-4" /></>
-                  )}
-                </button>
-              </div>
-            </div>
-
-            {/* Voiceover */}
-            <div className="mb-10">
-              <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-3">Voiceover</h3>
-              <p className="text-base text-muted-foreground mb-4 leading-relaxed">
-                Recorded and directed by Djamel — raw, personal delivery to match the poem's intimacy.
-              </p>
-              <VOPlayer />
-            </div>
-
-            <div className="mb-10">
-              <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-4">Process</h3>
-              <p className="text-sm text-muted-foreground mb-4">Script → Moodboard → Storyboard → Style Frames → Animation pipeline.</p>
-              <div className="grid md:grid-cols-2 gap-3">
-                <div className="bg-surface/50 rounded-lg border border-border overflow-hidden">
-                  <video src={processVid1} autoPlay loop muted playsInline className="w-full h-full object-cover" />
-                </div>
-                <div className="bg-surface/50 rounded-lg border border-border overflow-hidden">
-                  <video src={processVid2} autoPlay loop muted playsInline className="w-full h-full object-cover" />
-                </div>
-              </div>
-            </div>
-
-            <div className="mb-10">
-              <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-4">Storyboard / Styleframes</h3>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-                {sbImages.map((img, i) => (
-                  <div
-                    key={i}
-                    className="aspect-video bg-surface/50 rounded-lg border border-border overflow-hidden hover:opacity-80 transition-opacity duration-300 cursor-zoom-in"
-                    onClick={() => openLightbox(i, sbImages)}
+          {/* Production Breakdown */}
+          <CollapsibleSection title="Production Breakdown" isOpen={isSectionOpen("production")} onToggle={() => toggleSection("production")}>
+            <div className="space-y-10">
+              {/* Script */}
+              <div>
+                <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-4">Script / Poem</h3>
+                <div className="bg-surface/30 rounded-xl border border-border p-6 md:p-8 transition-colors duration-500">
+                  <pre className="whitespace-pre-wrap font-serif text-base md:text-lg leading-relaxed text-foreground/90">
+                    {scriptExpanded ? SCRIPT_FULL : SCRIPT_PREVIEW}
+                  </pre>
+                  <button
+                    onClick={() => setScriptExpanded(!scriptExpanded)}
+                    className="mt-5 inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors duration-300"
                   >
-                    <img src={img} alt={`Storyboard ${i + 1}`} className="w-full h-full object-cover" loading="lazy" />
-                  </div>
-                ))}
+                    {scriptExpanded ? (
+                      <>Show less <ChevronUp className="w-4 h-4" /></>
+                    ) : (
+                      <>Click to read the full script <ChevronDown className="w-4 h-4" /></>
+                    )}
+                  </button>
+                </div>
               </div>
-            </div>
 
+              {/* Voiceover */}
+              <div>
+                <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-3">Voiceover</h3>
+                <p className="text-base text-muted-foreground mb-4 leading-relaxed">
+                  Recorded and directed by Djamel — raw, personal delivery.
+                </p>
+                <VOPlayer />
+              </div>
 
+              {/* Process Videos */}
+              <div>
+                <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-4">Process Shots</h3>
+                <div className="grid md:grid-cols-2 gap-3">
+                  <div className="bg-surface/50 rounded-lg border border-border overflow-hidden">
+                    <video src={processVid1} autoPlay loop muted playsInline className="w-full h-full object-cover" />
+                  </div>
+                  <div className="bg-surface/50 rounded-lg border border-border overflow-hidden">
+                    <video src={processVid2} autoPlay loop muted playsInline className="w-full h-full object-cover" />
+                  </div>
+                </div>
+              </div>
 
-            {/* Sonic Identity */}
-            <div className="mb-10">
-              <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-3">Sonic Identity</h3>
-              <p className="text-base text-muted-foreground leading-relaxed">
-                Sound designed as a narrative layer — voice, texture, silence, and score working together. Sound design by <strong className="text-foreground">John Green</strong>, music composition by <strong className="text-foreground">Penrose Audio</strong>.
-              </p>
+              {/* Storyboard */}
+              <div>
+                <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-4">Storyboard / Styleframes</h3>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+                  {sbImages.map((img, i) => (
+                    <div
+                      key={i}
+                      className="aspect-video bg-surface/50 rounded-lg border border-border overflow-hidden hover:opacity-80 transition-opacity duration-300 cursor-zoom-in"
+                      onClick={() => openLightbox(i, sbImages)}
+                    >
+                      <img src={img} alt={`Storyboard ${i + 1}`} className="w-full h-full object-cover" loading="lazy" />
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           </CollapsibleSection>
         </div>
@@ -527,8 +470,7 @@ const TheOneYouKeepCaseStudy = ({ caseData, nextCase }: Props) => {
         </div>
       </section>
 
-      {/* Next Case */}
-      <div className="border-t border-border bg-surface/20 py-12 px-6">
+      <div className="border-t border-border bg-surface/20 py-12 px-6 transition-colors duration-500">
         <div className="max-w-[900px] mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
           <div>
             <p className="text-xs text-muted-foreground mb-1.5 uppercase tracking-wider">Next Case Study</p>

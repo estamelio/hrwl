@@ -11,6 +11,7 @@ import {
 import VoiceNotePlayer from "@/components/VoiceNotePlayer";
 import Footer from "@/components/Footer";
 import CTABanner from "@/components/CTABanner";
+import { Reveal } from "@/components/Reveal";
 
 // Collapsible section component
 const CollapsibleSection = ({
@@ -123,16 +124,21 @@ const About = () => {
         {/* Identity Statement */}
         <section className="px-6 pb-14">
           <div className="max-w-[800px] mx-auto text-center">
-            <h1 className="text-4xl md:text-5xl font-bold tracking-tight leading-[1.08] mb-4 animate-fade-up">
-              Djamel Haroual
-            </h1>
-            <p className="text-lg md:text-xl text-muted-foreground mb-3 animate-fade-up-delay-1">
-              Freelance Motion Designer crafting cinematic brand films.
-            </p>
-            <p className="text-base text-muted-foreground/80 max-w-lg mx-auto animate-fade-up-delay-2">
-              I help ambitious brands turn complex ideas into clear, memorable visuals.
-            </p>
-
+            <Reveal>
+              <h1 className="text-4xl md:text-5xl font-bold tracking-tight leading-[1.08] mb-4">
+                Djamel Haroual
+              </h1>
+            </Reveal>
+            <Reveal delay={0.1}>
+              <p className="text-lg md:text-xl text-muted-foreground mb-3">
+                Freelance Motion Designer crafting cinematic brand films.
+              </p>
+            </Reveal>
+            <Reveal delay={0.2}>
+              <p className="text-base text-muted-foreground/80 max-w-lg mx-auto">
+                I help ambitious brands turn complex ideas into clear, memorable visuals.
+              </p>
+            </Reveal>
           </div>
         </section>
 
