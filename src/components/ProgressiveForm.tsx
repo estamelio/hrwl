@@ -15,14 +15,55 @@ export default function ProgressiveForm() {
   const totalSteps = INQUIRY_QUESTIONS.length;
   const progress = showReview ? 95 : ((currentStep + 1) / totalSteps) * 100;
 
+  const isStepComplete = useCallback(() => {
+    const step = INQUIRY_QUESTIONS[currentStep];
+    if (!step || step.type === "final") return true;
+
+    // 1. Contact Info with sub-fields
+    if (step.type === "contact") {
+      const hasAllFields = step.fields?.every(f => {
+        const val = formData[f.name];
+        return val && val.toString().trim().length > 0;
+      });
+      return !!hasAllFields;
+    }
+
+    // 2. Date type with sub-fields
+    if (step.type === "date") {
+      const month = formData[`step_${step.id}_month`];
+      const day = formData[`step_${step.id}_day`];
+      const year = formData[`step_${step.id}_year`];
+      return month && day && year && month.length > 0 && day.length > 0 && year.length >= 4;
+    }
+
+    // 3. Choice, Multichoice, Text, etc.
+    const value = formData[`step_${step.id}`];
+    
+    if (Array.isArray(value)) {
+      return value.length > 0;
+    }
+
+    if (typeof value === "string") {
+      return value.trim().length > 0;
+    }
+
+    if (typeof value === "boolean") {
+      return value !== undefined && value !== null;
+    }
+
+    return value !== undefined && value !== null && value !== "";
+  }, [currentStep, formData]);
+
   const handleNext = useCallback(() => {
+    if (!isStepComplete()) return;
+
     if (currentStep < totalSteps - 2) { // Stop before the final step to show review
       setDirection(1);
       setCurrentStep((prev) => prev + 1);
     } else {
       setShowReview(true);
     }
-  }, [currentStep, totalSteps]);
+  }, [currentStep, totalSteps, isStepComplete]);
 
   const handlePrev = useCallback(() => {
     if (showReview) {
@@ -44,11 +85,13 @@ export default function ProgressiveForm() {
       if (e.key === "Enter" && !e.shiftKey) {
         const step = INQUIRY_QUESTIONS[currentStep];
         if (["text", "textarea", "date", "contact"].includes(step.type)) {
-          handleNext();
+          if (isStepComplete()) {
+            handleNext();
+          }
         }
       }
     },
-    [currentStep, handleNext]
+    [currentStep, handleNext, isStepComplete]
   );
 
   useEffect(() => {
@@ -252,7 +295,7 @@ export default function ProgressiveForm() {
           Verify your ticket.
         </h2>
 
-        <div className="bg-white/40 border border-black/[0.03] rounded-[2rem] p-6 md:p-10 space-y-8 relative overflow-hidden backdrop-blur-sm">
+        <div className="bg-white/40 border border-black/[0.03] rounded-xl md:rounded-2xl p-6 md:p-10 space-y-8 relative overflow-hidden backdrop-blur-sm">
           {/* Ticket Aesthetic Decorations */}
           <div className="absolute top-0 right-0 p-8 opacity-5">
             <div className="w-24 h-24 border-4 border-black rounded-full" />
@@ -331,7 +374,7 @@ export default function ProgressiveForm() {
   const currentQuestion = INQUIRY_QUESTIONS[currentStep];
 
   return (
-    <div className="w-full flex flex-col bg-[#e5e5e5] border border-black/[0.03] rounded-[3rem] p-8 md:p-16 text-black relative font-inter overflow-hidden min-h-[650px] shadow-2xl shadow-black/[0.05]">
+    <div className="w-full flex flex-col bg-[#e5e5e5] border border-black/[0.03] rounded-[16px] sm:rounded-[20px] md:rounded-[24px] p-8 md:p-16 text-black relative font-inter overflow-hidden min-h-[650px] shadow-2xl shadow-black/[0.05]">
       {/* Progress Bar */}
       <div className="absolute top-0 left-0 w-full h-1.5 bg-black/[0.03]">
         <motion.div
@@ -405,10 +448,19 @@ export default function ProgressiveForm() {
                  <button
                   type="button"
                   onClick={handleNext}
-                  className="mt-12 bg-black/5 hover:bg-black text-black hover:text-white px-12 py-5 rounded-[2rem] font-black text-lg transition-all flex items-center gap-4 group active:scale-95 border border-black/5 shadow-sm"
+                  disabled={!isStepComplete()}
+                  className={cn(
+                    "mt-12 px-12 py-5 rounded-[2rem] font-black text-lg transition-all flex items-center gap-4 group active:scale-95 border shadow-sm",
+                    isStepComplete() 
+                      ? "bg-black text-white border-black hover:scale-105" 
+                      : "bg-black/5 text-black/20 border-black/5 cursor-not-allowed"
+                  )}
                 >
                   {currentStep === totalSteps - 2 ? "Finalize Vision" : "Continue"}
-                  <div className="w-8 h-8 bg-black/5 group-hover:bg-white/10 rounded-xl flex items-center justify-center transition-colors">
+                  <div className={cn(
+                    "w-8 h-8 rounded-xl flex items-center justify-center transition-colors",
+                    isStepComplete() ? "bg-white/10" : "bg-black/5"
+                  )}>
                      <ArrowRight className="w-5 h-5 group-hover:translate-x-0.5 transition-transform" />
                   </div>
                 </button>
@@ -440,11 +492,16 @@ export default function ProgressiveForm() {
             >
               <ChevronUp className="w-7 h-7" />
             </button>
-            <button
+             <button
               type="button"
-              onClick={handleNext}
-              disabled={showReview}
-              className="w-14 h-14 flex items-center justify-center bg-black/5 text-black rounded-2xl hover:bg-black hover:text-white disabled:opacity-5 transition-all active:scale-90 shadow-sm"
+              onClick={() => isStepComplete() && handleNext()}
+              disabled={showReview || !isStepComplete()}
+              className={cn(
+                "w-14 h-14 flex items-center justify-center rounded-2xl transition-all active:scale-90 shadow-sm",
+                (showReview || !isStepComplete()) 
+                  ? "bg-black/5 text-black/10 cursor-not-allowed opacity-40" 
+                  : "bg-black/5 text-black hover:bg-black hover:text-white"
+              )}
               aria-label="Next step"
             >
               <ChevronDown className="w-7 h-7" />

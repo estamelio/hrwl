@@ -98,8 +98,8 @@ export const INQUIRY_QUESTIONS: QuestionStep[] = [
   {
     id: 11,
     type: "text",
-    title: "Your brand's website",
-    description: "(if you have one)",
+    title: "Your brand's website*",
+    description: "Please provide your URL",
     placeholder: "https://",
   },
   {

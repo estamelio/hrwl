@@ -75,7 +75,13 @@ export default function Index() {
   const { theme } = useTheme();
   const [openFaq, setOpenFaq] = useState<string>("");
   const [isPlaying, setIsPlaying] = useState(false);
-  const [ambientColors, setAmbientColors] = useState({ from: "#004BE4", to: "#002EB0" });
+  const [ambientColors, setAmbientColors] = useState({ from: "#0149daff", to: "#002ba0ff" });
+
+  useEffect(() => {
+    if (window.innerWidth < 768) {
+      setAmbientColors({ from: "#0149daff", to: "#002ba0ff" });
+    }
+  }, []);
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -85,32 +91,36 @@ export default function Index() {
   const sequenceTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   const palettes = {
-    blue: { from: "#004BE4", to: "#002EB0" },
-    lightViolet: { from: "#F3E8FF", to: "#E9D5FF" },
-    red: { from: "#EF4444", to: "#B91C1C" }
+    blue: { from: "#004BE4", to: "#002EB0" }, // Start
   };
 
   const startLightingSequence = useCallback(() => {
     if (sequenceTimerRef.current) clearTimeout(sequenceTimerRef.current);
 
-    // Stage 0: 0s - 3s (Very Light Violet)
-    setAmbientColors(palettes.lightViolet);
+    const isMobile = window.innerWidth < 768;
+    if (isMobile) {
+      setAmbientColors(palettes.blue);
+      return;
+    }
 
-    // Stage 1: 3s - 9s (Red)
+    // Initial: Start with Purple
+    setAmbientColors(palettes.blue);
+
+    // Stage 1: Cyan shift (after 4s)
     sequenceTimerRef.current = setTimeout(() => {
-      setAmbientColors(palettes.red);
+      setAmbientColors(palettes.blue);
 
-      // Stage 2: 9s - 11s (Very Light Violet again)
+      // Stage 2: Gold finish (after 10s)
       sequenceTimerRef.current = setTimeout(() => {
-        setAmbientColors(palettes.lightViolet);
+        setAmbientColors(palettes.blue);
 
-        // Stage 3: 11s+ (Back to Blue)
+        // Stage 3: Return to Blue (after 16s - nearing loop)
         sequenceTimerRef.current = setTimeout(() => {
           setAmbientColors(palettes.blue);
-        }, 2000); // 9s + 2s = 11s
-      }, 6000); // 3s + 6s = 9s
-    }, 3000); // 0s + 3s = 3s
-  }, []);
+        }, 6000);
+      }, 6000);
+    }, 4000);
+  }, [palettes.blue]);
 
   // Post message to Vimeo player
   const postMessage = useCallback((action: string, value?: unknown) => {
@@ -186,181 +196,186 @@ export default function Index() {
 
         {/* ═══ First Viewport: Hero Section ═══ */}
         <div className="min-h-[100dvh] flex flex-col items-center overflow-hidden relative">
-          
+
           {/* Header Spacer (to avoid overlap and center content in the remaining space) */}
-          <div className="h-16 md:h-20 w-full flex-none" />
+          <div className="h-24 md:h-28 w-full flex-none" />
 
           {/* High-level Centering Container */}
-          <div className="flex-1 w-full flex flex-col items-center justify-center px-4 sm:px-6 md:px-8 max-w-[1200px] mx-auto pb-10 md:pb-0 relative">
+          <div className="flex-1 w-full flex flex-col items-center justify-center px-4 sm:px-6 md:px-8 max-w-[1200px] mx-auto pb-5 md:pb-0 relative">
 
-          {/* Ambient glow — intensifies when playing */}
-          <div 
-            className="absolute inset-0 z-0 pointer-events-none"
-            style={{ zIndex: isPlaying ? 65 : "auto" }}
-          >
-            <motion.div
-              initial={false}
-              animate={{
-                background: `linear-gradient(to right, ${ambientColors.from}, ${ambientColors.to})`,
-                opacity: isPlaying ? (theme === "dark" ? 0.35 : 0.22) : (theme === "dark" ? 0.18 : 0.12),
-                height: isPlaying ? "500px" : "400px",
-                width: isPlaying ? "800px" : "700px",
-              }}
-              transition={{ duration: 2.5, ease: "easeInOut" }}
-              className="absolute top-[30%] left-1/2 -translate-x-1/2 rounded-full"
-              style={{
-                filter: "blur(130px)",
-                mixBlendMode: theme === "dark" ? "plus-lighter" : "normal",
-              }}
-            />
-          </div>
+            {/* Ambient glow — intensifies when playing */}
+            <div
+              className="absolute inset-0 z-0 pointer-events-none"
+              style={{ zIndex: isPlaying ? 65 : "auto" }}
+            >
+              <motion.div
+                initial={false}
+                animate={{
+                  background: `linear-gradient(to right, ${ambientColors.from}, ${ambientColors.to})`,
+                  opacity: isPlaying ? (theme === "dark" ? 0.22 : 0.15) : (theme === "dark" ? 0.15 : 0.12),
+                  height: isPlaying ? "500px" : "400px",
+                  width: isPlaying ? "800px" : "700px",
+                }}
+                transition={{ duration: 2.5, ease: "easeInOut" }}
+                className="absolute top-[30%] left-1/2 -translate-x-1/2 rounded-full"
+                style={{
+                  filter: "blur(130px)",
+                  mixBlendMode: theme === "dark" ? "plus-lighter" : "normal",
+                }}
+              />
+            </div>
 
             {/* 1. Video Area wrapper */}
             <div className="w-full flex flex-col items-center">
 
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-              className="relative flex justify-center w-full mb-8 md:mb-0"
-              style={{ maxWidth: "850px", zIndex: isPlaying ? 66 : "auto" }}
-              ref={containerRef}
-            >
-              {/* Glow shadow behind video */}
               <motion.div
-                initial={false}
-                animate={{
-                  background: isPlaying ? `linear-gradient(135deg, ${ambientColors.from}, ${ambientColors.to})` : palettes.blue.from,
-                  opacity: isPlaying ? (theme === "dark" ? 0.32 : 0.22) : 0.1,
-                }}
-                transition={{ duration: 2.5, ease: "easeInOut" }}
-                className="absolute pointer-events-none"
-                style={{
-                  width: "120%",
-                  height: "80%",
-                  bottom: "-20%",
-                  left: "-10%",
-                  filter: isPlaying ? "blur(80px)" : "blur(90px)",
-                  borderRadius: "50%",
-                  mixBlendMode: theme === "dark" ? "plus-lighter" : "normal",
-                }}
-              />
-
-              {/* Video container */}
-              <div
-                className="relative overflow-hidden rounded-[16px] sm:rounded-[20px] md:rounded-[24px] w-full shadow-2xl bg-cover bg-center"
-                style={{ 
-                  backgroundColor: "#0F0F0F", 
-                  aspectRatio: "16/9",
-                  backgroundImage: !isPlaying ? `url(${heroThumb})` : "none"
-                }}
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+                className="relative flex justify-center w-full mb-8 md:mb-0"
+                style={{ maxWidth: "850px", zIndex: isPlaying ? 66 : "auto" }}
+                ref={containerRef}
               >
-                {/* Vimeo iframe — muted autoplay to ensure it's loaded and ready for instant playback */}
-                <iframe
-                  ref={iframeRef}
-                  src="https://player.vimeo.com/video/1179505050?badge=0&autopause=0&player_id=0&app_id=58479&controls=1&title=0&byline=0&portrait=0&transparent=0&loop=1&api=1&autoplay=1&muted=1"
-                  className={`absolute inset-0 w-full h-full transition-opacity duration-700 ${isPlaying ? "opacity-100" : "opacity-0"}`}
-                  allow="autoplay; fullscreen; picture-in-picture"
-                  title="HRWL - Brand film"
-                  onLoad={handleIframeLoad}
+                {/* Glow shadow behind video */}
+                <motion.div
+                  initial={false}
+                  animate={{
+                    background: isPlaying ? `linear-gradient(135deg, ${ambientColors.from}, ${ambientColors.to})` : palettes.blue.from,
+                    opacity: isPlaying ? (theme === "dark" ? 0.18 : 0.12) : 0.08,
+                  }}
+                  transition={{ duration: 2.5, ease: "easeInOut" }}
+                  className="absolute pointer-events-none"
+                  style={{
+                    width: "120%",
+                    height: "80%",
+                    bottom: "-20%",
+                    left: "-10%",
+                    filter: isPlaying ? "blur(80px)" : "blur(90px)",
+                    borderRadius: "50%",
+                    mixBlendMode: theme === "dark" ? "plus-lighter" : "normal",
+                  }}
                 />
 
-                {/* Video Interaction Overlay — catches clicks on the upper part of the video to toggle play/pause */}
+                {/* Video container */}
                 <div
-                  className="absolute inset-x-0 top-0 bottom-[55px] z-20 cursor-pointer group"
-                  onClick={() => {
-                    if (!isPlaying) {
-                      const isFirstPlay = !hasPlayed;
-                      setIsPlaying(true);
-                      setHasPlayed(true);
-                      postMessage("setMuted", false);
-                      postMessage("setVolume", 1);
-                      if (isFirstPlay) postMessage("seekTo", 0);
-                      postMessage("play"); // Ensure it's playing if standard autoplay was blocked
-                      startLightingSequence();
-                    } else {
-                      setIsPlaying(false);
-                      postMessage("pause");
-                    }
+                  className="relative overflow-hidden rounded-[16px] sm:rounded-[20px] md:rounded-[24px] w-full shadow-2xl bg-cover bg-center"
+                  style={{
+                    backgroundColor: "#0F0F0F",
+                    aspectRatio: "16/9",
+                    backgroundImage: !isPlaying ? `url(${heroThumb})` : "none"
                   }}
-                  onTouchEnd={(e) => {
-                    if (!isPlaying) {
-                      const isFirstPlay = !hasPlayed;
-                      e.preventDefault();
-                      setIsPlaying(true);
-                      setHasPlayed(true);
-                      postMessage("setMuted", false);
-                      postMessage("setVolume", 1);
-                      if (isFirstPlay) postMessage("seekTo", 0);
-                      postMessage("play");
-                      startLightingSequence();
-                    }
-                  }}
-                  aria-label={isPlaying ? "Pause video" : "Play video"}
                 >
-                  <AnimatePresence>
-                    {!isPlaying && (
-                      <motion.div
-                        initial={{ opacity: 0, scale: 0.8, x: "-50%", y: "-50%" }}
-                        animate={{ opacity: 1, scale: 1, x: "-50%", y: "-50%" }}
-                        exit={{ opacity: 0, scale: 1.2, x: "-50%", y: "-50%" }}
-                        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                        className="absolute top-1/2 left-1/2 pointer-events-none"
-                      >
-                        <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center hover:bg-white/20 transition-all duration-500 shadow-2xl">
-                          <Play className="w-6 h-6 md:w-8 md:h-8 text-white ml-1 fill-white" />
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+                  {/* Vimeo iframe — muted autoplay to ensure it's loaded and ready for instant playback */}
+                  <iframe
+                    ref={iframeRef}
+                    src="https://player.vimeo.com/video/1179505050?badge=0&autopause=0&player_id=0&app_id=58479&controls=1&title=0&byline=0&portrait=0&transparent=0&loop=1&api=1&autoplay=1&muted=1"
+                    className={`absolute inset-0 w-full h-full transition-opacity duration-700 ${isPlaying ? "opacity-100" : "opacity-0"}`}
+                    allow="autoplay; fullscreen; picture-in-picture"
+                    title="HRWL - Brand film"
+                    onLoad={handleIframeLoad}
+                  />
+
+                  {/* Video Interaction Overlay — catches clicks on the upper part of the video to toggle play/pause */}
+                  <div
+                    className="absolute inset-x-0 top-0 bottom-[55px] z-20 cursor-pointer group"
+                    onClick={() => {
+                      if (!isPlaying) {
+                        const isFirstPlay = !hasPlayed;
+                        setIsPlaying(true);
+                        setHasPlayed(true);
+                        postMessage("setMuted", false);
+                        postMessage("setVolume", 1);
+                        if (isFirstPlay) postMessage("seekTo", 0);
+                        postMessage("play"); // Ensure it's playing if standard autoplay was blocked
+                        startLightingSequence();
+                      } else {
+                        setIsPlaying(false);
+                        postMessage("pause");
+                      }
+                    }}
+                    onTouchEnd={(e) => {
+                      if (!isPlaying) {
+                        const isFirstPlay = !hasPlayed;
+                        e.preventDefault();
+                        setIsPlaying(true);
+                        setHasPlayed(true);
+                        postMessage("setMuted", false);
+                        postMessage("setVolume", 1);
+                        if (isFirstPlay) postMessage("seekTo", 0);
+                        postMessage("play");
+                        startLightingSequence();
+                      }
+                    }}
+                    aria-label={isPlaying ? "Pause video" : "Play video"}
+                  >
+                    <AnimatePresence>
+                      {!isPlaying && (
+                        <motion.div
+                          initial={{ opacity: 0, scale: 0.8, x: "-50%", y: "-50%" }}
+                          animate={{ opacity: 1, scale: 1, x: "-50%", y: "-50%" }}
+                          exit={{ opacity: 0, scale: 1.2, x: "-50%", y: "-50%" }}
+                          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                          className="absolute top-1/2 left-1/2 pointer-events-none"
+                        >
+                          <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center hover:bg-white/20 transition-all duration-500 shadow-2xl">
+                            <Play className="w-6 h-6 md:w-8 md:h-8 text-white ml-1 fill-white" />
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+
+                  {/* Black tint overlay (dims when not playing, clear when playing) */}
+                  <div
+                    className="absolute inset-0 transition-all duration-500 pointer-events-none"
+                    style={{ background: isPlaying ? "rgba(0,0,0,0)" : "rgba(0,0,0,0.12)" }}
+                  />
+
+
                 </div>
+              </motion.div>
 
-                {/* Black tint overlay (dims when not playing, clear when playing) */}
-                <div
-                  className="absolute inset-0 transition-all duration-500 pointer-events-none"
-                  style={{ background: isPlaying ? "rgba(0,0,0,0)" : "rgba(0,0,0,0.12)" }}
-                />
+              <AnimatePresence mode="wait">
+                {!isPlaying && (
+                  <motion.div
+                    key="mobile-hero-content"
+                    initial={{ opacity: 0, height: 0, marginTop: 0 }}
+                    animate={{ opacity: 1, height: "auto", marginTop: 40 }}
+                    exit={{ opacity: 0, height: 0, marginTop: 0 }}
+                    transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                    className="mb-2 text-center block md:hidden w-full max-w-[500px] overflow-hidden px-4"
+                  >
+                    <h1
+                      className="mb-8"
+                      style={{
+                        fontFamily: "Inter, sans-serif",
+                        fontWeight: 900,
+                        fontSize: "clamp(24px, 7vw, 34px)",
+                        lineHeight: "1.2",
+                        letterSpacing: "0.5px",
+                        color: "hsl(var(--foreground))",
+                      }}
+                    >
+                      Cinematic Brand Films
+                      <br />
+                      That make your product impossible to ignore
+                    </h1>
 
-
-              </div>
-            </motion.div>
-
-            {/* 2. Mobile Title & CTA (Hero section on mobile only) */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5, duration: 0.8 }}
-              className="mt-10 mb-2 text-center block md:hidden w-full max-w-[500px]"
-            >
-              <h1
-                className="mb-8"
-                style={{
-                  fontFamily: "Inter, sans-serif",
-                  fontWeight: 900,
-                  fontSize: "clamp(24px, 7vw, 34px)",
-                  lineHeight: "1.2",
-                  letterSpacing: "0.5px",
-                  color: "hsl(var(--foreground))",
-                }}
-              >
-                Cinematic Brand Films
-                <br />
-                That make your product impossible to ignore
-              </h1>
-
-              <div className="flex flex-col items-center gap-4">
-                <Link to="/inquiry" className="dark-pill-btn w-full max-w-[190px]">
-                  Start Inquiry
-                  <svg className="arrow-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
-                </Link>
-                <Link to="/work" className="secondary-pill-btn w-full max-w-[190px]">
-                  See Case Studies
-                </Link>
-              </div>
-            </motion.div>
+                    <div className="flex flex-col items-center gap-4">
+                      <Link to="/inquiry" className="dark-pill-btn w-full max-w-[190px]">
+                        Start Inquiry
+                        <svg className="arrow-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
+                      </Link>
+                      <Link to="/work" className="secondary-pill-btn w-full max-w-[190px]">
+                        See Case Studies
+                      </Link>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           </div>
         </div>
-      </div>
 
         {/* ═══ Headline + CTA (below the fold) ═══ */}
         <section className="px-6 md:px-12 py-16 md:py-24 hidden md:block">
