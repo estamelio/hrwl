@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Play, ArrowRight } from "lucide-react";
 import Footer from "@/components/Footer";
 import ProgressiveForm from "@/components/ProgressiveForm";
@@ -48,10 +49,10 @@ const Inquiry = () => {
               <p className="text-sm text-muted-foreground font-medium">
                 Have a Project in mind ?
               </p>
-              <a href="#" className="button-cta-outline inline-flex items-center gap-2 px-8 py-3 rounded-full text-[15px] font-semibold">
+              <Link to="/inquiry" className="button-cta-outline inline-flex items-center gap-2 px-8 py-3 rounded-full text-[15px] font-semibold">
                 Start inquiry
                 <ArrowRight className="w-4 h-4 opacity-70" />
-              </a>
+              </Link>
             </div>
           </Reveal>
         </div>

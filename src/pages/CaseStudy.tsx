@@ -459,6 +459,12 @@ const CaseStudy = () => {
           </div>
         </div>
         <Footer />
+        <MediaLightbox 
+            isOpen={lightbox.isOpen}
+            images={lightbox.images}
+            initialIndex={lightbox.index}
+            onClose={() => setLightbox({ ...lightbox, isOpen: false })}
+        />
       </div>
     );
   }

@@ -1,62 +1,58 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import logoAnimation from "@/assets/logo_animation_1.mp4";
+import logoAnimation from "@/assets/logo_animation_1.gif";
 
 export default function LoadingScreen() {
   const [isVisible, setIsVisible] = useState(true);
 
-  // Auto-hide if video takes too long or fails
   useEffect(() => {
+    // GIF doesn't have an 'onEnded' event, so we use a fixed duration
+    // matching the animation flow (approx 3.2s)
     const timer = setTimeout(() => {
       setIsVisible(false);
-    }, 4000); // 4s fallback
+    }, 3200);
 
     return () => clearTimeout(timer);
   }, []);
-
-  const handleVideoEnd = () => {
-    setIsVisible(false);
-  };
 
   return (
     <AnimatePresence>
       {isVisible && (
         <motion.div
-          initial={{ y: 0 }}
-          exit={{ y: "-100%" }}
-          transition={{ duration: 0.8, ease: [0.645, 0.045, 0.355, 1] as any }}
+          initial={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.6, ease: "easeInOut" }}
           style={{
             position: "fixed",
             inset: 0,
             zIndex: 9999,
             backgroundColor: "#000000",
-            overflow: "hidden", // Maintain the mask
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
             pointerEvents: "all",
           }}
         >
-          {/* Internal container counter-moves to keep logo static while background slides */}
           <motion.div
-            exit={{ y: "100%" }}
-            transition={{ duration: 0.8, ease: [0.645, 0.045, 0.355, 1] as any }}
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 1, ease: "easeOut" }}
             style={{
               width: "100%",
               height: "100%",
+              maxWidth: "600px",
+              maxHeight: "600px",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
             }}
           >
-            <video
+            <img
               src={logoAnimation}
-              autoPlay
-              muted
-              playsInline
-              onEnded={handleVideoEnd}
+              alt="Loading..."
               style={{
                 width: "100%",
                 height: "100%",
-                maxWidth: "800px",
-                maxHeight: "800px",
                 objectFit: "contain",
               }}
             />

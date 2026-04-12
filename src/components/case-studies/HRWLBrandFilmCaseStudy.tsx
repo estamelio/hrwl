@@ -129,18 +129,13 @@ const HRWLBrandFilmCaseStudy = ({ caseData, nextCase }: Props) => {
       <section className="px-6 mb-8">
         <div className="max-w-[1000px] mx-auto">
           <div className="aspect-video bg-black rounded-xl overflow-hidden relative group">
-            <video
-              src={brandFilmVideo}
-              autoPlay
-              loop
-              muted
-              playsInline
-              className="w-full h-full object-cover"
+            <iframe
+              src="https://player.vimeo.com/video/1179505050?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1&loop=1&title=0&byline=0&portrait=0"
+              className="absolute inset-0 w-full h-full"
+              allow="autoplay; fullscreen; picture-in-picture"
+              title="HRWL - Brand Film"
+              style={{ border: 0 }}
             />
-            <div className="absolute bottom-3 left-4 right-4 flex justify-between items-end text-white/80">
-              <span className="text-xs font-medium">Brand Film Narrative</span>
-              <span className="text-xs font-mono">0:44</span>
-            </div>
           </div>
         </div>
       </section>

@@ -77,6 +77,8 @@ export default function Index() {
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
+  const [hasPlayed, setHasPlayed] = useState(false);
+
   // Post message to Vimeo player
   const postMessage = useCallback((action: string, value?: unknown) => {
     if (!iframeRef.current) return;
@@ -91,7 +93,10 @@ export default function Index() {
       if (typeof e.data !== "string") return;
       try {
         const data = JSON.parse(e.data);
-        if (data.event === "play") setIsPlaying(true);
+        if (data.event === "play") {
+          setIsPlaying(true);
+          setHasPlayed(true);
+        }
         if (data.event === "pause" || data.event === "ended") setIsPlaying(false);
         // Ambient color cycling based on play state
         if (data.event === "play") {
@@ -175,14 +180,25 @@ export default function Index() {
                 className="relative overflow-hidden rounded-[16px] sm:rounded-[20px] md:rounded-[24px] w-full shadow-2xl"
                 style={{ backgroundColor: "#0F0F0F", aspectRatio: "16/9" }}
               >
-                {/* Vimeo iframe — controls hidden, no autoplay, sound on, API ENABLED */}
+                {/* Vimeo iframe — controls hidden initially, no autoplay, sound on, API ENABLED */}
                 <iframe
                   ref={iframeRef}
-                  src="https://player.vimeo.com/video/1179505050?badge=0&autopause=0&player_id=0&app_id=58479&controls=1&title=0&byline=0&portrait=0&transparent=0&loop=1&api=1"
+                  src={`https://player.vimeo.com/video/1179505050?badge=0&autopause=0&player_id=0&app_id=58479&controls=${hasPlayed ? "1" : "0"}&title=0&byline=0&portrait=0&transparent=0&loop=1&api=1${hasPlayed ? "&autoplay=1" : ""}`}
                   className="absolute inset-0 w-full h-full"
                   allow="autoplay; fullscreen; picture-in-picture"
                   title="HRWL - Brand film"
                   onLoad={handleIframeLoad}
+                />
+
+                {/* Video Interaction Overlay — catches clicks to toggle play/pause */}
+                <div
+                  className="absolute inset-0 z-10 cursor-pointer pointer-events-auto"
+                  onClick={() => postMessage(isPlaying ? "pause" : "play")}
+                  onTouchEnd={(e) => {
+                    e.preventDefault();
+                    postMessage(isPlaying ? "pause" : "play");
+                  }}
+                  aria-label={isPlaying ? "Pause video" : "Play video"}
                 />
 
                 {/* Black tint overlay (dims when not playing, clear when playing) */}
@@ -194,11 +210,45 @@ export default function Index() {
 
               </div>
             </motion.div>
+
+            {/* ═══ Mobile Title & CTA (Hero section on mobile only) ═══ */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5, duration: 0.8 }}
+              className="mt-10 mb-2 text-center block md:hidden"
+            >
+              <h1
+                className="mb-8"
+                style={{
+                  fontFamily: "Inter, sans-serif",
+                  fontWeight: 900,
+                  fontSize: "clamp(24px, 7vw, 34px)",
+                  lineHeight: "1.2",
+                  letterSpacing: "0.5px",
+                  color: "hsl(var(--foreground))",
+                }}
+              >
+                Cinematic Brand Films
+                <br />
+                That make your product impossible to ignore
+              </h1>
+
+              <div className="flex flex-col items-center gap-4">
+                <Link to="/inquiry" className="dark-pill-btn w-full max-w-[280px]">
+                  Start Inquiry
+                  <svg className="arrow-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
+                </Link>
+                <Link to="/work" className="secondary-pill-btn w-full max-w-[280px]">
+                  See Case Studies
+                </Link>
+              </div>
+            </motion.div>
           </section>
         </div>
 
         {/* ═══ Headline + CTA (below the fold) ═══ */}
-        <section className="px-6 md:px-12 py-16 md:py-24">
+        <section className="px-6 md:px-12 py-16 md:py-24 hidden md:block">
           <ScrollReveal delay={0.15}>
             <div className="text-center max-w-[1240px] mx-auto">
               <h1
@@ -234,7 +284,7 @@ export default function Index() {
                   Start Inquiry
                   <svg className="arrow-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
                 </Link>
-                <Link to="/work" className="min-w-[220px] text-center px-10 py-5 rounded-full bg-muted/30 border border-border/75 text-foreground font-bold text-base backdrop-blur-sm transition-all hover:bg-muted/50">
+                <Link to="/work" className="secondary-pill-btn min-w-[220px]">
                   See Case Studies
                 </Link>
               </div>

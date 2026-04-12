@@ -61,11 +61,17 @@ const HRWLVisualIdentityCaseStudy = ({ caseData, nextCase }: Props) => {
         </div>
       </section>
 
-      {/* Hero Logo */}
-      <section className="px-6 mb-6">
+      {/* Hero Video (Replacing Hero Logo with Demo Reel) */}
+      <section className="px-6 mb-12">
         <div className="max-w-[1000px] mx-auto">
-          <div className="aspect-[21/9] bg-foreground rounded-lg overflow-hidden relative flex items-center justify-center">
-            <img src={hrwlLogo} alt="HRWL Logo" className="w-40 md:w-56 opacity-90" />
+          <div className="aspect-video bg-black rounded-lg overflow-hidden relative group cursor-pointer">
+            <iframe
+              src="https://player.vimeo.com/video/1007931547?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1&loop=1"
+              className="absolute inset-0 w-full h-full"
+              allow="autoplay; fullscreen; picture-in-picture"
+              style={{ border: 0 }}
+              title="HRWL Demo Reel"
+            />
           </div>
         </div>
       </section>
@@ -103,18 +109,17 @@ const HRWLVisualIdentityCaseStudy = ({ caseData, nextCase }: Props) => {
         </div>
       </section>
 
+      {/* Visual Identity */}
       <section className="px-6 mb-12">
         <div className="max-w-[900px] mx-auto">
           <h2 className="text-xl font-bold mb-4">Visual Identity</h2>
-          <div className="grid md:grid-cols-2 gap-3 mb-4">
-            <div className="bg-foreground rounded-md p-6 flex items-center justify-center aspect-[16/9]">
-              <img src={hrwlLogo} alt="HRWL Main Logo" className="w-full max-w-[120px]" />
-            </div>
+          
+          <div className="grid md:grid-cols-1 gap-3 mb-4">
             <div className="bg-foreground rounded-md overflow-hidden aspect-[16/9]">
               <video src={hrwlLogoAnimation} autoPlay loop muted playsInline className="w-full h-full object-cover" />
             </div>
           </div>
-          
+
           <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-4">Storyboard</h3>
           <div className="grid grid-cols-2 md:grid-cols-5 gap-2">
             {sbImages.map((img, i) => (
@@ -153,7 +158,7 @@ const HRWLVisualIdentityCaseStudy = ({ caseData, nextCase }: Props) => {
         <div className="max-w-[900px] mx-auto">
           <h2 className="text-xl font-bold mb-4">Demo Reel + OC Animations</h2>
 
-          {/* Demo reel placeholder */}
+          {/* Reel section */}
           <div className="aspect-video bg-black rounded-lg overflow-hidden relative group cursor-pointer mb-4">
             <iframe
               src="https://player.vimeo.com/video/1007931547?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1&loop=1"
