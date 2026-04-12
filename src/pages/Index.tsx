@@ -6,12 +6,12 @@ import Footer from "@/components/Footer";
 import CTABanner from "@/components/CTABanner";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import heroThumb from "@/assets/hero-thumb.webp";
 import WorkCard from "@/components/WorkCard";
 import { CASES } from "@/data/cases";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Play } from "lucide-react";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useTheme } from "next-themes";
 
@@ -133,10 +133,15 @@ export default function Index() {
       if (!data) return;
 
       // Handle playback events
-      if (data.event === "play" || data.event === "playing") {
+      if (data.event === "playing") {
         setIsPlaying(true);
         setHasPlayed(true);
         startLightingSequence();
+      }
+      
+      if (data.event === "play") {
+        setIsPlaying(true);
+        setHasPlayed(true);
       }
 
       if (data.event === "pause" || data.event === "ended") {
@@ -187,10 +192,12 @@ export default function Index() {
         {/* ═══ First Viewport: Hero Video Only ═══ */}
         <div
           className="min-h-[100dvh] flex flex-col items-center justify-center pt-16 pb-8 overflow-hidden relative"
-          style={{ zIndex: isPlaying ? 65 : "auto" }}
         >
           {/* Ambient glow — intensifies when playing */}
-          <div className="absolute inset-0 z-0 pointer-events-none">
+          <div 
+            className="absolute inset-0 z-0 pointer-events-none"
+            style={{ zIndex: isPlaying ? 65 : "auto" }}
+          >
             <motion.div
               initial={false}
               animate={{
@@ -208,13 +215,13 @@ export default function Index() {
             />
           </div>
 
-          <section className="w-full px-4 sm:px-6 md:px-8 flex flex-col items-center justify-center max-w-[1200px] mx-auto z-10">
+          <section className="w-full px-4 sm:px-6 md:px-8 flex flex-col items-center justify-center max-w-[1200px] mx-auto">
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
               className="relative flex justify-center w-full mb-8 md:mb-0"
-              style={{ maxWidth: "850px" }}
+              style={{ maxWidth: "850px", zIndex: isPlaying ? 66 : "auto" }}
               ref={containerRef}
             >
               {/* Glow shadow behind video */}
@@ -239,14 +246,18 @@ export default function Index() {
 
               {/* Video container */}
               <div
-                className="relative overflow-hidden rounded-[16px] sm:rounded-[20px] md:rounded-[24px] w-full shadow-2xl"
-                style={{ backgroundColor: "#0F0F0F", aspectRatio: "16/9" }}
+                className="relative overflow-hidden rounded-[16px] sm:rounded-[20px] md:rounded-[24px] w-full shadow-2xl bg-cover bg-center"
+                style={{ 
+                  backgroundColor: "#0F0F0F", 
+                  aspectRatio: "16/9",
+                  backgroundImage: !isPlaying ? `url(${heroThumb})` : "none"
+                }}
               >
-                {/* Vimeo iframe — controls hidden initially, no autoplay, sound on, API ENABLED */}
+                {/* Vimeo iframe — hidden until playing to avoid showing Vimeo UI initially */}
                 <iframe
                   ref={iframeRef}
-                  src={`https://player.vimeo.com/video/1179505050?badge=0&autopause=0&player_id=0&app_id=58479&controls=${hasPlayed ? "1" : "0"}&title=0&byline=0&portrait=0&transparent=0&loop=1&api=1${hasPlayed ? "&autoplay=1" : ""}`}
-                  className="absolute inset-0 w-full h-full"
+                  src="https://player.vimeo.com/video/1179505050?badge=0&autopause=0&player_id=0&app_id=58479&controls=1&title=0&byline=0&portrait=0&transparent=0&loop=1&api=1"
+                  className={`absolute inset-0 w-full h-full transition-opacity duration-700 ${isPlaying ? "opacity-100" : "opacity-0"}`}
                   allow="autoplay; fullscreen; picture-in-picture"
                   title="HRWL - Brand film"
                   onLoad={handleIframeLoad}
@@ -254,14 +265,30 @@ export default function Index() {
 
                 {/* Video Interaction Overlay — catches clicks to toggle play/pause */}
                 <div
-                  className="absolute inset-0 z-10 cursor-pointer pointer-events-auto"
+                  className={`absolute inset-0 z-20 cursor-pointer group ${isPlaying ? "pointer-events-none" : "pointer-events-auto"}`}
                   onClick={() => postMessage(isPlaying ? "pause" : "play")}
                   onTouchEnd={(e) => {
                     e.preventDefault();
-                    postMessage(isPlaying ? "pause" : "play");
+                    if (!isPlaying) postMessage("play");
                   }}
                   aria-label={isPlaying ? "Pause video" : "Play video"}
-                />
+                >
+                  <AnimatePresence>
+                    {!isPlaying && (
+                      <motion.div
+                        initial={{ opacity: 0, scale: 0.8, x: "-50%", y: "-50%" }}
+                        animate={{ opacity: 1, scale: 1, x: "-50%", y: "-50%" }}
+                        exit={{ opacity: 0, scale: 1.2, x: "-50%", y: "-50%" }}
+                        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                        className="absolute top-1/2 left-1/2 pointer-events-none"
+                      >
+                        <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center hover:bg-white/20 transition-all duration-500 shadow-2xl">
+                          <Play className="w-6 h-6 md:w-8 md:h-8 text-white ml-1 fill-white" />
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
 
                 {/* Black tint overlay (dims when not playing, clear when playing) */}
                 <div
