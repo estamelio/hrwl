@@ -76,7 +76,6 @@ export default function Index() {
   const [ambientColors, setAmbientColors] = useState({ from: "#004BE4", to: "#6B21A8" });
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const videoWrapperRef = useRef<HTMLDivElement>(null);
 
   // Post message to Vimeo player
   const postMessage = useCallback((action: string, value?: unknown) => {
@@ -116,29 +115,7 @@ export default function Index() {
     });
   }, [postMessage]);
 
-  const togglePlay = useCallback(() => {
-    postMessage(isPlaying ? "pause" : "play");
-  }, [isPlaying, postMessage]);
 
-  // Native fullscreen on the video wrapper div
-  const toggleFullscreen = useCallback(() => {
-    const el = videoWrapperRef.current;
-    if (!el) return;
-    if (!document.fullscreenElement) {
-      el.requestFullscreen().catch(() => { });
-    } else {
-      document.exitFullscreen();
-    }
-  }, []);
-
-  // Close overlay with Escape
-  useEffect(() => {
-    const handler = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && isPlaying) postMessage("pause");
-    };
-    window.addEventListener("keydown", handler);
-    return () => window.removeEventListener("keydown", handler);
-  }, [isPlaying, postMessage]);
 
   return (
     <div className="min-h-screen bg-background text-foreground font-inter">
@@ -151,6 +128,7 @@ export default function Index() {
             aria-label="Click to pause video"
           />
         )}
+
 
         {/* ═══ First Viewport: Hero Video Only ═══ */}
         <div className="min-h-[90vh] md:min-h-screen flex items-center justify-center pt-20 pb-8 md:pt-24 md:pb-12 overflow-hidden relative">
@@ -194,17 +172,16 @@ export default function Index() {
 
               {/* Video container */}
               <div
-                ref={videoWrapperRef}
                 className="relative overflow-hidden rounded-[16px] sm:rounded-[20px] md:rounded-[24px] w-full shadow-2xl"
                 style={{ backgroundColor: "#0F0F0F", aspectRatio: "16/9" }}
               >
                 {/* Vimeo iframe — controls hidden, no autoplay, sound on, API ENABLED */}
                 <iframe
                   ref={iframeRef}
-                  src="https://player.vimeo.com/video/1007931547?badge=0&autopause=0&player_id=0&app_id=58479&controls=0&title=0&byline=0&portrait=0&transparent=0&loop=1&api=1"
+                  src="https://player.vimeo.com/video/1179505050?badge=0&autopause=0&player_id=0&app_id=58479&controls=1&title=0&byline=0&portrait=0&transparent=0&loop=1&api=1"
                   className="absolute inset-0 w-full h-full"
                   allow="autoplay; fullscreen; picture-in-picture"
-                  title="HRWL Showreel 2024"
+                  title="HRWL - Brand film"
                   onLoad={handleIframeLoad}
                 />
 
@@ -214,54 +191,7 @@ export default function Index() {
                   style={{ background: isPlaying ? "rgba(0,0,0,0)" : "rgba(0,0,0,0.12)" }}
                 />
 
-                {/* ── Top badge ── */}
-                <div className="absolute left-4 top-4 sm:left-6 sm:top-6 md:left-8 md:top-8 z-20">
-                  <div className="inline-flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/10">
-                    <div className={`w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full ${isPlaying ? "bg-red-400 animate-pulse" : "bg-[#E7E5E4] animate-pulse"}`} />
-                    <span className="text-[8px] sm:text-[10px] font-bold tracking-[0.2em] text-white uppercase">
-                      {isPlaying ? "Playing" : "Video Reel"}
-                    </span>
-                  </div>
-                </div>
 
-                {/* ── Bottom controls — right-aligned, elevated ── */}
-                <div className="absolute bottom-4 right-4 sm:bottom-6 sm:right-6 md:bottom-10 md:right-10 flex items-center z-20">
-                  <div className="flex items-center gap-3">
-                    {/* Play / Pause button — uses Vimeo JS API */}
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        togglePlay();
-                      }}
-                      className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center transition-all hover:scale-110 hover:bg-white/20 active:scale-95"
-                      aria-label={isPlaying ? "Pause" : "Play"}
-                    >
-                      {isPlaying ? (
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="white" className="sm:w-[18px] sm:h-[18px]">
-                          <rect x="6" y="4" width="4" height="16" rx="1" />
-                          <rect x="14" y="4" width="4" height="16" rx="1" />
-                        </svg>
-                      ) : (
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="white" className="sm:w-[18px] sm:h-[18px] translate-x-[1px]">
-                          <path d="M6 4l14 8-14 8V4z" />
-                        </svg>
-                      )}
-                    </button>
-                    {/* Fullscreen button — native browser API */}
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        toggleFullscreen();
-                      }}
-                      className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/10 backdrop-blur-md border border-white/50 flex items-center justify-center transition-all hover:scale-110 hover:bg-white/20 active:scale-95"
-                      aria-label="Fullscreen"
-                    >
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" className="sm:w-5 sm:h-5">
-                        <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
-                      </svg>
-                    </button>
-                  </div>
-                </div>
               </div>
             </motion.div>
           </section>

@@ -30,26 +30,37 @@ export default function LoadingScreen() {
             inset: 0,
             zIndex: 9999,
             backgroundColor: "#000000",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
+            overflow: "hidden", // Maintain the mask
             pointerEvents: "all",
           }}
         >
-          <video
-            src={logoAnimation}
-            autoPlay
-            muted
-            playsInline
-            onEnded={handleVideoEnd}
+          {/* Internal container counter-moves to keep logo static while background slides */}
+          <motion.div
+            exit={{ y: "100%" }}
+            transition={{ duration: 0.8, ease: [0.645, 0.045, 0.355, 1] as any }}
             style={{
               width: "100%",
               height: "100%",
-              maxWidth: "800px",
-              maxHeight: "800px",
-              objectFit: "contain",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
             }}
-          />
+          >
+            <video
+              src={logoAnimation}
+              autoPlay
+              muted
+              playsInline
+              onEnded={handleVideoEnd}
+              style={{
+                width: "100%",
+                height: "100%",
+                maxWidth: "800px",
+                maxHeight: "800px",
+                objectFit: "contain",
+              }}
+            />
+          </motion.div>
         </motion.div>
       )}
     </AnimatePresence>

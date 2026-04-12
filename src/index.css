@@ -99,7 +99,7 @@
 
   body {
     @apply bg-background text-foreground transition-colors;
-    transition-duration: 800ms;
+    transition-duration: 300ms;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     font-family: var(--font-body);
     -webkit-font-smoothing: antialiased;
@@ -109,6 +109,30 @@
     /* Firefox */
     -ms-overflow-style: none !important;
     /* IE and Edge */
+  }
+
+  /* Subtle Monochromic Outline for main CTAs */
+  .button-cta-outline {
+    position: relative;
+    border: 1px solid hsl(var(--foreground) / 0.12);
+    background: transparent;
+    transition: all 400ms cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .button-cta-outline:hover {
+    border-color: hsl(var(--foreground) / 0.25);
+    background: hsl(var(--foreground) / 0.03);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px -10px hsl(var(--foreground) / 0.1);
+  }
+
+  .dark .button-cta-outline {
+    border-color: hsl(var(--foreground) / 0.15);
+  }
+
+  .dark .button-cta-outline:hover {
+    border-color: hsl(var(--foreground) / 0.3);
+    background: hsl(var(--foreground) / 0.05);
   }
 
   /* Hide scrollbar for Chrome, Safari and Opera */

@@ -75,7 +75,7 @@ export default function Navbar() {
         className={`fixed top-0 left-0 right-0 z-50 w-full bg-background/80 backdrop-blur-xl transition-colors ${scrolled ? "border-b border-border/30 py-1" : "border-b border-transparent py-2.5"
           }`}
         style={{ 
-          transitionDuration: "800ms", 
+          transitionDuration: "300ms", 
           transitionTimingFunction: "cubic-bezier(0.4, 0, 0.2, 1)" 
         }}
       >

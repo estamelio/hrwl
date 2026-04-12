@@ -132,11 +132,11 @@ const Inquiry = () => {
             {/* Direct Booking Link */}
             <div className="mt-12 text-center pt-8 border-t border-border/10 flex flex-col items-center gap-3">
               <p className="text-sm text-muted-foreground font-medium">
-                Want to skip the form?
+                Have a Project in mind ?
               </p>
-              <a href="#" className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-surface/50 border border-border/40 text-sm font-semibold hover:bg-surface transition-all duration-300">
-                Book a direct call
-                <ArrowRight className="w-4 h-4 opacity-40" />
+              <a href="#" className="button-cta-outline inline-flex items-center gap-2 px-8 py-3 rounded-full text-[15px] font-semibold">
+                Start inquiry
+                <ArrowRight className="w-4 h-4 opacity-70" />
               </a>
             </div>
           </div>
