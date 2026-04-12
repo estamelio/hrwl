@@ -133,15 +133,10 @@ export default function Index() {
       if (!data) return;
 
       // Handle playback events
-      if (data.event === "playing") {
-        setIsPlaying(true);
-        setHasPlayed(true);
-        startLightingSequence();
-      }
-      
-      if (data.event === "play") {
-        setIsPlaying(true);
-        setHasPlayed(true);
+      if (data.event === "playing" || data.event === "play") {
+        if (isPlaying) {
+          startLightingSequence();
+        }
       }
 
       if (data.event === "pause" || data.event === "ended") {
@@ -189,10 +184,15 @@ export default function Index() {
         )}
 
 
-        {/* ═══ First Viewport: Hero Video Only ═══ */}
-        <div
-          className="min-h-[100dvh] flex flex-col items-center justify-center pt-16 pb-8 overflow-hidden relative"
-        >
+        {/* ═══ First Viewport: Hero Section ═══ */}
+        <div className="min-h-[100dvh] flex flex-col items-center overflow-hidden relative">
+          
+          {/* Header Spacer (to avoid overlap and center content in the remaining space) */}
+          <div className="h-16 md:h-20 w-full flex-none" />
+
+          {/* High-level Centering Container */}
+          <div className="flex-1 w-full flex flex-col items-center justify-center px-4 sm:px-6 md:px-8 max-w-[1200px] mx-auto pb-10 md:pb-0 relative">
+
           {/* Ambient glow — intensifies when playing */}
           <div 
             className="absolute inset-0 z-0 pointer-events-none"
@@ -215,7 +215,9 @@ export default function Index() {
             />
           </div>
 
-          <section className="w-full px-4 sm:px-6 md:px-8 flex flex-col items-center justify-center max-w-[1200px] mx-auto">
+            {/* 1. Video Area wrapper */}
+            <div className="w-full flex flex-col items-center">
+
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -253,23 +255,46 @@ export default function Index() {
                   backgroundImage: !isPlaying ? `url(${heroThumb})` : "none"
                 }}
               >
-                {/* Vimeo iframe — hidden until playing to avoid showing Vimeo UI initially */}
+                {/* Vimeo iframe — muted autoplay to ensure it's loaded and ready for instant playback */}
                 <iframe
                   ref={iframeRef}
-                  src="https://player.vimeo.com/video/1179505050?badge=0&autopause=0&player_id=0&app_id=58479&controls=1&title=0&byline=0&portrait=0&transparent=0&loop=1&api=1"
+                  src="https://player.vimeo.com/video/1179505050?badge=0&autopause=0&player_id=0&app_id=58479&controls=1&title=0&byline=0&portrait=0&transparent=0&loop=1&api=1&autoplay=1&muted=1"
                   className={`absolute inset-0 w-full h-full transition-opacity duration-700 ${isPlaying ? "opacity-100" : "opacity-0"}`}
                   allow="autoplay; fullscreen; picture-in-picture"
                   title="HRWL - Brand film"
                   onLoad={handleIframeLoad}
                 />
 
-                {/* Video Interaction Overlay — catches clicks to toggle play/pause */}
+                {/* Video Interaction Overlay — catches clicks on the upper part of the video to toggle play/pause */}
                 <div
-                  className={`absolute inset-0 z-20 cursor-pointer group ${isPlaying ? "pointer-events-none" : "pointer-events-auto"}`}
-                  onClick={() => postMessage(isPlaying ? "pause" : "play")}
+                  className="absolute inset-x-0 top-0 bottom-[55px] z-20 cursor-pointer group"
+                  onClick={() => {
+                    if (!isPlaying) {
+                      const isFirstPlay = !hasPlayed;
+                      setIsPlaying(true);
+                      setHasPlayed(true);
+                      postMessage("setMuted", false);
+                      postMessage("setVolume", 1);
+                      if (isFirstPlay) postMessage("seekTo", 0);
+                      postMessage("play"); // Ensure it's playing if standard autoplay was blocked
+                      startLightingSequence();
+                    } else {
+                      setIsPlaying(false);
+                      postMessage("pause");
+                    }
+                  }}
                   onTouchEnd={(e) => {
-                    e.preventDefault();
-                    if (!isPlaying) postMessage("play");
+                    if (!isPlaying) {
+                      const isFirstPlay = !hasPlayed;
+                      e.preventDefault();
+                      setIsPlaying(true);
+                      setHasPlayed(true);
+                      postMessage("setMuted", false);
+                      postMessage("setVolume", 1);
+                      if (isFirstPlay) postMessage("seekTo", 0);
+                      postMessage("play");
+                      startLightingSequence();
+                    }
                   }}
                   aria-label={isPlaying ? "Pause video" : "Play video"}
                 >
@@ -300,12 +325,12 @@ export default function Index() {
               </div>
             </motion.div>
 
-            {/* ═══ Mobile Title & CTA (Hero section on mobile only) ═══ */}
+            {/* 2. Mobile Title & CTA (Hero section on mobile only) */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5, duration: 0.8 }}
-              className="mt-2 mb-2 text-center block md:hidden"
+              className="mt-10 mb-2 text-center block md:hidden w-full max-w-[500px]"
             >
               <h1
                 className="mb-8"
@@ -333,8 +358,9 @@ export default function Index() {
                 </Link>
               </div>
             </motion.div>
-          </section>
+          </div>
         </div>
+      </div>
 
         {/* ═══ Headline + CTA (below the fold) ═══ */}
         <section className="px-6 md:px-12 py-16 md:py-24 hidden md:block">
