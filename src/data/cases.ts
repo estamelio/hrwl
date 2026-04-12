@@ -25,7 +25,7 @@ export interface Case {
 }
 
 
-import hrwlLaunchThumb from "../assets/Thumbnails - work grids/Launch Campaign/Launch Campaign.webp";
+import hrwlLaunchThumb from "../assets/Thumbnails - work grids/Launch Campaign/thumb1.webp";
 import hrwlIdentityThumb from "../assets/Thumbnails - work grids/Visual Identity - Hrwl/Visual Identity - Hrwl.webp";
 import hrwlBrandFilmThumb from "../assets/Thumbnails - work grids/Brand Film - Hrwl/Brand Film - HRWL.webp";
 import noxisrosThumb from "../assets/Thumbnails - work grids/Noxisros/Noxisros.webp";

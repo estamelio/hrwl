@@ -13,6 +13,7 @@ import WorkCard from "@/components/WorkCard";
 import { CASES } from "@/data/cases";
 import { ArrowUpRight } from "lucide-react";
 import { useState, useEffect, useRef, useCallback } from "react";
+import { useTheme } from "next-themes";
 
 const WHAT_I_DO = [
   {
@@ -71,13 +72,45 @@ const FAQ_LEFT = FAQ_ITEMS.slice(0, 4);
 const FAQ_RIGHT = FAQ_ITEMS.slice(4);
 
 export default function Index() {
+  const { theme } = useTheme();
   const [openFaq, setOpenFaq] = useState<string>("");
   const [isPlaying, setIsPlaying] = useState(false);
-  const [ambientColors, setAmbientColors] = useState({ from: "#004BE4", to: "#6B21A8" });
+  const [ambientColors, setAmbientColors] = useState({ from: "#004BE4", to: "#002EB0" });
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const [hasPlayed, setHasPlayed] = useState(false);
+  const playStartTimeRef = useRef<number>(0);
+  const prevTimeRef = useRef<number>(0);
+  const sequenceTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  const palettes = {
+    blue: { from: "#004BE4", to: "#002EB0" },
+    lightViolet: { from: "#F3E8FF", to: "#E9D5FF" },
+    red: { from: "#EF4444", to: "#B91C1C" }
+  };
+
+  const startLightingSequence = useCallback(() => {
+    if (sequenceTimerRef.current) clearTimeout(sequenceTimerRef.current);
+
+    // Stage 0: 0s - 3s (Very Light Violet)
+    setAmbientColors(palettes.lightViolet);
+
+    // Stage 1: 3s - 9s (Red)
+    sequenceTimerRef.current = setTimeout(() => {
+      setAmbientColors(palettes.red);
+
+      // Stage 2: 9s - 11s (Very Light Violet again)
+      sequenceTimerRef.current = setTimeout(() => {
+        setAmbientColors(palettes.lightViolet);
+
+        // Stage 3: 11s+ (Back to Blue)
+        sequenceTimerRef.current = setTimeout(() => {
+          setAmbientColors(palettes.blue);
+        }, 2000); // 9s + 2s = 11s
+      }, 6000); // 3s + 6s = 9s
+    }, 3000); // 0s + 3s = 3s
+  }, []);
 
   // Post message to Vimeo player
   const postMessage = useCallback((action: string, value?: unknown) => {
@@ -90,32 +123,48 @@ export default function Index() {
 
   useEffect(() => {
     const handleMessage = (e: MessageEvent) => {
-      if (typeof e.data !== "string") return;
+      let data;
       try {
-        const data = JSON.parse(e.data);
-        if (data.event === "play") {
-          setIsPlaying(true);
-          setHasPlayed(true);
+        data = typeof e.data === "string" ? JSON.parse(e.data) : e.data;
+      } catch (err) {
+        return;
+      }
+
+      if (!data) return;
+
+      // Handle playback events
+      if (data.event === "play" || data.event === "playing") {
+        setIsPlaying(true);
+        setHasPlayed(true);
+        startLightingSequence();
+      }
+
+      if (data.event === "pause" || data.event === "ended") {
+        setIsPlaying(false);
+        setAmbientColors(palettes.blue);
+        if (sequenceTimerRef.current) clearTimeout(sequenceTimerRef.current);
+      }
+
+      // Loop detection via timeupdate
+      if (data.event === "timeupdate" && data.data) {
+        const currentTime = data.data.seconds;
+        if (currentTime < prevTimeRef.current && currentTime < 1) {
+          // Video looped
+          startLightingSequence();
         }
-        if (data.event === "pause" || data.event === "ended") setIsPlaying(false);
-        // Ambient color cycling based on play state
-        if (data.event === "play") {
-          const palettes = [
-            { from: "#004BE4", to: "#6B21A8" },
-            { from: "#E44700", to: "#B91C1C" },
-            { from: "#0891B2", to: "#065F46" },
-          ];
-          setAmbientColors(palettes[Math.floor(Math.random() * palettes.length)]);
-        }
-      } catch { }
+        prevTimeRef.current = currentTime;
+      }
     };
     window.addEventListener("message", handleMessage);
-    return () => window.removeEventListener("message", handleMessage);
-  }, []);
+    return () => {
+      window.removeEventListener("message", handleMessage);
+      if (sequenceTimerRef.current) clearTimeout(sequenceTimerRef.current);
+    };
+  }, [startLightingSequence]);
 
   // Register Vimeo events once iframe is ready
   const handleIframeLoad = useCallback(() => {
-    ["play", "pause", "ended"].forEach((event) => {
+    ["play", "pause", "ended", "timeupdate", "playing"].forEach((event) => {
       postMessage("addEventListener", event);
     });
   }, [postMessage]);
@@ -136,42 +185,55 @@ export default function Index() {
 
 
         {/* ═══ First Viewport: Hero Video Only ═══ */}
-        <div className="min-h-[90vh] md:min-h-screen flex items-center justify-center pt-20 pb-8 md:pt-24 md:pb-12 overflow-hidden relative">
+        <div
+          className="min-h-[100dvh] flex flex-col items-center justify-center pt-16 pb-8 overflow-hidden relative"
+          style={{ zIndex: isPlaying ? 65 : "auto" }}
+        >
           {/* Ambient glow — intensifies when playing */}
           <div className="absolute inset-0 z-0 pointer-events-none">
-            <div
-              className="absolute top-[20%] left-1/2 -translate-x-1/2 rounded-full transition-all duration-1000"
-              style={{
-                height: isPlaying ? "600px" : "500px",
-                width: isPlaying ? "900px" : "800px",
-                opacity: isPlaying ? 0.35 : 0.15,
-                filter: "blur(120px)",
+            <motion.div
+              initial={false}
+              animate={{
                 background: `linear-gradient(to right, ${ambientColors.from}, ${ambientColors.to})`,
+                opacity: isPlaying ? (theme === "dark" ? 0.35 : 0.22) : (theme === "dark" ? 0.18 : 0.12),
+                height: isPlaying ? "500px" : "400px",
+                width: isPlaying ? "800px" : "700px",
+              }}
+              transition={{ duration: 2.5, ease: "easeInOut" }}
+              className="absolute top-[30%] left-1/2 -translate-x-1/2 rounded-full"
+              style={{
+                filter: "blur(130px)",
+                mixBlendMode: theme === "dark" ? "plus-lighter" : "normal",
               }}
             />
           </div>
 
-          <section className="w-full px-4 sm:px-6 md:px-8 flex flex-col items-center">
+          <section className="w-full px-4 sm:px-6 md:px-8 flex flex-col items-center justify-center max-w-[1200px] mx-auto z-10">
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-              className="relative flex justify-center w-full"
-              style={{ maxWidth: "850px", zIndex: isPlaying ? 70 : "auto" }}
+              className="relative flex justify-center w-full mb-8 md:mb-0"
+              style={{ maxWidth: "850px" }}
               ref={containerRef}
             >
               {/* Glow shadow behind video */}
-              <div
-                className="absolute pointer-events-none transition-all duration-1000"
+              <motion.div
+                initial={false}
+                animate={{
+                  background: isPlaying ? `linear-gradient(135deg, ${ambientColors.from}, ${ambientColors.to})` : palettes.blue.from,
+                  opacity: isPlaying ? (theme === "dark" ? 0.32 : 0.22) : 0.1,
+                }}
+                transition={{ duration: 2.5, ease: "easeInOut" }}
+                className="absolute pointer-events-none"
                 style={{
                   width: "120%",
                   height: "80%",
                   bottom: "-20%",
                   left: "-10%",
-                  background: isPlaying ? `linear-gradient(135deg, ${ambientColors.from}, ${ambientColors.to})` : "#004BE4",
-                  filter: isPlaying ? "blur(70px)" : "blur(80px)",
-                  opacity: isPlaying ? 0.28 : 0.12,
+                  filter: isPlaying ? "blur(80px)" : "blur(90px)",
                   borderRadius: "50%",
+                  mixBlendMode: theme === "dark" ? "plus-lighter" : "normal",
                 }}
               />
 
@@ -216,7 +278,7 @@ export default function Index() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5, duration: 0.8 }}
-              className="mt-10 mb-2 text-center block md:hidden"
+              className="mt-2 mb-2 text-center block md:hidden"
             >
               <h1
                 className="mb-8"
@@ -235,11 +297,11 @@ export default function Index() {
               </h1>
 
               <div className="flex flex-col items-center gap-4">
-                <Link to="/inquiry" className="dark-pill-btn w-full max-w-[280px]">
+                <Link to="/inquiry" className="dark-pill-btn w-full max-w-[190px]">
                   Start Inquiry
                   <svg className="arrow-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
                 </Link>
-                <Link to="/work" className="secondary-pill-btn w-full max-w-[280px]">
+                <Link to="/work" className="secondary-pill-btn w-full max-w-[190px]">
                   See Case Studies
                 </Link>
               </div>
