@@ -39,6 +39,12 @@ export default function ProgressiveForm() {
     // 3. Choice, Multichoice, Text, etc.
     const value = formData[`step_${step.id}`];
     
+    // If "Other" is selected, require the custom input to be filled
+    if (value === "Other" || (Array.isArray(value) && value.includes("Other"))) {
+      const otherVal = formData[`step_${step.id}_other`];
+      if (!otherVal || otherVal.trim().length === 0) return false;
+    }
+    
     if (Array.isArray(value)) {
       return value.length > 0;
     }
@@ -225,27 +231,49 @@ export default function ProgressiveForm() {
                       : "bg-white/40 border-black/5 hover:border-black/20 hover:bg-white/60"
                   )}
                 >
-                  <span className={cn(
-                    "flex items-center justify-center w-7 h-7 border rounded-lg text-[11px] font-black shrink-0 transition-all duration-300",
-                    isSelected 
-                      ? "bg-white text-black border-transparent" 
-                      : "bg-black/5 border-black/10 group-hover:bg-black group-hover:text-white"
-                  )}>
-                    {step.type === "boolean" ? (option === "Yes" ? "Y" : "N") : letter}
-                  </span>
-                  <span className={cn("text-lg font-bold tracking-tight", isSelected ? "text-white" : "text-black")}>
-                    {option}
-                  </span>
-                  {isSelected && (
-                    <motion.div 
-                      layoutId="check"
-                      className="ml-auto"
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                    >
-                      <Check className="w-5 h-5 text-white/80" />
-                    </motion.div>
-                  )}
+                  <div className="flex flex-col w-full">
+                    <div className="flex items-center gap-4">
+                      <span className={cn(
+                        "flex items-center justify-center w-7 h-7 border rounded-lg text-[11px] font-black shrink-0 transition-all duration-300",
+                        isSelected 
+                          ? "bg-white text-black border-transparent" 
+                          : "bg-black/5 border-black/10 group-hover:bg-black group-hover:text-white"
+                      )}>
+                        {step.type === "boolean" ? (option === "Yes" ? "Y" : "N") : letter}
+                      </span>
+                      <span className={cn("text-lg font-bold tracking-tight", isSelected ? "text-white" : "text-black")}>
+                        {option}
+                      </span>
+                      {isSelected && (
+                        <motion.div 
+                          layoutId={`check-${option}`}
+                          className="ml-auto"
+                          initial={{ scale: 0 }}
+                          animate={{ scale: 1 }}
+                        >
+                          <Check className="w-5 h-5 text-white/80" />
+                        </motion.div>
+                      )}
+                    </div>
+
+                    {isSelected && option === "Other" && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: "auto" }}
+                        className="w-full mt-4 pt-4 border-t border-white/10"
+                      >
+                        <input
+                          autoFocus
+                          type="text"
+                          placeholder="Please specify..."
+                          value={formData[`step_${step.id}_other`] || ""}
+                          onChange={(e) => handleInputChange(e.target.value, `step_${step.id}_other`)}
+                          className="w-full bg-white/10 border-b border-white/20 py-2 px-3 outline-none text-white placeholder:text-white/40 font-bold rounded-t-lg focus:bg-white/20 transition-all"
+                          onClick={(e) => e.stopPropagation()}
+                        />
+                      </motion.div>
+                    )}
+                  </div>
                 </button>
               );
             })}
@@ -304,7 +332,16 @@ export default function ProgressiveForm() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
             {INQUIRY_QUESTIONS.filter(q => q.type !== 'final').map((question) => {
               const value = formData[`step_${question.id}`];
-              const displayValue = Array.isArray(value) ? value.join(', ') : value;
+              let displayValue = Array.isArray(value) ? value.join(', ') : value;
+              
+              const otherVal = formData[`step_${question.id}_other`];
+              if (otherVal && (value === "Other" || (Array.isArray(value) && value.includes("Other")))) {
+                if (Array.isArray(value)) {
+                  displayValue = displayValue.replace("Other", `Other (${otherVal})`);
+                } else {
+                  displayValue = `Other (${otherVal})`;
+                }
+              }
               
               if (!value && question.type !== 'contact' && question.type !== 'date') return null;
 
