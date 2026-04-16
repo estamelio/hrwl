@@ -28,12 +28,10 @@ export default function ProgressiveForm() {
       return !!hasAllFields;
     }
 
-    // 2. Date type with sub-fields
+    // 2. Date type — single ISO date string
     if (step.type === "date") {
-      const month = formData[`step_${step.id}_month`];
-      const day = formData[`step_${step.id}_day`];
-      const year = formData[`step_${step.id}_year`];
-      return month && day && year && month.length > 0 && day.length > 0 && year.length >= 4;
+      const dateVal = formData[`step_${step.id}`];
+      return !!dateVal && dateVal.length === 10; // YYYY-MM-DD
     }
 
     // 3. Choice, Multichoice, Text, etc.
@@ -281,25 +279,19 @@ export default function ProgressiveForm() {
         );
 
       case "date":
+        const today = new Date().toISOString().split("T")[0];
         return (
           <div className="flex flex-col gap-4 w-full max-w-md">
-            <div className="flex gap-6">
-              {[
-                { label: "Month", placeholder: "MM", max: 2, key: "month" },
-                { label: "Day", placeholder: "DD", max: 2, key: "day" },
-                { label: "Year", placeholder: "YYYY", max: 4, key: "year" }
-              ].map((f) => (
-                <div key={f.label} className="flex-1 space-y-2">
-                  <label className="text-[10px] uppercase font-black tracking-widest text-black/30">{f.label}</label>
-                  <input
-                    type="text"
-                    placeholder={f.placeholder}
-                    maxLength={f.max}
-                    onChange={(e) => handleInputChange(e.target.value, `step_${step.id}_${f.key}`)}
-                    className="w-full bg-transparent border-b-2 border-black/10 py-3 text-2xl outline-none focus:border-black transition-all text-center font-mono placeholder:text-black/5 text-black font-bold"
-                  />
-                </div>
-              ))}
+            <div className="space-y-2">
+              <label className="text-[10px] uppercase font-black tracking-widest text-black/30">Project Debut Date</label>
+              <input
+                type="date"
+                min={today}
+                value={formData[`step_${step.id}`] || ""}
+                onChange={(e) => handleInputChange(e.target.value)}
+                className="w-full bg-transparent border-b-2 border-black/10 py-3 text-xl outline-none focus:border-black transition-all font-mono text-black font-bold cursor-pointer"
+                style={{ colorScheme: "light" }}
+              />
             </div>
           </div>
         );

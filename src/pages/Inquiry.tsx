@@ -17,7 +17,7 @@ const Inquiry = () => {
               Start Your Project
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground max-w-2xl leading-relaxed">
-              Watch a quick intro, then share your vision below (3–4 min). You'll be able to book an exploration call immediately after.
+              Share your vision below (3–4 min). And I'll get back to you shortly.
             </p>
           </Reveal>
 
@@ -25,13 +25,13 @@ const Inquiry = () => {
           <Reveal delay={0.2}>
             <ProgressiveForm />
 
-            {/* Direct Booking Link */}
+            {/* Case Studies Link */}
             <div className="mt-12 text-center pt-8 border-t border-border/10 flex flex-col items-center gap-3">
               <p className="text-sm text-muted-foreground font-medium">
-                Have a Project in mind ?
+                Want to see case studies?
               </p>
-              <Link to="/inquiry" className="button-cta-outline inline-flex items-center gap-2 px-8 py-3 rounded-full text-[15px] font-semibold">
-                Start inquiry
+              <Link to="/work" className="button-cta-outline inline-flex items-center gap-2 px-8 py-3 rounded-full text-[15px] font-semibold">
+                See Work
                 <ArrowRight className="w-4 h-4 opacity-70" />
               </Link>
             </div>

@@ -82,7 +82,7 @@ export default function Navbar() {
         <nav className="flex w-full items-center justify-between px-6 py-4 md:px-10 lg:px-12">
           {/* ── Left: page links (desktop only) ── */}
           <div className="flex-1">
-            <ul className="hidden items-center gap-7 md:flex">
+            <ul className="nav-desktop-links items-center gap-7">
               {NAV_LINKS.map(({ label, to }, i) => (
                 <motion.li
                   key={to}
@@ -115,9 +115,9 @@ export default function Navbar() {
               ))}
             </ul>
 
-            {/* ── Left: hamburger (mobile only) ── */}
+            {/* ── Left: hamburger (mobile-only, including landscape phones) ── */}
             <button
-              className="flex flex-col items-center justify-center gap-1.5 md:hidden"
+              className="nav-hamburger flex flex-col items-center justify-center gap-1.5"
               onClick={() => setMenuOpen(!menuOpen)}
               aria-label="Toggle menu"
               style={{ width: 28, height: 28 }}
@@ -152,7 +152,7 @@ export default function Navbar() {
 
           {/* ── Right: Shop + toggle + Inquiries (desktop) ── */}
           <div className="flex flex-1 justify-end items-center gap-4">
-            <div className="hidden items-center gap-6 md:flex">
+            <div className="nav-desktop-links items-center gap-6">
               <a
                 href="#"
                 style={{ ...NAV_STYLE, opacity: 0.5, color: "hsl(var(--foreground))" }}
@@ -186,8 +186,8 @@ export default function Navbar() {
               </Link>
             </div>
 
-            {/* ── Right: toggle only on mobile ── */}
-            <div className="flex items-center gap-3 md:hidden">
+            {/* ── Right: toggle only on mobile/landscape phones ── */}
+            <div className="nav-mobile-only flex items-center gap-3">
               <ThemeToggle />
             </div>
           </div>
@@ -204,7 +204,7 @@ export default function Navbar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
-            className="fixed inset-0 z-40 flex flex-col items-center justify-center p-8 md:hidden"
+            className="nav-mobile-overlay fixed inset-0 z-40 flex flex-col items-center justify-center p-8"
             style={{
               backgroundColor: "hsl(var(--background))",
             }}

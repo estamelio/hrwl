@@ -339,3 +339,42 @@
 .secondary-pill-btn:active {
   transform: scale(0.98);
 }
+
+/* ── Navbar: stays mobile on phones even in landscape ── */
+/* Desktop nav only shows when the device has a fine pointer (mouse/trackpad) AND is wide enough */
+/* This prevents landscape phones from accidentally switching to desktop nav */
+
+.nav-desktop-links {
+  display: none;
+}
+
+.nav-hamburger {
+  display: flex;
+}
+
+.nav-mobile-only {
+  display: flex;
+}
+
+.nav-mobile-overlay {
+  display: flex;
+}
+
+/* Desktop: wide + fine pointer (mouse). Tablets with stylus also qualify. Phones never have pointer:fine */
+@media (min-width: 768px) and (pointer: fine) {
+  .nav-desktop-links {
+    display: flex;
+  }
+
+  .nav-hamburger {
+    display: none;
+  }
+
+  .nav-mobile-only {
+    display: none;
+  }
+
+  .nav-mobile-overlay {
+    display: none;
+  }
+}

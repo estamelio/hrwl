@@ -188,7 +188,15 @@ export default function Index() {
         {isPlaying && (
           <div
             className="fixed inset-0 z-[60] bg-black/75 backdrop-blur-sm"
-            onClick={() => postMessage("pause")}
+            onClick={() => {
+              setIsPlaying(false);
+              postMessage("pause");
+            }}
+            onTouchEnd={(e) => {
+              e.preventDefault();
+              setIsPlaying(false);
+              postMessage("pause");
+            }}
             aria-label="Click to pause video"
           />
         )}
@@ -275,9 +283,9 @@ export default function Index() {
                     onLoad={handleIframeLoad}
                   />
 
-                  {/* Video Interaction Overlay — catches clicks on the upper part of the video to toggle play/pause */}
+                  {/* Video Interaction Overlay — full card coverage for play/pause toggle */}
                   <div
-                    className="absolute inset-x-0 top-0 bottom-[55px] z-20 cursor-pointer group"
+                    className="absolute inset-0 z-20 cursor-pointer group"
                     onClick={() => {
                       if (!isPlaying) {
                         const isFirstPlay = !hasPlayed;
@@ -286,7 +294,7 @@ export default function Index() {
                         postMessage("setMuted", false);
                         postMessage("setVolume", 1);
                         if (isFirstPlay) postMessage("seekTo", 0);
-                        postMessage("play"); // Ensure it's playing if standard autoplay was blocked
+                        postMessage("play");
                         startLightingSequence();
                       } else {
                         setIsPlaying(false);
@@ -294,9 +302,9 @@ export default function Index() {
                       }
                     }}
                     onTouchEnd={(e) => {
+                      e.preventDefault();
                       if (!isPlaying) {
                         const isFirstPlay = !hasPlayed;
-                        e.preventDefault();
                         setIsPlaying(true);
                         setHasPlayed(true);
                         postMessage("setMuted", false);
@@ -304,6 +312,9 @@ export default function Index() {
                         if (isFirstPlay) postMessage("seekTo", 0);
                         postMessage("play");
                         startLightingSequence();
+                      } else {
+                        setIsPlaying(false);
+                        postMessage("pause");
                       }
                     }}
                     aria-label={isPlaying ? "Pause video" : "Play video"}
