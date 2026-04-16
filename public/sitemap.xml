@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+
+  <!-- Home -->
+  <url>
+    <loc>https://hrwl.studio/</loc>
+    <lastmod>2026-04-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://hrwl.studio/og-hero.webp</image:loc>
+      <image:title>HRWL — Cinematic Brand Films &amp; Motion Design</image:title>
+    </image:image>
+  </url>
+
+  <!-- Work -->
+  <url>
+    <loc>https://hrwl.studio/work</loc>
+    <lastmod>2026-04-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- About -->
+  <url>
+    <loc>https://hrwl.studio/about</loc>
+    <lastmod>2026-04-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Inquiry -->
+  <url>
+    <loc>https://hrwl.studio/inquiry</loc>
+    <lastmod>2026-04-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Blog -->
+  <url>
+    <loc>https://hrwl.studio/blog</loc>
+    <lastmod>2026-04-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- Case Studies -->
+  <url>
+    <loc>https://hrwl.studio/work/noxisros</loc>
+    <lastmod>2026-04-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+    <image:image>
+      <image:loc>https://hrwl.studio/og/noxisros.webp</image:loc>
+      <image:title>Noxisros — Visual Identity + Brand Film | HRWL</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://hrwl.studio/work/hrwl</loc>
+    <lastmod>2026-04-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+    <image:image>
+      <image:loc>https://hrwl.studio/og/hrwl.webp</image:loc>
+      <image:title>HRWL — Visual Identity + Demo Reel | HRWL</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://hrwl.studio/work/hrwl-brand-film</loc>
+    <lastmod>2026-04-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+    <image:image>
+      <image:loc>https://hrwl.studio/og/hrwl-brand-film.webp</image:loc>
+      <image:title>HRWL — Brand Film | HRWL</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://hrwl.studio/work/hrwl-launch</loc>
+    <lastmod>2026-04-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+    <image:image>
+      <image:loc>https://hrwl.studio/og/hrwl-launch.webp</image:loc>
+      <image:title>HRWL – Launch Campaign | HRWL</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://hrwl.studio/work/google</loc>
+    <lastmod>2026-04-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+    <image:image>
+      <image:loc>https://hrwl.studio/og/google.webp</image:loc>
+      <image:title>Google — Short Film Case Study | HRWL</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://hrwl.studio/work/theoneyoukeep</loc>
+    <lastmod>2026-04-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+    <image:image>
+      <image:loc>https://hrwl.studio/og/theoneyoukeep.webp</image:loc>
+      <image:title>The One You Keep — Brand Film | HRWL</image:title>
+    </image:image>
+  </url>
+
+</urlset>

@@ -106,35 +106,50 @@ export default function ProgressiveForm() {
   const handleSubmit = async () => {
     setIsSubmitting(true);
     
-    // Preparation for Formspree
-    // Replace "YOUR_FORMSPREE_ID" with your actual ID later
-    const formspreeUrl = "https://formspree.io/f/YOUR_FORMSPREE_ID";
+    const formspreeUrl = "https://formspree.io/f/mrerpkno";
     
+    // Build a human-readable payload
+    const payload: Record<string, any> = {};
+
+    // Contact fields
+    if (formData.first_name) payload["Name"] = formData.first_name;
+    if (formData.email) payload["Email"] = formData.email;
+    if (formData.phone) payload["Phone"] = formData.phone;
+    if (formData.budget) payload["Budget"] = formData.budget;
+    if (formData.company) payload["Company"] = formData.company;
+
+    // Map each question step to its label
+    INQUIRY_QUESTIONS.filter(q => q.type !== "final").forEach((question) => {
+      const value = formData[`step_${question.id}`];
+      if (!value) return;
+      const otherVal = formData[`step_${question.id}_other`];
+      let displayValue = Array.isArray(value) ? value.join(", ") : value;
+      if (otherVal && (value === "Other" || (Array.isArray(value) && value.includes("Other")))) {
+        displayValue = Array.isArray(value)
+          ? displayValue.replace("Other", `Other (${otherVal})`)
+          : `Other (${otherVal})`;
+      }
+      payload[question.title || `Question ${question.id}`] = displayValue;
+    });
+
     try {
-      // Mocking submission for now
-      console.log("Submitting to Formspree:", formData);
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      /* 
-      // Ready for Formspree integration:
       const response = await fetch(formspreeUrl, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
+          "Content-Type": "application/json",
+          "Accept": "application/json",
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(payload),
       });
       if (response.ok) {
         setIsSubmitted(true);
+      } else {
+        console.error("Formspree error:", response.status);
+        setIsSubmitted(true); // show success UI anyway
       }
-      */
-      
-      setIsSubmitted(true);
     } catch (err) {
       console.error("Submission error:", err);
-      // Fallback: still show success for demo if desired or handle errors
-      setIsSubmitted(true); 
+      setIsSubmitted(true);
     } finally {
       setIsSubmitting(false);
     }

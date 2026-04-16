@@ -7,10 +7,10 @@ export default function LoadingScreen() {
 
   useEffect(() => {
     // GIF doesn't have an 'onEnded' event, so we use a fixed duration
-    // matching the animation flow (approx 3.2s)
+    // matching the exact GIF length (2.37s)
     const timer = setTimeout(() => {
       setIsVisible(false);
-    }, 3200);
+    }, 2370);
 
     return () => clearTimeout(timer);
   }, []);

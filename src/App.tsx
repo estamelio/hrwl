@@ -19,6 +19,9 @@ import BlogPost from "./pages/BlogPost";
 import ScrollToTop from "./components/ScrollToTop";
 import LoadingScreen from "./components/LoadingScreen";
 import CustomScrollbar from "./components/CustomScrollbar";
+import { AudioProvider } from "./context/AudioContext";
+import AudioMiniPlayer from "./components/AudioMiniPlayer";
+import { HelmetProvider } from "react-helmet-async";
 
 const queryClient = new QueryClient();
 
@@ -41,22 +44,27 @@ const AnimatedRoutes = () => {
 };
 
 const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
-      <TooltipProvider>
-        <LoadingScreen />
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <ScrollToTop />
-          <Navbar />
-          <CustomScrollbar />
-          {/* <AkioAgent /> — Temporarily disabled */}
-          <AnimatedRoutes />
-        </BrowserRouter>
-      </TooltipProvider>
-    </ThemeProvider>
-  </QueryClientProvider>
+  <HelmetProvider>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
+        <TooltipProvider>
+          <LoadingScreen />
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <AudioProvider>
+              <ScrollToTop />
+              <Navbar />
+              <CustomScrollbar />
+              <AudioMiniPlayer />
+              {/* <AkioAgent /> — Temporarily disabled */}
+              <AnimatedRoutes />
+            </AudioProvider>
+          </BrowserRouter>
+        </TooltipProvider>
+      </ThemeProvider>
+    </QueryClientProvider>
+  </HelmetProvider>
 );
 
 export default App;

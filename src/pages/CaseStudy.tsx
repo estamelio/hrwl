@@ -9,6 +9,8 @@ import HRWLVisualIdentityCaseStudy from "@/components/case-studies/HRWLVisualIde
 import HRWLBrandFilmCaseStudy from "@/components/case-studies/HRWLBrandFilmCaseStudy";
 import BackToWork from "@/components/BackToWork";
 import MediaLightbox from "@/components/MediaLightbox";
+import { Helmet } from "react-helmet-async";
+import { useAudio } from "@/context/AudioContext";
 import hrwlSfx from "@/assets/Case studies/Hrwl - Launch Campaign/SFX/djamel_sfx_final.mp3";
 
 // Google Storyboard
@@ -34,6 +36,7 @@ import launchSb10 from "@/assets/Case studies/Hrwl - Launch Campaign/Storyboard/
 const SFXPlayer = ({ label, src }: { label: string; src: string }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const { pauseForVideo } = useAudio();
 
   const togglePlay = () => {
     if (!audioRef.current) {
@@ -44,6 +47,7 @@ const SFXPlayer = ({ label, src }: { label: string; src: string }) => {
     if (isPlaying) {
       audioRef.current.pause();
     } else {
+      pauseForVideo(); // pause voice note when SFX starts
       audioRef.current.play();
     }
     setIsPlaying(!isPlaying);
@@ -91,6 +95,13 @@ const CaseStudy = () => {
   const currentIndex = CASES.findIndex((c) => c.id === id);
   const nextCase = CASES[(currentIndex + 1) % CASES.length];
 
+  // OG image for sharing — absolute URL using the stable public path
+  const BASE = "https://hrwl.studio";
+  const ogImage = `${BASE}/og/${id}.webp`;
+  const ogUrl = `${BASE}/work/${id}`;
+  const ogTitle = caseData ? `${caseData.title} — HRWL` : "HRWL";
+  const ogDesc = caseData?.overview ?? "Cinematic brand films and motion design by Djamel Haroual.";
+
   if (!caseData) {
     return (
       <div className="min-h-screen pt-32 px-6 flex items-center justify-center">
@@ -104,10 +115,29 @@ const CaseStudy = () => {
     );
   }
 
-  // Wrapper function to add BackToWork to any case
-  // Wrapper function to add BackToWork to any case
+  // Wrapper function to add BackToWork + per-case OG meta to any case
   const withNavigation = (content: React.ReactNode) => (
     <div className="min-h-screen bg-background flex flex-col">
+      <Helmet>
+        <title>{ogTitle}</title>
+        <meta name="description" content={ogDesc} />
+        <link rel="canonical" href={ogUrl} />
+        <meta property="og:site_name" content="HRWL" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={ogUrl} />
+        <meta property="og:title" content={ogTitle} />
+        <meta property="og:description" content={ogDesc} />
+        <meta property="og:image" content={ogImage} />
+        <meta property="og:image:type" content="image/webp" />
+        <meta property="og:image:width" content="1280" />
+        <meta property="og:image:height" content="720" />
+        <meta property="og:image:alt" content={ogTitle} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={ogTitle} />
+        <meta name="twitter:description" content={ogDesc} />
+        <meta name="twitter:image" content={ogImage} />
+        <meta name="twitter:image:alt" content={ogTitle} />
+      </Helmet>
       <div className="flex-1">
         <BackToWork />
         {content}
@@ -175,14 +205,15 @@ const CaseStudy = () => {
           <div className="max-w-[1000px] mx-auto">
             <div className="grid md:grid-cols-2 gap-3">
               {[
-                { title: "Launch Campaign - Video 2", id: "1182403786" },
-                { title: "Trailer", id: "1177055608" }
+                { title: "Launch Campaign - Video 2", id: "1182403786", muted: false },
+                { title: "Trailer", id: "1177055608", muted: true }
               ].map((film, i) => (
-                  <div className="aspect-video bg-black rounded-lg overflow-hidden relative group">
+                  <div className="aspect-video bg-black rounded-lg overflow-hidden relative group" key={i}>
                   <iframe
-                    src={`https://player.vimeo.com/video/${film.id}?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1&loop=1`}
+                    src={`https://player.vimeo.com/video/${film.id}?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1${film.muted ? "&muted=1" : ""}&loop=1&controls=1`}
                     className="absolute inset-0 w-full h-full"
-                    allow="autoplay; fullscreen; picture-in-picture"
+                    allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media"
+                    referrerPolicy="strict-origin-when-cross-origin"
                     style={{ border: 0 }}
                     loading="lazy"
                     title={film.title}
@@ -244,11 +275,13 @@ const CaseStudy = () => {
         <section className="px-6 mb-12">
           <div className="max-w-[700px] mx-auto">
             <h2 className="text-xl font-bold mb-4">Storyboard</h2>
+            {/* Fixed 951×538 grid — each thumbnail is exactly 16:9 */}
             <div className="grid grid-cols-2 md:grid-cols-5 gap-2">
               {launchSbImages.map((img, i) => (
                 <div 
                     key={i} 
-                    className="aspect-video bg-surface/50 rounded-md border border-border overflow-hidden hover:opacity-80 transition-opacity duration-300 cursor-zoom-in"
+                    className="bg-surface/50 rounded-md border border-border overflow-hidden hover:opacity-80 transition-opacity duration-300 cursor-zoom-in"
+                    style={{ aspectRatio: "951/538" }}
                     onClick={() => openLightbox(i, launchSbImages)}
                 >
                   <img src={img} alt={`Storyboard ${i + 1}`} className="w-full h-full object-cover" loading="lazy" />

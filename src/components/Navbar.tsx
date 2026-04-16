@@ -154,13 +154,27 @@ export default function Navbar() {
           {/* ── Right: Shop + toggle + Inquiries (desktop) ── */}
           <div className="flex flex-1 justify-end items-center gap-4">
             <div className="nav-desktop-links items-center gap-6">
-              <a
-                href="#"
-                style={{ ...NAV_STYLE, opacity: 0.5, color: "hsl(var(--foreground))" }}
-                className="transition-opacity hover:opacity-100"
-              >
-                Shop
-              </a>
+              <div className="relative group overflow-hidden h-6 flex items-center cursor-default select-none">
+                <a
+                  href="#"
+                  style={{ ...NAV_STYLE, color: "hsl(var(--foreground))" }}
+                  className="block leading-none"
+                  onClick={(e) => e.preventDefault()}
+                >
+                  {/* "Shop" slides up on hover */}
+                  <span
+                    className="block transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] opacity-50 group-hover:opacity-0 group-hover:-translate-y-full"
+                  >
+                    Shop
+                  </span>
+                  {/* "Soon" slides in from below */}
+                  <span
+                    className="block absolute inset-0 flex items-center transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] opacity-0 translate-y-full group-hover:opacity-100 group-hover:translate-y-0"
+                  >
+                    Soon
+                  </span>
+                </a>
+              </div>
               <ThemeToggle />
               <Link to="/inquiry" onClick={handleNavClick("/inquiry")} className="inquiry-btn">
                 Inquiry

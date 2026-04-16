@@ -84,15 +84,16 @@ const personalInterests = [
 ];
 
 const collaborators = [
-  { name: "Nsihrakhi Pitanta (Incie)", role: "Sound Designer" },
-  { name: "Uliania PchelinUley", role: "Sound Designer & Music Producer" },
-  { name: "Penrose Audio (Davies)", role: "Sound Designer & Music Producer" },
-  { name: "Hichem Ouali", role: "Brand Strategist | Marketer" },
-  { name: "Houssem Karim", role: "Artist" },
-  { name: "Ilias Lem", role: "Sound Designer" },
-  { name: "Nicholas M. Candeias", role: "Motion Designer" },
-  { name: "Zucchini Brudarsky", role: "Illustrator & Graphic Designer" },
-  { name: "Yuhui (Kelvin) Jian", role: "Composer & Sound Designer" },
+  { name: "Nsihrakhi Pitanta (Incie)", role: "Sound Designer", link: "https://www.instagram.com/nycatfish/" },
+  { name: "Uliania PchelinUley", role: "Sound Designer & Music Producer", link: "https://www.instagram.com/pchelinuley/" },
+  { name: "Penrose Audio (Davies)", role: "Sound Designer & Music Producer", link: "https://www.instagram.com/penrose_audio/" },
+  { name: "Hichem Ouali", role: "Brand Strategist | Marketer", link: "https://www.linkedin.com/in/hichem-ouali-1b4609395/" },
+  { name: "Houssem Karim", role: "Artist", link: "https://www.instagram.com/whos_sam_1/" },
+  { name: "Ilias Lem", role: "Sound Designer", link: "https://www.instagram.com/lem.ilias/" },
+  { name: "Nicholas M. Candeias", role: "Motion Designer", link: "https://www.instagram.com/nickm.aep/" },
+  { name: "Samuel Martin", role: "Illustrator & Graphic Designer", link: "https://www.instagram.com/shasam_fx/" },
+  { name: "Yuhui (Kelvin) Jian", role: "Composer & Sound Designer", link: "https://www.instagram.com/j.nivlek/" },
+  { name: "Salahuddin", role: "Web Developer", link: "https://www.instagram.com/bettercallsala7" },
 ];
 
 const About = () => {
@@ -234,7 +235,19 @@ const About = () => {
                   <div className="grid md:grid-cols-2 gap-x-10">
                     {collaborators.map((c, i) => (
                       <div key={i} className="flex items-center justify-between py-2.5 border-b border-border/40">
-                        <span className="font-medium text-sm">{c.name}</span>
+                        {c.link ? (
+                          <a
+                            href={c.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="font-bold text-sm flex items-center gap-1 hover:opacity-70 transition-opacity duration-200 group"
+                          >
+                            {c.name}
+                            <svg width="10" height="10" viewBox="0 0 10 10" fill="none" className="opacity-40 group-hover:opacity-80 transition-opacity" xmlns="http://www.w3.org/2000/svg"><path d="M1 9L9 1M9 1H3M9 1V7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                          </a>
+                        ) : (
+                          <span className="font-medium text-sm">{c.name}</span>
+                        )}
                         <span className="text-xs text-muted-foreground">{c.role}</span>
                       </div>
                     ))}

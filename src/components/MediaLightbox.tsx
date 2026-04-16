@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
 
@@ -11,6 +11,8 @@ interface MediaLightboxProps {
 
 const MediaLightbox = ({ images, initialIndex, isOpen, onClose }: MediaLightboxProps) => {
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
+  const [direction, setDirection] = useState(0); // 1 = next, -1 = prev
+  const touchStartX = useRef<number | null>(null);
 
   useEffect(() => {
     if (isOpen) {
@@ -28,21 +30,44 @@ const MediaLightbox = ({ images, initialIndex, isOpen, onClose }: MediaLightboxP
     const handleKeyDown = (e: KeyboardEvent) => {
       if (!isOpen) return;
       if (e.key === "Escape") onClose();
-      if (e.key === "ArrowRight") handleNext();
-      if (e.key === "ArrowLeft") handlePrev();
+      if (e.key === "ArrowRight") goNext();
+      if (e.key === "ArrowLeft") goPrev();
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isOpen, currentIndex]);
 
-  const handleNext = (e?: React.MouseEvent) => {
+  const goNext = (e?: React.MouseEvent) => {
     e?.stopPropagation();
+    setDirection(1);
     setCurrentIndex((prev) => (prev + 1) % images.length);
   };
 
-  const handlePrev = (e?: React.MouseEvent) => {
+  const goPrev = (e?: React.MouseEvent) => {
     e?.stopPropagation();
+    setDirection(-1);
     setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
+  };
+
+  // Touch swipe handlers
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX.current === null) return;
+    const delta = touchStartX.current - e.changedTouches[0].clientX;
+    if (Math.abs(delta) > 45) {
+      if (delta > 0) goNext();
+      else goPrev();
+    }
+    touchStartX.current = null;
+  };
+
+  const variants = {
+    enter: (dir: number) => ({ x: dir > 0 ? "55%" : "-55%", opacity: 0, scale: 0.96 }),
+    center: { x: 0, opacity: 1, scale: 1 },
+    exit: (dir: number) => ({ x: dir > 0 ? "-55%" : "55%", opacity: 0, scale: 0.96 }),
   };
 
   return (
@@ -54,6 +79,8 @@ const MediaLightbox = ({ images, initialIndex, isOpen, onClose }: MediaLightboxP
           exit={{ opacity: 0 }}
           className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95 backdrop-blur-md p-4 md:p-10"
           onClick={onClose}
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
         >
           {/* Close Button */}
           <button
@@ -67,13 +94,13 @@ const MediaLightbox = ({ images, initialIndex, isOpen, onClose }: MediaLightboxP
           {images.length > 1 && (
             <>
               <button
-                onClick={handlePrev}
+                onClick={goPrev}
                 className="absolute left-4 md:left-8 z-[110] p-3 rounded-full bg-white/5 hover:bg-white/10 transition-all duration-300 text-white group"
               >
                 <ChevronLeft className="w-8 h-8 group-hover:-translate-x-1 transition-transform" />
               </button>
               <button
-                onClick={handleNext}
+                onClick={goNext}
                 className="absolute right-4 md:right-8 z-[110] p-3 rounded-full bg-white/5 hover:bg-white/10 transition-all duration-300 text-white group"
               >
                 <ChevronRight className="w-8 h-8 group-hover:translate-x-1 transition-transform" />
@@ -81,27 +108,31 @@ const MediaLightbox = ({ images, initialIndex, isOpen, onClose }: MediaLightboxP
             </>
           )}
 
-          {/* Media Container */}
-          <motion.div
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0.9, opacity: 0 }}
-            transition={{ type: "spring", damping: 25, stiffness: 200 }}
-            className="relative max-w-full max-h-full flex items-center justify-center pointer-events-none"
+          {/* Media Container — stop propagation so clicking image doesn't close */}
+          <div
+            className="relative max-w-full max-h-full flex items-center justify-center overflow-hidden"
             onClick={(e) => e.stopPropagation()}
           >
-            <img
-              key={currentIndex}
-              src={images[currentIndex]}
-              alt={`Media ${currentIndex + 1}`}
-              className="max-w-full max-h-[85vh] object-contain rounded-lg shadow-2xl pointer-events-auto"
-            />
-            
+            <AnimatePresence mode="wait" custom={direction}>
+              <motion.img
+                key={currentIndex}
+                custom={direction}
+                variants={variants}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
+                src={images[currentIndex]}
+                alt={`Media ${currentIndex + 1}`}
+                className="max-w-full max-h-[85vh] object-contain rounded-lg shadow-2xl"
+              />
+            </AnimatePresence>
+
             {/* Index Indicator */}
-            <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 text-white/50 font-mono text-sm">
+            <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 text-white/50 font-mono text-sm pointer-events-none">
               {currentIndex + 1} / {images.length}
             </div>
-          </motion.div>
+          </div>
         </motion.div>
       )}
     </AnimatePresence>

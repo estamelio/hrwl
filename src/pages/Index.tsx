@@ -14,6 +14,7 @@ import { CASES } from "@/data/cases";
 import { ArrowUpRight, Play } from "lucide-react";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useTheme } from "next-themes";
+import { useAudio } from "@/context/AudioContext";
 
 const WHAT_I_DO = [
   {
@@ -35,46 +36,40 @@ const WHAT_I_DO = [
 
 const FAQ_ITEMS = [
   {
-    q: "What's a Brand film for ?",
-    a: "A brand film tells your story cinematically — it communicates your values, builds trust, and makes your product or service impossible to ignore. It's the most powerful content you can invest in.",
+    q: "Why is a brand film worth more than a regular video?",
+    a: "A regular video fills a slot. A brand film creates a perception. It's the difference between showing what you do and making people feel why it matters — which is what drives conversions, loyalty, and pricing power.",
   },
   {
-    q: "What sets you apart from other creative partners?",
-    a: "I handle the entire pipeline — from concept to final delivery. No AI voices, no generic templates. Every project is crafted with intention and precision.",
+    q: "Can't I just use stock footage and templates?",
+    a: "You can — and your competitors probably do. That's exactly why it won't differentiate you. Custom brand films position you as the premium choice. Templates position you as one of many.",
   },
   {
-    q: "How does the pause feature work?",
-    a: "If you need to pause a project midway, we can freeze the timeline and resume when you're ready — without losing progress or paying extra.",
+    q: "How does a brand film actually increase conversions?",
+    a: "A well-crafted brand film communicates your who, your why, and your how in under 60 seconds — faster and more memorably than any landing page. Companies using strategic video see up to 80% higher conversion rates on key pages.",
   },
   {
-    q: "Why wouldn't I just hire a full-time designer?",
-    a: "A full-time hire costs 5–10× more when you factor in salary, benefits, equipment, and overhead. I give you senior-level output on demand, without the commitment.",
+    q: "Why not just hire a video agency for less?",
+    a: "Agencies optimize for volume. I optimize for impact. Every frame, transition, and sound cue is designed to serve your brand strategy — not to fill a deliverable checklist. You're paying for thinking, not just output.",
   },
   {
-    q: "Why is it expensive ?",
-    a: "Quality cinematic work requires professional equipment, software, creative direction, scripting, animation, sound design, and revisions. You're investing in something that will represent your brand long-term.",
+    q: "Why is your process different from other motion designers?",
+    a: "I don't start with animation — I start with your business problem. Narrative arc, color psychology, original sound design, and strategic pacing come before a single keyframe is touched. The result is a film that works as hard as your sales team.",
   },
   {
-    q: "How to know these services would work ?",
-    a: "Check the case studies on the Work page. Real results, real clients. You can also start with a smaller project to test the collaboration.",
-  },
-  {
-    q: "Are there any refunds if I don't like the service?",
-    a: "I offer structured revision rounds to ensure you're happy. I don't offer full refunds after creative work has begun, but I will work with you until the result meets expectations.",
-  },
-  {
-    q: "What if I'm not satisfied with the results?",
-    a: "Revisions are built into every project. If something isn't right, we fix it. Your satisfaction is part of the deliverable.",
+    q: "How do you position a brand as premium through video?",
+    a: "Perception is built through intention. Every creative choice — color grading, pacing, typography, original score — is calibrated to signal quality and authority. People associate production value with brand value. A $100M company that uses a stock template communicates the opposite of what it is.",
   },
 ];
 
-const FAQ_LEFT = FAQ_ITEMS.slice(0, 4);
-const FAQ_RIGHT = FAQ_ITEMS.slice(4);
+const FAQ_LEFT = FAQ_ITEMS.slice(0, 3);
+const FAQ_RIGHT = FAQ_ITEMS.slice(3);
 
 export default function Index() {
   const { theme } = useTheme();
+  const { pauseForVideo } = useAudio();
   const [openFaq, setOpenFaq] = useState<string>("");
   const [isPlaying, setIsPlaying] = useState(false);
+  const [iframeReady, setIframeReady] = useState(false); // lazy-load the iframe
   const [ambientColors, setAmbientColors] = useState({ from: "#0149daff", to: "#002ba0ff" });
 
   useEffect(() => {
@@ -273,51 +268,22 @@ export default function Index() {
                     backgroundImage: !isPlaying ? `url(${heroThumb})` : "none"
                   }}
                 >
-                  {/* Vimeo iframe — muted autoplay to ensure it's loaded and ready for instant playback */}
-                  <iframe
-                    ref={iframeRef}
-                    src="https://player.vimeo.com/video/1179505050?badge=0&autopause=0&player_id=0&app_id=58479&controls=1&title=0&byline=0&portrait=0&transparent=0&loop=1&api=1&autoplay=1&muted=1"
-                    className={`absolute inset-0 w-full h-full transition-opacity duration-700 ${isPlaying ? "opacity-100" : "opacity-0"}`}
-                    allow="autoplay; fullscreen; picture-in-picture"
-                    title="HRWL - Brand film"
-                    onLoad={handleIframeLoad}
-                  />
+                  {/* Vimeo iframe — injected on first play to prevent background CPU/network load */}
+                  {iframeReady && (
+                    <iframe
+                      ref={iframeRef}
+                      src="https://player.vimeo.com/video/1179505050?badge=0&autopause=0&player_id=0&app_id=58479&controls=1&title=0&byline=0&portrait=0&transparent=0&loop=1&api=1&autoplay=1"
+                      className={`absolute inset-0 w-full h-full transition-opacity duration-700 ${isPlaying ? "opacity-100" : "opacity-0"}`}
+                      allow="autoplay; fullscreen; picture-in-picture"
+                      title="HRWL - Brand film"
+                      onLoad={handleIframeLoad}
+                    />
+                  )}
 
-                  {/* Video Interaction Overlay — full card coverage for play/pause toggle */}
+                  {/* Video Interaction Overlay — only shows play button; clicking void (bg overlay) pauses */}
                   <div
-                    className="absolute inset-0 z-20 cursor-pointer group"
-                    onClick={() => {
-                      if (!isPlaying) {
-                        const isFirstPlay = !hasPlayed;
-                        setIsPlaying(true);
-                        setHasPlayed(true);
-                        postMessage("setMuted", false);
-                        postMessage("setVolume", 1);
-                        if (isFirstPlay) postMessage("seekTo", 0);
-                        postMessage("play");
-                        startLightingSequence();
-                      } else {
-                        setIsPlaying(false);
-                        postMessage("pause");
-                      }
-                    }}
-                    onTouchEnd={(e) => {
-                      e.preventDefault();
-                      if (!isPlaying) {
-                        const isFirstPlay = !hasPlayed;
-                        setIsPlaying(true);
-                        setHasPlayed(true);
-                        postMessage("setMuted", false);
-                        postMessage("setVolume", 1);
-                        if (isFirstPlay) postMessage("seekTo", 0);
-                        postMessage("play");
-                        startLightingSequence();
-                      } else {
-                        setIsPlaying(false);
-                        postMessage("pause");
-                      }
-                    }}
-                    aria-label={isPlaying ? "Pause video" : "Play video"}
+                    className="absolute inset-0 z-20 cursor-pointer pointer-events-none"
+                    aria-label={isPlaying ? "Playing" : "Play video"}
                   >
                     <AnimatePresence>
                       {!isPlaying && (
@@ -326,7 +292,23 @@ export default function Index() {
                           animate={{ opacity: 1, scale: 1, x: "-50%", y: "-50%" }}
                           exit={{ opacity: 0, scale: 1.2, x: "-50%", y: "-50%" }}
                           transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                          className="absolute top-1/2 left-1/2 pointer-events-none"
+                          className="absolute top-1/2 left-1/2 pointer-events-auto"
+                          onClick={() => {
+                            pauseForVideo(); // pause voice note when video starts
+                            setIframeReady(true);
+                            setIsPlaying(true);
+                            setHasPlayed(true);
+                            startLightingSequence();
+                          }}
+                          onTouchEnd={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            pauseForVideo(); // pause voice note on mobile too
+                            setIframeReady(true);
+                            setIsPlaying(true);
+                            setHasPlayed(true);
+                            startLightingSequence();
+                          }}
                         >
                           <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center hover:bg-white/20 transition-all duration-500 shadow-2xl">
                             <Play className="w-6 h-6 md:w-8 md:h-8 text-white ml-1 fill-white" />
@@ -526,108 +508,110 @@ export default function Index() {
         </section>
 
         {/* FAQ Section */}
-        <section id="faq" className="px-8 md:px-12 lg:px-20 py-20 max-w-[1600px] mx-auto">
-          <ScrollReveal>
-            <div className="mb-20 flex flex-col md:flex-row md:items-end justify-between gap-10">
-              <div>
-                <h2
-                  style={{
-                    fontFamily: "Inter, sans-serif",
-                    fontWeight: 600,
-                    fontSize: "clamp(28px, 4.5vw, 64px)",
-                    lineHeight: "1.1",
-                    letterSpacing: "-2.45px",
-                    color: "hsl(var(--foreground))",
-                    textAlign: "left",
-                  }}
-                >
-                  Got any questions?
-                </h2>
-                <h2
-                  style={{
-                    fontFamily: "Inter, sans-serif",
-                    fontWeight: 600,
-                    fontSize: "clamp(28px, 4.5vw, 64px)",
-                    lineHeight: "1.1",
-                    letterSpacing: "-2.45px",
-                    color: "#B4B3B1",
-                    textAlign: "left",
-                    marginTop: "4px",
-                  }}
-                >
-                  I've got answers.
-                </h2>
-              </div>
-              <div className="flex-shrink-0">
-                <Link to="/inquiry" className="dark-pill-btn">
-                  Start Inquiry
-                  <svg className="arrow-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
-                </Link>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-6 items-start">
-              <div className="flex flex-col gap-6">
-                {FAQ_LEFT.map((item, i) => {
-                  const itemValue = `left-${i}`;
-                  return (
-                    <Accordion
-                      key={i}
-                      type="single"
-                      collapsible
-                      value={openFaq === itemValue ? itemValue : ""}
-                      onValueChange={(val) => setOpenFaq(val || "")}
-                      className="w-full"
-                    >
-                      <AccordionItem
-                        value={itemValue}
-                        className="faq-card border-none rounded-[32px] overflow-hidden px-8"
-                      >
-                        <AccordionTrigger className="text-left hover:no-underline py-8 text-lg font-bold tracking-tight">
-                          {item.q}
-                        </AccordionTrigger>
-                        <AccordionContent className="text-base text-muted-foreground leading-relaxed pb-8">
-                          <div className="faq-answer-bounce">
-                            {item.a}
-                          </div>
-                        </AccordionContent>
-                      </AccordionItem>
-                    </Accordion>
-                  );
-                })}
+        <section id="faq" className="px-6 lg:px-12 py-20">
+          <div className="max-w-[1200px] mx-auto">
+            <ScrollReveal>
+              <div className="mb-20 flex flex-col md:flex-row md:items-end justify-between gap-10">
+                <div>
+                  <h2
+                    style={{
+                      fontFamily: "Inter, sans-serif",
+                      fontWeight: 600,
+                      fontSize: "clamp(28px, 4.5vw, 64px)",
+                      lineHeight: "1.1",
+                      letterSpacing: "-2.45px",
+                      color: "hsl(var(--foreground))",
+                      textAlign: "left",
+                    }}
+                  >
+                    Got any questions?
+                  </h2>
+                  <h2
+                    style={{
+                      fontFamily: "Inter, sans-serif",
+                      fontWeight: 600,
+                      fontSize: "clamp(28px, 4.5vw, 64px)",
+                      lineHeight: "1.1",
+                      letterSpacing: "-2.45px",
+                      color: "#B4B3B1",
+                      textAlign: "left",
+                      marginTop: "4px",
+                    }}
+                  >
+                    I've got answers.
+                  </h2>
+                </div>
+                <div className="flex-shrink-0">
+                  <Link to="/inquiry" className="dark-pill-btn">
+                    Start Inquiry
+                    <svg className="arrow-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
+                  </Link>
+                </div>
               </div>
 
-              <div className="flex flex-col gap-6">
-                {FAQ_RIGHT.map((item, i) => {
-                  const itemValue = `right-${i}`;
-                  return (
-                    <Accordion
-                      key={i}
-                      type="single"
-                      collapsible
-                      value={openFaq === itemValue ? itemValue : ""}
-                      onValueChange={(val) => setOpenFaq(val || "")}
-                      className="w-full"
-                    >
-                      <AccordionItem
-                        value={itemValue}
-                        className="faq-card border-none rounded-[32px] overflow-hidden px-8"
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-6 items-start">
+                <div className="flex flex-col gap-6">
+                  {FAQ_LEFT.map((item, i) => {
+                    const itemValue = `left-${i}`;
+                    return (
+                      <Accordion
+                        key={i}
+                        type="single"
+                        collapsible
+                        value={openFaq === itemValue ? itemValue : ""}
+                        onValueChange={(val) => setOpenFaq(val || "")}
+                        className="w-full"
                       >
-                        <AccordionTrigger className="text-left hover:no-underline py-8 text-lg font-bold tracking-tight">
-                          {item.q}
-                        </AccordionTrigger>
-                        <AccordionContent className="text-base text-muted-foreground leading-relaxed pb-8">
-                          <div className="faq-answer-bounce">
-                            {item.a}
-                          </div>
-                        </AccordionContent>
-                      </AccordionItem>
-                    </Accordion>
-                  );
-                })}
+                        <AccordionItem
+                          value={itemValue}
+                          className="faq-card border-none rounded-[32px] overflow-hidden px-8"
+                        >
+                          <AccordionTrigger className="text-left hover:no-underline py-8 text-lg font-bold tracking-tight">
+                            {item.q}
+                          </AccordionTrigger>
+                          <AccordionContent className="text-base text-muted-foreground leading-relaxed pb-8">
+                            <div className="faq-answer-bounce">
+                              {item.a}
+                            </div>
+                          </AccordionContent>
+                        </AccordionItem>
+                      </Accordion>
+                    );
+                  })}
+                </div>
+
+                <div className="flex flex-col gap-6">
+                  {FAQ_RIGHT.map((item, i) => {
+                    const itemValue = `right-${i}`;
+                    return (
+                      <Accordion
+                        key={i}
+                        type="single"
+                        collapsible
+                        value={openFaq === itemValue ? itemValue : ""}
+                        onValueChange={(val) => setOpenFaq(val || "")}
+                        className="w-full"
+                      >
+                        <AccordionItem
+                          value={itemValue}
+                          className="faq-card border-none rounded-[32px] overflow-hidden px-8"
+                        >
+                          <AccordionTrigger className="text-left hover:no-underline py-8 text-lg font-bold tracking-tight">
+                            {item.q}
+                          </AccordionTrigger>
+                          <AccordionContent className="text-base text-muted-foreground leading-relaxed pb-8">
+                            <div className="faq-answer-bounce">
+                              {item.a}
+                            </div>
+                          </AccordionContent>
+                        </AccordionItem>
+                      </Accordion>
+                    );
+                  })}
+                </div>
               </div>
-            </div>
-          </ScrollReveal>
+            </ScrollReveal>
+          </div>
         </section>
 
         <CTABanner />
