@@ -91,7 +91,7 @@ const collaborators = [
   { name: "Houssem Karim", role: "Artist", link: "https://www.instagram.com/whos_sam_1/" },
   { name: "Ilias Lem", role: "Sound Designer", link: "https://www.instagram.com/lem.ilias/" },
   { name: "Nicholas M. Candeias", role: "Motion Designer", link: "https://www.instagram.com/nickm.aep/" },
-  { name: "Samuel Martin", role: "Illustrator & Graphic Designer", link: "https://www.instagram.com/shasam_fx/" },
+  { name: "Samuel Martin", role: "2D FX artist", link: "https://www.instagram.com/shasam_fx/" },
   { name: "Yuhui (Kelvin) Jian", role: "Composer & Sound Designer", link: "https://www.instagram.com/j.nivlek/" },
   { name: "Salahuddin", role: "Web Developer", link: "https://www.instagram.com/bettercallsala7" },
 ];
@@ -243,7 +243,7 @@ const About = () => {
                             className="font-bold text-sm flex items-center gap-1 hover:opacity-70 transition-opacity duration-200 group"
                           >
                             {c.name}
-                            <svg width="10" height="10" viewBox="0 0 10 10" fill="none" className="opacity-40 group-hover:opacity-80 transition-opacity" xmlns="http://www.w3.org/2000/svg"><path d="M1 9L9 1M9 1H3M9 1V7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                            <svg width="10" height="10" viewBox="0 0 10 10" fill="none" className="opacity-40 group-hover:opacity-80 transition-opacity" xmlns="http://www.w3.org/2000/svg"><path d="M1 9L9 1M9 1H3M9 1V7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
                           </a>
                         ) : (
                           <span className="font-medium text-sm">{c.name}</span>
