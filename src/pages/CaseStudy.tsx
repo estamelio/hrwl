@@ -175,7 +175,7 @@ const CaseStudy = () => {
           <div className="max-w-[1000px] mx-auto">
             <div className="grid md:grid-cols-2 gap-3">
               {[
-                { title: "Website Animation", id: "1077085520" },
+                { title: "Launch Campaign - Video 2", id: "1182403786" },
                 { title: "Trailer", id: "1177055608" }
               ].map((film, i) => (
                   <div className="aspect-video bg-black rounded-lg overflow-hidden relative group">
