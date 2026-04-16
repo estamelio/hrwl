@@ -206,7 +206,7 @@ const TheOneYouKeepCaseStudy = ({ caseData, nextCase }: Props) => {
         <div className="max-w-[1000px] mx-auto">
           <div className="aspect-video bg-black rounded-xl overflow-hidden relative group">
             <iframe
-              src="https://player.vimeo.com/video/1108398165?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1&loop=1"
+              src="https://player.vimeo.com/video/1108398165?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&loop=1&controls=1"
               className="absolute inset-0 w-full h-full"
               allow="autoplay; fullscreen; picture-in-picture"
               style={{ border: 0 }}
@@ -449,21 +449,21 @@ const TheOneYouKeepCaseStudy = ({ caseData, nextCase }: Props) => {
           <h2 className="text-2xl md:text-3xl font-bold mb-8 tracking-tight">Roles & Credits</h2>
           <div className="grid md:grid-cols-2 gap-x-12 gap-y-1">
             {caseData.credits.map((credit, i) => (
-              <div key={i} className="flex items-center justify-between py-4 border-b border-border/60">
-                <span className="text-sm text-muted-foreground">{credit.role}</span>
+              <div key={i} className="flex flex-col sm:flex-row items-start sm:items-center justify-between py-3 gap-1 sm:gap-4 border-b border-border/60 last:border-0">
                 {credit.link ? (
                   <a
                     href={credit.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="font-semibold text-base hover:opacity-70 transition-opacity duration-300 inline-flex items-center gap-1.5"
+                    className="font-bold text-sm flex items-start sm:items-center gap-1.5 hover:opacity-70 transition-opacity duration-200 group text-foreground"
                   >
-                    {credit.name}
-                    <ExternalLink className="w-3.5 h-3.5 text-muted-foreground" />
+                    <span className="leading-tight">{credit.name}</span>
+                    <svg width="10" height="10" viewBox="0 0 10 10" fill="none" className="opacity-40 group-hover:opacity-80 transition-opacity mt-0.5 sm:mt-0 flex-shrink-0" xmlns="http://www.w3.org/2000/svg"><path d="M1 9L9 1M9 1H3M9 1V7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
                   </a>
                 ) : (
-                  <span className="font-semibold text-base">{credit.name}</span>
+                  <span className="font-medium text-sm leading-tight text-foreground">{credit.name}</span>
                 )}
+                <span className="text-xs text-muted-foreground text-left sm:text-right">{credit.role}</span>
               </div>
             ))}
           </div>

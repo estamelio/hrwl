@@ -78,6 +78,14 @@ const SFXPlayer = ({ label, src }: { label: string; src: string }) => {
 };
 
 const CaseStudy = () => {
+    const { id } = useParams();
+    const caseData = CASES.find((c) => c.id === id);
+    const { pauseForVideo } = useAudio();
+
+    useEffect(() => {
+        pauseForVideo();
+    }, [pauseForVideo, id]);
+
     const [lightbox, setLightbox] = useState({
         isOpen: false,
         index: 0,
@@ -90,8 +98,6 @@ const CaseStudy = () => {
 
     const launchSbImages = [launchSb1, launchSb2, launchSb3, launchSb4, launchSb5, launchSb6, launchSb7, launchSb8, launchSb9, launchSb10];
     const googleSbImages = [googleSb1, googleSb2, googleSb3, googleSb4, googleSb5];
-  const { id } = useParams();
-  const caseData = CASES.find((c) => c.id === id);
   const currentIndex = CASES.findIndex((c) => c.id === id);
   const nextCase = CASES[(currentIndex + 1) % CASES.length];
 
@@ -343,12 +349,24 @@ const CaseStudy = () => {
           <div className="max-w-[700px] mx-auto">
             <h2 className="text-xl font-bold mb-4">Roles & Credits</h2>
             <div className="space-y-2">
-              {caseData.credits.map((credit, i) => (
-                <div key={i} className="flex items-center justify-between py-2 border-b border-border last:border-0">
-                  <span className="text-xs text-muted-foreground">{credit.role}</span>
-                  <span className="font-medium text-sm text-foreground">{credit.name}</span>
-                </div>
-              ))}
+            {caseData.credits.map((credit, i) => (
+              <div key={i} className="flex flex-col sm:flex-row items-start sm:items-center justify-between py-3 gap-1 sm:gap-4 border-b border-border/60 last:border-0">
+                {credit.link ? (
+                  <a
+                    href={credit.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-bold text-sm flex items-start sm:items-center gap-1.5 hover:opacity-70 transition-opacity duration-200 group text-foreground"
+                  >
+                    <span className="leading-tight">{credit.name}</span>
+                    <svg width="10" height="10" viewBox="0 0 10 10" fill="none" className="opacity-40 group-hover:opacity-80 transition-opacity mt-0.5 sm:mt-0 flex-shrink-0" xmlns="http://www.w3.org/2000/svg"><path d="M1 9L9 1M9 1H3M9 1V7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                  </a>
+                ) : (
+                  <span className="font-medium text-sm leading-tight text-foreground">{credit.name}</span>
+                )}
+                <span className="text-xs text-muted-foreground text-left sm:text-right">{credit.role}</span>
+              </div>
+            ))}
             </div>
           </div>
         </section>
@@ -400,7 +418,7 @@ const CaseStudy = () => {
           <div className="max-w-[1000px] mx-auto">
             <div className="aspect-video bg-black rounded-xl overflow-hidden relative group">
               <iframe
-                src="https://player.vimeo.com/video/1065449370?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1&loop=1"
+                src="https://player.vimeo.com/video/1065449370?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&loop=1&controls=1"
                 className="absolute inset-0 w-full h-full"
                 allow="autoplay; fullscreen; picture-in-picture"
                 style={{ border: 0 }}
@@ -466,12 +484,24 @@ const CaseStudy = () => {
           <div className="max-w-[700px] mx-auto">
             <h2 className="text-xl font-bold mb-4 text-foreground">Roles & Credits</h2>
             <div className="space-y-2">
-              {caseData.credits.map((credit, i) => (
-                <div key={i} className="flex items-center justify-between py-2 border-b border-border last:border-0">
-                  <span className="text-xs text-muted-foreground">{credit.role}</span>
-                  <span className="font-medium text-sm text-foreground">{credit.name}</span>
-                </div>
-              ))}
+            {caseData.credits.map((credit, i) => (
+              <div key={i} className="flex flex-col sm:flex-row items-start sm:items-center justify-between py-3 gap-1 sm:gap-4 border-b border-border/60 last:border-0">
+                {credit.link ? (
+                  <a
+                    href={credit.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-bold text-sm flex items-start sm:items-center gap-1.5 hover:opacity-70 transition-opacity duration-200 group text-foreground"
+                  >
+                    <span className="leading-tight">{credit.name}</span>
+                    <svg width="10" height="10" viewBox="0 0 10 10" fill="none" className="opacity-40 group-hover:opacity-80 transition-opacity mt-0.5 sm:mt-0 flex-shrink-0" xmlns="http://www.w3.org/2000/svg"><path d="M1 9L9 1M9 1H3M9 1V7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                  </a>
+                ) : (
+                  <span className="font-medium text-sm leading-tight text-foreground">{credit.name}</span>
+                )}
+                <span className="text-xs text-muted-foreground text-left sm:text-right">{credit.role}</span>
+              </div>
+            ))}
             </div>
           </div>
         </section>
@@ -522,7 +552,7 @@ const CaseStudy = () => {
         <div className="max-w-[1000px] mx-auto">
           <div className="aspect-video bg-black rounded-lg overflow-hidden relative group">
             <iframe
-              src="https://player.vimeo.com/video/1177053983?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&muted=1&loop=1"
+              src="https://player.vimeo.com/video/1177053983?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&loop=1&controls=1"
               className="absolute inset-0 w-full h-full"
               allow="autoplay; fullscreen; picture-in-picture"
               style={{ border: 0 }}
@@ -589,15 +619,21 @@ const CaseStudy = () => {
           <h2 className="text-xl font-bold mb-4 text-foreground">Roles & Credits</h2>
           <div className="grid md:grid-cols-2 gap-x-6">
             {caseData.credits.map((credit, i) => (
-              <div key={i} className="flex items-center justify-between py-2 border-b border-border">
-                <span className="text-xs text-muted-foreground">{credit.role}</span>
+              <div key={i} className="flex flex-col sm:flex-row items-start sm:items-center justify-between py-3 gap-1 sm:gap-4 border-b border-border/60 last:border-0">
                 {credit.link ? (
-                  <a href={credit.link} target="_blank" rel="noopener noreferrer" className="font-medium text-sm hover:underline text-foreground">
-                    {credit.name}
+                  <a
+                    href={credit.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-bold text-sm flex items-start sm:items-center gap-1.5 hover:opacity-70 transition-opacity duration-200 group text-foreground"
+                  >
+                    <span className="leading-tight">{credit.name}</span>
+                    <svg width="10" height="10" viewBox="0 0 10 10" fill="none" className="opacity-40 group-hover:opacity-80 transition-opacity mt-0.5 sm:mt-0 flex-shrink-0" xmlns="http://www.w3.org/2000/svg"><path d="M1 9L9 1M9 1H3M9 1V7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
                   </a>
                 ) : (
-                  <span className="font-medium text-sm text-foreground">{credit.name}</span>
+                  <span className="font-medium text-sm leading-tight text-foreground">{credit.name}</span>
                 )}
+                <span className="text-xs text-muted-foreground text-left sm:text-right">{credit.role}</span>
               </div>
             ))}
           </div>

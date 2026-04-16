@@ -234,21 +234,21 @@ const About = () => {
                   <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-4">People I've Collaborated With</h3>
                   <div className="grid md:grid-cols-2 gap-x-10">
                     {collaborators.map((c, i) => (
-                      <div key={i} className="flex items-center justify-between py-2.5 border-b border-border/40">
+                      <div key={i} className="flex flex-col sm:flex-row items-start sm:items-center justify-between py-3 gap-1 sm:gap-4 border-b border-border/40">
                         {c.link ? (
                           <a
                             href={c.link}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="font-bold text-sm flex items-center gap-1 hover:opacity-70 transition-opacity duration-200 group"
+                            className="font-bold text-sm flex items-start sm:items-center gap-1.5 hover:opacity-70 transition-opacity duration-200 group"
                           >
-                            {c.name}
-                            <svg width="10" height="10" viewBox="0 0 10 10" fill="none" className="opacity-40 group-hover:opacity-80 transition-opacity" xmlns="http://www.w3.org/2000/svg"><path d="M1 9L9 1M9 1H3M9 1V7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                            <span className="leading-tight">{c.name}</span>
+                            <svg width="10" height="10" viewBox="0 0 10 10" fill="none" className="opacity-40 group-hover:opacity-80 transition-opacity mt-0.5 sm:mt-0 flex-shrink-0" xmlns="http://www.w3.org/2000/svg"><path d="M1 9L9 1M9 1H3M9 1V7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
                           </a>
                         ) : (
-                          <span className="font-medium text-sm">{c.name}</span>
+                          <span className="font-medium text-sm leading-tight">{c.name}</span>
                         )}
-                        <span className="text-xs text-muted-foreground">{c.role}</span>
+                        <span className="text-xs text-muted-foreground text-left sm:text-right">{c.role}</span>
                       </div>
                     ))}
                   </div>
