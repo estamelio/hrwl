@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Play, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Footer from "@/components/Footer";
 import ProgressiveForm from "@/components/ProgressiveForm";
 import { Reveal } from "@/components/Reveal";
@@ -7,18 +7,20 @@ import { Reveal } from "@/components/Reveal";
 const Inquiry = () => {
   return (
     <div className="min-h-screen bg-background flex flex-col overflow-x-hidden no-scrollbar">
-      <main className="flex-1 pt-32 pb-20 px-6">
+      <main className="flex-1 pt-28 pb-20 px-6">
         <div className="max-w-[800px] mx-auto">
-
 
           {/* Header Section */}
           <Reveal delay={0.1} className="mb-12">
-            <h1 className="text-5xl md:text-7xl font-bold mb-6 tracking-tight text-foreground leading-[1.05] whitespace-nowrap">
-              Start Your Project
-            </h1>
-            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl leading-relaxed">
-              Share your vision below (3–4 min). And I'll get back to you shortly.
-            </p>
+            <div className="mb-14 text-center">
+              <p className="text-[11px] uppercase tracking-[0.15em] text-muted-foreground mb-2 font-medium">Inquiry</p>
+              <h1 className="text-3xl md:text-4xl font-semibold tracking-tight text-foreground mb-4">
+                Start Your Project
+              </h1>
+              <p className="text-base text-muted-foreground max-w-lg mx-auto">
+                Share your vision below (3–4 min). And I'll get back to you shortly.
+              </p>
+            </div>
           </Reveal>
 
           {/* Progressive Form Section */}

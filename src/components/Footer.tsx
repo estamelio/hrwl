@@ -124,6 +124,17 @@ const Footer = ({ catchphrase = "Let's create something worth watching." }: Foot
             <div className="text-background/40 text-sm">
               © {currentYear} HRWL LTD. All rights reserved.
             </div>
+            <div className="text-background/30 text-xs">
+              Built by{" "}
+              <a
+                href="https://salaheddinemedkour.me/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-background/50 hover:text-background/80 transition-colors underline-offset-2 hover:underline"
+              >
+                Salahuddin
+              </a>
+            </div>
             <div className="flex gap-8 text-sm">
               <Link to="/terms" className="text-background/40 hover:text-background/60 transition-colors">
                 Terms
