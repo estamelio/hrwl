@@ -63,7 +63,7 @@ export const INQUIRY_QUESTIONS: QuestionStep[] = [
     id: 6,
     type: "choice",
     title: "How did you find HRWL?*",
-    options: ["Instagram", "Tiktok", "LinkedIn", "Peer referral", "Other"],
+    options: ["Instagram", "Tiktok", "LinkedIn", "Blog", "Peer referral", "Other"],
   },
   {
     id: 7,

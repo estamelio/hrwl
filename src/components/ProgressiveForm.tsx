@@ -1,8 +1,11 @@
 import { useState, useCallback, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronUp, ChevronDown, Check, ArrowRight, Loader2 } from "lucide-react";
+import { ChevronUp, ChevronDown, Check, ArrowRight, Loader2, Calendar as CalendarIcon } from "lucide-react";
 import { INQUIRY_QUESTIONS, QuestionStep } from "@/constants/InquiryQuestions";
 import { cn } from "@/lib/utils";
+import { format } from "date-fns";
+import { Calendar } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 export default function ProgressiveForm() {
   const [currentStep, setCurrentStep] = useState(0);
@@ -294,20 +297,44 @@ export default function ProgressiveForm() {
         );
 
       case "date":
-        const today = new Date().toISOString().split("T")[0];
+        const dateValue = formData[`step_${step.id}`] ? new Date(`${formData[`step_${step.id}`]}T12:00:00Z`) : undefined;
         return (
-          <div className="flex flex-col gap-4 w-full max-w-md">
-            <div className="space-y-2">
-              <label className="text-[10px] uppercase font-black tracking-widest text-black/30">Project Debut Date</label>
-              <input
-                type="date"
-                min={today}
-                value={formData[`step_${step.id}`] || ""}
-                onChange={(e) => handleInputChange(e.target.value)}
-                className="w-full bg-transparent border-b-2 border-black/10 py-3 text-xl outline-none focus:border-black transition-all font-mono text-black font-bold cursor-pointer"
-                style={{ colorScheme: "light" }}
-              />
-            </div>
+          <div className="flex flex-col w-full max-w-md mt-4">
+            <Popover>
+              <PopoverTrigger asChild>
+                <button
+                  type="button"
+                  className={cn(
+                    "w-full flex items-center justify-between bg-transparent border-b-2 border-black/10 py-4 text-xl md:text-2xl outline-none transition-all font-bold text-left hover:border-black/30 group",
+                    !dateValue && "text-black/30"
+                  )}
+                >
+                  <span className={dateValue ? "text-black tracking-tight" : "text-black/30 tracking-tight"}>
+                    {dateValue ? format(dateValue, "MMMM do, yyyy") : "Select a date"}
+                  </span>
+                  <CalendarIcon className="w-6 h-6 text-black/30 group-hover:text-black transition-colors shrink-0" />
+                </button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0 z-[500] rounded-2xl border border-black/10 shadow-2xl overflow-hidden font-inter" align="start" sideOffset={8}>
+                <Calendar
+                  mode="single"
+                  selected={dateValue}
+                  onSelect={(date) => {
+                    if (date) {
+                      const dateStr = format(date, "yyyy-MM-dd");
+                      handleInputChange(dateStr);
+                    }
+                  }}
+                  disabled={(date) => {
+                    const today = new Date();
+                    today.setHours(0, 0, 0, 0);
+                    return date < today;
+                  }}
+                  initialFocus
+                  className="bg-white/95 backdrop-blur-md text-black p-4 scale-110 origin-top-left md:scale-100"
+                />
+              </PopoverContent>
+            </Popover>
           </div>
         );
 
@@ -400,14 +427,14 @@ export default function ProgressiveForm() {
        <div className="w-24 h-24 bg-black text-white rounded-[2rem] flex items-center justify-center mb-8 shadow-2xl shadow-black/20 rotate-3">
          <Check className="w-12 h-12" strokeWidth={4} />
        </div>
-       <h3 className="text-4xl md:text-6xl font-black mb-6 tracking-tighter">Vision Logged.</h3>
-       <p className="text-black/50 max-w-sm mb-12 text-lg font-medium leading-relaxed">
-         The protocol has successfully queued your request. Expect a transmission within 24 hours.
+       <h3 className="text-3xl md:text-5xl font-black mb-6 tracking-tighter text-balance">Thank you for filling out the form</h3>
+       <p className="text-black/50 max-w-[420px] mb-12 text-lg font-medium leading-relaxed italic">
+         "I will get back to you to confirm the call, and hopefully see you soon"
        </p>
        <button
         type="button"
         onClick={() => window.location.href = "/"}
-        className="group bg-black text-white px-14 py-6 rounded-full font-black text-xl hover:scale-105 transition-all shadow-xl shadow-black/10 active:scale-95 flex items-center gap-4"
+        className="group bg-black text-white px-12 py-5 rounded-full font-black text-xl hover:scale-105 transition-all shadow-xl shadow-black/10 active:scale-95 flex items-center gap-4"
       >
         Close Terminal
         <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
@@ -563,6 +590,18 @@ export default function ProgressiveForm() {
           animation: fade-in 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
         .text-5.5xl { font-size: 3.5rem; }
+        
+        /* Hide native date picker icon so we can use our custom Lucide icon cleanly */
+        .date-picker-custom::-webkit-calendar-picker-indicator {
+          cursor: pointer;
+          opacity: 0.01;
+          width: 100%;
+          position: absolute;
+          left: 0;
+          top: 0;
+          bottom: 0;
+          height: 100%;
+        }
       `}} />
     </div>
   );
