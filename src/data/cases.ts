@@ -116,6 +116,7 @@ export const CASES: Case[] = [
       { role: "Creative Direction", name: "Djamel Haroual" },
       { role: "Motion Design", name: "Djamel Haroual" },
       { role: "Sound Design & Music", name: "Yuhui (Kelvin) Jian", link: "https://www.instagram.com/j.nivlek/" },
+      { role: "Web Designer & Developer", name: "Salahuddin", link: "https://www.instagram.com/bettercallsala7" },
     ],
     thumbnail: hrwlLaunchThumb,
   },
