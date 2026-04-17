@@ -1,6 +1,7 @@
 import { useParams, Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import Footer from "@/components/Footer";
+import SEO from "@/components/SEO";
 
 const BLOG_POSTS: Record<string, { title: string; subtitle: string; date: string; readTime: string; content: React.ReactNode }> = {
     "100m-brand-film": {
@@ -112,6 +113,7 @@ const BlogPost = () => {
     if (!post) {
         return (
             <div className="min-h-screen flex flex-col pt-32">
+                <SEO title="Post Not Found — HRWL" />
                 <div className="flex-1 px-6 text-center">
                     <h1 className="text-3xl font-semibold mb-4">Post not found</h1>
                     <Link to="/blog" className="text-muted-foreground hover:text-foreground transition-colors">
@@ -125,6 +127,12 @@ const BlogPost = () => {
 
     return (
         <div className="min-h-screen bg-background flex flex-col pt-32">
+            <SEO 
+                title={`${post.title} — HRWL Blog`}
+                description={post.subtitle || "A thought piece from HRWL."}
+                url={`https://hrwl.studio/blog/${slug}`}
+                type="article"
+            />
             {/* Back nav */}
             <div className="max-w-[720px] mx-auto w-full px-6 mb-8">
                 <Link to="/blog" className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors duration-300">

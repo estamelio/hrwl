@@ -103,7 +103,7 @@ const CaseStudy = () => {
 
   // OG image for sharing — absolute URL using the stable public path
   const BASE = "https://hrwl.studio";
-  const ogImage = `${BASE}/og/${id}.webp`;
+  const ogImage = `${BASE}/og/${id}.png`;
   const ogUrl = `${BASE}/work/${id}`;
   const ogTitle = caseData ? `${caseData.title} — HRWL` : "HRWL";
   const ogDesc = caseData?.overview ?? "Cinematic brand films and motion design by Djamel Haroual.";
@@ -134,7 +134,7 @@ const CaseStudy = () => {
         <meta property="og:title" content={ogTitle} />
         <meta property="og:description" content={ogDesc} />
         <meta property="og:image" content={ogImage} />
-        <meta property="og:image:type" content="image/webp" />
+        <meta property="og:image:type" content="image/png" />
         <meta property="og:image:width" content="1280" />
         <meta property="og:image:height" content="720" />
         <meta property="og:image:alt" content={ogTitle} />

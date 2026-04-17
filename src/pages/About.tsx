@@ -12,6 +12,7 @@ import VoiceNotePlayer from "@/components/VoiceNotePlayer";
 import Footer from "@/components/Footer";
 import CTABanner from "@/components/CTABanner";
 import { Reveal } from "@/components/Reveal";
+import SEO from "@/components/SEO";
 
 // Collapsible section component
 const CollapsibleSection = ({
@@ -114,6 +115,11 @@ const About = () => {
 
   return (
     <div className="min-h-screen bg-background flex flex-col font-inter">
+      <SEO 
+        title="About — Djamel Haroual" 
+        description="Freelance Motion Designer & Creative Director crafting high-ROI visual stories for ambitious brands."
+        url="https://hrwl.studio/about"
+      />
       <main className="flex-1 overflow-x-hidden">
         {/* Voice Intro */}
         <section className="pt-28 pb-10 px-6">

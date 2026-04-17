@@ -395,51 +395,65 @@ const HRWLBrandFilmCaseStudy = ({ caseData, nextCase }: Props) => {
             </div>
           </CollapsibleSection>
 
-          {/* Sound Design */}
-          <CollapsibleSection title="Sound Design & Original Score" isOpen={isSectionOpen("sound")} onToggle={() => toggleSection("sound")}>
+          {/* ═══════════════════════════════════════════════════════ */}
+          {/* SOUND DESIGN — Dedicated Section */}
+          {/* ═══════════════════════════════════════════════════════ */}
+
+          <div className="border-t border-border/60 pt-10 mt-10 mb-4">
+            <div className="flex items-center gap-3 mb-3">
+              <Music className="w-5 h-5 text-muted-foreground" />
+              <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Dedicated Section</span>
+            </div>
+            <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-2">Sound Design & Original Score</h2>
+            <p className="text-base text-muted-foreground">
+              Composed by <strong className="text-foreground">Uliania PchelinUley</strong>
+            </p>
+          </div>
+
+          <CollapsibleSection title="The Brief" isOpen={isSectionOpen("brief")} onToggle={() => toggleSection("brief")}>
             <div className="max-w-[700px]">
-              <div className="mb-6 flex items-center gap-3">
-                <Music className="w-5 h-5 text-muted-foreground" />
-                <p className="text-base text-muted-foreground leading-relaxed">
-                  Composed by <strong className="text-foreground">Uliania PchelinUley</strong>
-                </p>
-              </div>
+              <p className="text-base text-muted-foreground leading-relaxed mb-4">
+                Djamel reached out to Uley with a specific and unusual request: compose original music that is <strong className="text-foreground">off-tempo, has no fixed BPM, and feels intentional</strong> — where every note and melody matches every animation beat precisely.
+              </p>
+              <p className="text-base text-muted-foreground leading-relaxed">
+                The goal was to give a tailored, polished experience rather than just slapping a soundtrack from Artlist like everyone else does. Instead of using normal SFX pack libraries, <strong className="text-foreground">Uley crafted Foley sound for the entire video</strong>, so every section was intentional and has its own personality.
+              </p>
+            </div>
+          </CollapsibleSection>
 
-              <div className="space-y-6">
-                <div>
-                  <h4 className="font-semibold text-base mb-2">The Brief</h4>
-                  <p className="text-base text-muted-foreground leading-relaxed mb-4">
-                    Music that is <strong className="text-foreground">off-tempo, has no fixed BPM, and feels intentional</strong> — where every note matches every animation beat precisely. No stock music or SFX libraries were used.
-                  </p>
+          <CollapsibleSection title="The Challenge" isOpen={isSectionOpen("challenge")} onToggle={() => toggleSection("challenge")}>
+            <div className="max-w-[700px]">
+              <div className="grid md:grid-cols-2 gap-4">
+                <div className="p-4 bg-surface/30 rounded-lg border border-border">
+                  <h4 className="font-semibold text-base mb-2">Constraints</h4>
+                  <ul className="text-base text-muted-foreground space-y-1.5">
+                    <li>· No fixed BPM — music must breathe with animation</li>
+                    <li>· Every note synchronized to motion</li>
+                    <li>· Three distinct emotional phases</li>
+                    <li>· Custom Foley for every section</li>
+                  </ul>
                 </div>
-
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div className="p-4 bg-surface/30 rounded-lg border border-border">
-                    <h4 className="font-semibold text-base mb-2">The Challenge</h4>
-                    <ul className="text-base text-muted-foreground space-y-1.5">
-                      <li>· No fixed BPM — context-driven</li>
-                      <li>· Note-to-motion synchronization</li>
-                      <li>· Tailored Foley for every scene</li>
-                      <li>· Score breathes with animation</li>
-                    </ul>
-                  </div>
-                  <div className="p-4 bg-surface/30 rounded-lg border border-border">
-                    <h4 className="font-semibold text-base mb-2">Emotional Phases</h4>
-                    <ul className="text-base text-muted-foreground space-y-1.5">
-                      <li>· Tension Peaks (Red Phase)</li>
-                      <li>· Relief & Flutes (Blue Phase)</li>
-                      <li>· Orchestral Finale (Reveal)</li>
-                    </ul>
-                  </div>
+                <div className="p-4 bg-surface/30 rounded-lg border border-border">
+                  <h4 className="font-semibold text-base mb-2">Creative Decisions</h4>
+                  <ul className="text-base text-muted-foreground space-y-1.5">
+                    <li>· No stock music or generic SFX</li>
+                    <li>· Each section has its own composed piece</li>
+                    <li>· Animation-first, music follows intention</li>
+                    <li>· The whole piece feels like an orchestra</li>
+                  </ul>
                 </div>
-              </div>
-              <div className="mt-8 bg-foreground text-background rounded-lg p-6 text-center">
-                <p className="text-base leading-relaxed">
-                  Uley didn't just add music — she <span className="font-bold">authored the sonic identity</span> of the film.
-                </p>
               </div>
             </div>
           </CollapsibleSection>
+
+          {/* Sound — Why This Matters */}
+          <div className="mt-8 mb-6">
+            <div className="bg-foreground text-background rounded-lg p-6 md:p-8 text-center">
+              <p className="text-base md:text-lg leading-relaxed">
+                Uley didn't just add music — she <span className="font-bold">composed for each section individually</span>. Not a single drag-and-drop track. Each animation beat has its own musical composition, crafted Foley, and intentional silence. The result is a brand film that sounds as authored as it looks.
+              </p>
+            </div>
+          </div>
         </div>
       </section>
 

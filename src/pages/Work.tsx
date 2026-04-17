@@ -3,6 +3,7 @@ import { Plus } from "lucide-react";
 import { CASES } from "@/data/cases";
 import Footer from "@/components/Footer";
 import { RevealContainer, RevealItem } from "@/components/Reveal";
+import SEO from "@/components/SEO";
 
 const Work = () => {
   // Reorder: newest/most important first
@@ -22,6 +23,11 @@ const Work = () => {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
+      <SEO 
+        title="Work — HRWL" 
+        description="Selected case studies and cinematic motion design projects by Djamel Haroual."
+        url="https://hrwl.studio/work"
+      />
       <main className="flex-1 pt-28 pb-0 px-6">
         <div className="max-w-[1200px] mx-auto mb-24">
           <div className="mb-14 text-center">

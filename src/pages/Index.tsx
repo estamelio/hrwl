@@ -15,6 +15,7 @@ import { ArrowUpRight, Play } from "lucide-react";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useTheme } from "next-themes";
 import { useAudio } from "@/context/AudioContext";
+import SEO from "@/components/SEO";
 
 const WHAT_I_DO = [
   {
@@ -178,6 +179,7 @@ export default function Index() {
 
   return (
     <div className="min-h-screen bg-background text-foreground font-inter">
+      <SEO />
       <main className="overflow-x-hidden">
         {/* ═══ Page overlay — appears when video is playing, above navbar ═══ */}
         {isPlaying && (

@@ -3,6 +3,7 @@ import Footer from "@/components/Footer";
 import CTABanner from "@/components/CTABanner";
 import { RevealContainer, RevealItem } from "@/components/Reveal";
 import blogThumbnail from "@/assets/blog-brand-film-100m.png";
+import SEO from "@/components/SEO";
 
 const BLOG_ENTRIES = [
   {
@@ -18,6 +19,11 @@ const BLOG_ENTRIES = [
 export default function Blog() {
   return (
     <div className="min-h-screen flex flex-col bg-background">
+      <SEO 
+        title="Blog — HRWL" 
+        description="Insights, behind-the-scenes, and thoughts on motion design and creative direction."
+        url="https://hrwl.studio/blog"
+      />
       <div className="flex-1 pt-32 pb-24 px-6">
         <div className="max-w-[1200px] mx-auto">
           {/* Header */}

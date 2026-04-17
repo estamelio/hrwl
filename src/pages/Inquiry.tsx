@@ -3,10 +3,16 @@ import { ArrowRight } from "lucide-react";
 import Footer from "@/components/Footer";
 import ProgressiveForm from "@/components/ProgressiveForm";
 import { Reveal } from "@/components/Reveal";
+import SEO from "@/components/SEO";
 
 const Inquiry = () => {
   return (
     <div className="min-h-screen bg-background flex flex-col overflow-x-hidden no-scrollbar">
+      <SEO 
+        title="Inquiry — HRWL" 
+        description="Start your project with HRWL. Share your vision and let's craft a cinematic brand film."
+        url="https://hrwl.studio/inquiry"
+      />
       <main className="flex-1 pt-28 pb-20 px-6">
         <div className="max-w-[800px] mx-auto">
 
